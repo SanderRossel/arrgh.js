@@ -1,0 +1,37 @@
+{
+  "name": "arrgh.js",
+  "version": "1.0.0",
+  "description": "A lightweight JavaScript library that brings proper .NET-like collections and LINQ to the browser.",
+  "main": "dist/arrgh.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SanderRossel/arrgh.js.git"
+  },
+  "keywords": [
+    "JavaScript",
+    "collections",
+    "array",
+    "LINQ"
+  ],
+  "author": "Sander Rossel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SanderRossel/arrgh.js/issues"
+  },
+  "homepage": "https://github.com/SanderRossel/arrgh.js#readme",
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-minify": "0.0.14",
+    "gulp-shell": "^0.5.2",
+    "gulp-watch": "^4.3.9",
+    "jshint": "^2.9.3"
+  }
+}
