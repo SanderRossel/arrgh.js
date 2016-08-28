@@ -153,7 +153,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line398">line 398</a>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line505">line 505</a>
     </li></ul></dd>
     
 
@@ -207,6 +207,176 @@
 
     
         <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="count"><span class="type-signature"></span>count<span class="signature">(predicate<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Specifies how many elements the collection has, or how many satisfy a certain condition.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>predicate</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#predicate">predicate</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">A function to test each element for a condition.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="arrgh.Enumerable.html#count">arrgh.Enumerable#count</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line570">line 570</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - A number that specifies how many elements the collection has, or how many satisfy a certain condition.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
 
         
             
@@ -318,7 +488,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line156">line 156</a>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line307">line 307</a>
     </li></ul></dd>
     
 
@@ -341,6 +511,322 @@
 
 
 
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="orderBy"><span class="type-signature"></span>orderBy<span class="signature">(keySelector)</span><span class="type-signature"> &rarr; {<a href="arrgh.OrderedEnumerable.html">arrgh.OrderedEnumerable</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Sorts the elements of a sequence in ascending order according to a key.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keySelector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#keySelector">keySelector</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to extract a key from an element.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="arrgh.Enumerable.html#orderBy">arrgh.Enumerable#orderBy</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line474">line 474</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - Returns an ordered enumerable.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="arrgh.OrderedEnumerable.html">arrgh.OrderedEnumerable</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="orderByDescending"><span class="type-signature"></span>orderByDescending<span class="signature">(keySelector)</span><span class="type-signature"> &rarr; {<a href="arrgh.OrderedEnumerable.html">arrgh.OrderedEnumerable</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Sorts the elements of a sequence in descending order according to a key.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keySelector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#keySelector">keySelector</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to extract a key from an element.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="arrgh.Enumerable.html#orderByDescending">arrgh.Enumerable#orderByDescending</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line486">line 486</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - Returns an ordered enumerable.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="arrgh.OrderedEnumerable.html">arrgh.OrderedEnumerable</a></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -378,10 +864,8 @@
     
 
     
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="arrgh.Enumerable.html#toArray">arrgh.Enumerable#toArray</a>
     </li></ul></dd>
     
@@ -403,9 +887,11 @@
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line171">line 171</a>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line324">line 324</a>
     </li></ul></dd>
     
 
@@ -469,13 +955,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="arrgh.Enumerable.html">Enumerable</a></li><li><a href="arrgh.List.html">List</a></li></ul><h3>Namespaces</h3><ul><li><a href="arrgh.html">arrgh</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="arrgh.Dictionary.html">Dictionary</a></li><li><a href="arrgh.Enumerable.html">Enumerable</a></li><li><a href="arrgh.List.html">List</a></li><li><a href="arrgh.OrderedEnumerable.html">OrderedEnumerable</a></li></ul><h3>Namespaces</h3><ul><li><a href="arrgh.html">arrgh</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Aug 26 2016 23:32:34 GMT+0200 (W. Europe Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Aug 28 2016 21:56:35 GMT+0200 (W. Europe Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

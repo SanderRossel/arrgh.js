@@ -33,7 +33,7 @@ gulp.task('doc', shell.task([
 	'jsdoc src/arrgh.js -d docs'
 ]));
 
-gulp.watch('src/*.js', ['lint, compress, doc']);
+gulp.watch('src/*.js', ['lint', 'compress', 'doc']);
 
 gulp.task('default', ['clean'], function() {
   gulp.start('lint', 'compress', 'doc');

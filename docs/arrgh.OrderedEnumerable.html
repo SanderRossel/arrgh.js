@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Global</title>
+    <title>JSDoc: Class: OrderedEnumerable</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Global</h1>
+    <h1 class="page-title">Class: OrderedEnumerable</h1>
 
     
 
@@ -28,7 +28,8 @@
 
 <header>
     
-        <h2></h2>
+        <h2>
+            <span class="ancestors"><a href="arrgh.html">arrgh</a>.</span>OrderedEnumerable</h2>
         
     
 </header>
@@ -38,7 +39,123 @@
     
         
 
+    
+
+    <h4 class="name" id="OrderedEnumerable"><span class="type-signature"></span>new OrderedEnumerable<span class="signature">(source, keySelector, descending)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Represents an ordered collection that can be iterated over.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
         
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>source</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="arrgh.Enumerable.html">arrgh.Enumerable</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The collection that needs to be sorted.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keySelector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#keySelector">keySelector</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A function to extract the key from an element.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>descending</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Indicated wheter the collection needs to be sorted ascending or descending.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
 
 
 <dl class="details">
@@ -68,6 +185,11 @@
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line665">line 665</a>
+    </li></ul></dd>
+    
 
     
 
@@ -77,7 +199,20 @@
 </dl>
 
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     </div>
 
@@ -94,23 +229,21 @@
     
 
     
-
-    
-        <h3 class="subsection-title">Type Definitions</h3>
+        <h3 class="subsection-title">Methods</h3>
 
         
-                
+            
 
     
 
-    <h4 class="name" id="forEachCallback"><span class="type-signature"></span>forEachCallback<span class="signature">(element, index)</span><span class="type-signature"> &rarr; {bool}</span></h4>
+    <h4 class="name" id="thenBy"><span class="type-signature"></span>thenBy<span class="signature">(keySelector)</span><span class="type-signature"> &rarr; {<a href="arrgh.OrderedEnumerable.html">arrgh.OrderedEnumerable</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    A function that is applied to each element in an enumerable.
+    Performs a subsequent ordering of the elements in a sequence in ascending order according to a key.
 </div>
 
 
@@ -146,13 +279,13 @@
 
         <tr>
             
-                <td class="name"><code>element</code></td>
+                <td class="name"><code>keySelector</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type"><a href="global.html#keySelector">keySelector</a></span>
 
 
             
@@ -162,30 +295,7 @@
 
             
 
-            <td class="description last">The current element in the for loop.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>index</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The index of the current element.</td>
+            <td class="description last">A function to extract a key from an element.</td>
         </tr>
 
     
@@ -226,7 +336,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line9">line 9</a>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line680">line 680</a>
     </li></ul></dd>
     
 
@@ -253,7 +363,7 @@
 
         
 <div class="param-desc">
-    - Return false (or falsey, but not null or undefined) to jump out of the loop early.
+    - Returns an ordered enumerable.
 </div>
 
 
@@ -264,7 +374,7 @@
     </dt>
     <dd>
         
-<span class="param-type">bool</span>
+<span class="param-type"><a href="arrgh.OrderedEnumerable.html">arrgh.OrderedEnumerable</a></span>
 
 
     </dd>
@@ -274,19 +384,19 @@
 
 
 
+        
             
-                
 
     
 
-    <h4 class="name" id="keySelector"><span class="type-signature"></span>keySelector<span class="signature">(element)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="thenByDescending"><span class="type-signature"></span>thenByDescending<span class="signature">(keySelector)</span><span class="type-signature"> &rarr; {<a href="arrgh.OrderedEnumerable.html">arrgh.OrderedEnumerable</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    A function that returns the key value from an element.
+    Performs a subsequent ordering of the elements in a sequence in descending order according to a key.
 </div>
 
 
@@ -322,13 +432,13 @@
 
         <tr>
             
-                <td class="name"><code>element</code></td>
+                <td class="name"><code>keySelector</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type"><a href="global.html#keySelector">keySelector</a></span>
 
 
             
@@ -338,7 +448,7 @@
 
             
 
-            <td class="description last">The current element in the for loop.</td>
+            <td class="description last">A function to extract a key from an element.</td>
         </tr>
 
     
@@ -379,7 +489,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line26">line 26</a>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line692">line 692</a>
     </li></ul></dd>
     
 
@@ -406,7 +516,7 @@
 
         
 <div class="param-desc">
-    - The value of the key for the current element.
+    - Returns an ordered enumerable.
 </div>
 
 
@@ -417,7 +527,7 @@
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type"><a href="arrgh.OrderedEnumerable.html">arrgh.OrderedEnumerable</a></span>
 
 
     </dd>
@@ -427,160 +537,9 @@
 
 
 
-            
-                
-
-    
-
-    <h4 class="name" id="predicate"><span class="type-signature"></span>predicate<span class="signature">(element)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-
-
-
-<div class="description">
-    A function to test each element for a condition.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
         
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
     
 
-        <tr>
-            
-                <td class="name"><code>element</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The current element in the for loop.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line18">line 18</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    - Return whether the current element satisfies the condition.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-            
     
 
     
