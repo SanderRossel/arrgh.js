@@ -129,7 +129,7 @@
 
     DictionaryIterator = function (dict) {
         var keys = dict.getKeys();
-        var len = keys.count();
+        var len = dict.length;
         var index = -1;
         var currentKey;
         this.moveNext = function () {
@@ -249,15 +249,37 @@
         var firstIterator = first.getIterator();
         var secondIterator = second.getIterator();
         var current;
-        var l = new List();
         var moveFirst = true;
+        // Use a dictionary when possible for fast O(1) lookup.
+        var d = new Dictionary();
+        // Use a list as backup,
+        // dictionary implementation does not allow "standard" objects to be added as key.
+        var l = new List();
+
+        var alreadyUnioned = function (elem) {
+            if (Dictionary.isValidKey(elem)) {
+                if (d.hasKey(elem)) {
+                    return true;
+                } else {
+                    d.add(elem);
+                    return false;
+                }
+            } else {
+                if (l.contains(elem)) {
+                    return true;
+                } else {
+                    l.add(elem);
+                    return true;
+                }
+            }
+        };
 
         var moveNext;
         var move = function (iterator) {
             var hasNext = iterator.moveNext();
             if (hasNext) {
                 current = iterator.current();
-                if (comparer && l.contains(current, comparer)) {
+                if (comparer && contains(current, comparer)) {
                     return moveNext(iterator);
                 }
                 l.add(current);
@@ -464,7 +486,7 @@
     };
 
     enumProto.toList = function () {
-        return new List(this.toArray());
+        return new List(this);
     };
 
     enumProto.asEnumerable = function () {
@@ -479,7 +501,7 @@
      * @param {keySelector} keySelector - A function to extract a key from an element.
      * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
      */
-    enumProto.orderBy = function (keySelector) {
+     enumProto.orderBy = function (keySelector) {
         return new OrderedEnumerable(this, keySelector, false);
     };
 
@@ -491,7 +513,7 @@
      * @param {keySelector} keySelector - A function to extract a key from an element.
      * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
      */
-    enumProto.orderByDescending = function (keySelector) {
+     enumProto.orderByDescending = function (keySelector) {
         return new OrderedEnumerable(this, keySelector, true);
     };
 
@@ -500,20 +522,28 @@
      * @memberof arrgh
      * @constructor
      * @extends arrgh.Enumerable
-     * @param {array} [arr] - An array whose elements are copied to the new list.
+     * @param {array|arrgh.Enumerable} [arr=[]] - An array or Enumerable whose elements are copied to the new list.
      */
-     List = function (arr) {
+     List = function () {
         var self = this;
         Enumerable.call(self, function () {
             return new ArrayIterator(self);
         });
 
-        arr = arr || [];
-        self.length = arr.length;
-
-        var i;
-        for (i = 0; i < arr.length; i += 1) {
-            self[i] = arr[i];
+        var arg0 = arguments[0];
+        arg0 = arg0 || [];
+        if (isArray(arg0)) {
+            self.length = arg0.length;
+            var i;
+            for (i = 0; i < arg0.length; i += 1) {
+                self[i] = arg0[i];
+            }
+        } else {
+            self.length = 0;
+            arg0.forEach(function (elem, index) {
+                self[index] = elem;
+                self.length += 1;
+            });
         }
     };
     inherit(List, Enumerable);
@@ -575,7 +605,7 @@
      * @param {predicate} [predicate] - A function to test each element for a condition.
      * @returns {Number} - A number that specifies how many elements the collection has, or how many satisfy a certain condition.
      */
-    listProto.count = function (predicate) {
+     listProto.count = function (predicate) {
         if (!predicate) {
             return this.length;
         } else {
@@ -593,7 +623,7 @@
      * @constructor
      * @extends arrgh.Enumerable
      */
-    Dictionary = function () {
+     Dictionary = function () {
         var self = this;
         Enumerable.call(self, function () {
             return new DictionaryIterator(self);
@@ -607,15 +637,43 @@
     };
     inherit(Dictionary, Enumerable);
 
+    Dictionary.isValidKey = function (elem) {
+        return typeof elem !== "object" || elem.toString() !== "[object Object]"
+    };
+
     var dictProto = Dictionary.prototype;
+
+    var getKey = function (elem) {
+        if (!Dictionary.isValidKey(elem)) {
+            throw "The specified key object is not valid.";
+        }
+
+        var key;
+        if (elem === null) {
+            key = "null";
+        } else if (elem === undefined) {
+            key = "undefined";
+        } else {
+            if (typeof elem.toString === "function") {
+                key = elem.toString();
+            } else {
+                key = Object.prototype.toString.call(elem);
+            }
+        }
+        return key;
+    };
 
     dictProto.hasKey = function (key) {
         return this._.keys.hasOwnProperty(key);
     };
 
     dictProto.add = function (key, value) {
+        key = getKey(key);
         if (this.hasKey(key)) {
-            throw "Key is already present in the dictionary.";
+            throw "Key " + key + " is already present in the dictionary.";
+        }
+        if (this.hasOwnProperty(key)) {
+            throw "Key " + key + " already declared";
         }
         this[key] = value;
         this._.keys[key] = value;
@@ -646,7 +704,7 @@
      * @param {predicate} [predicate] - A function to test each element for a condition.
      * @returns {Number} - A number that specifies how many elements the collection has, or how many satisfy a certain condition.
      */
-    dictProto.count = function (predicate) {
+     dictProto.count = function (predicate) {
         if (!predicate) {
             return this.length;
         } else {
@@ -661,8 +719,8 @@
      * @param {arrgh.Enumerable} source - The collection that needs to be sorted.
      * @param {keySelector} keySelector - A function to extract the key from an element.
      * @param {Boolean} descending - Indicated wheter the collection needs to be sorted ascending or descending.
-    */
-    OrderedEnumerable = function (source, keySelector, descending) {
+     */
+     OrderedEnumerable = function (source, keySelector, descending) {
         var self = this;
         Enumerable.call(this, function () {
             return new OrderedIterator(self);
@@ -685,7 +743,7 @@
      * @param {keySelector} keySelector - A function to extract a key from an element.
      * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
      */
-    ordProto.thenBy = function (keySelector) {
+     ordProto.thenBy = function (keySelector) {
         return new OrderedEnumerable(this, keySelector, false);
     };
 
@@ -697,7 +755,7 @@
      * @param {keySelector} keySelector - A function to extract a key from an element.
      * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
      */
-    ordProto.thenByDescending = function (keySelector) {
+     ordProto.thenByDescending = function (keySelector) {
         return new OrderedEnumerable(this, keySelector, true);
     };
 
