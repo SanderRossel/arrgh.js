@@ -15,6 +15,12 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
+gulp.task('lint', function() {
+  return gulp.src('tests/spec/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
 gulp.task('compress', function() {
   gulp.src('src/*.js')
     .pipe(minify({

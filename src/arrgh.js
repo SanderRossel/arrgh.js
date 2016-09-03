@@ -16,11 +16,28 @@
      */
 
     /**
+     * A function that tests if two elements are equal.
+     *
+     * @callback equalityComparer
+     * @param {*} x - The element to test for equality.
+     * @param {*} y - The element to test on.
+     * @returns {Boolean} - Return whether the elements are equal.
+     */
+
+    /**
      * A function to test each element for a condition.
      *
      * @callback predicate
      * @param {*} element - The current element in the for loop.
-     * @returns {Boolean} - Return whether the current element satisfies the condition.
+     * @returns {Boolean} - Returns whether the current element satisfies the condition.
+     */
+
+     /**
+     * A function that projects an element into a new form.
+     *
+     * @callback selector
+     * @param {*} element - The current element in the for loop.
+     * @returns {*} - A projection of the current element.
      */
 
     /**
@@ -41,6 +58,7 @@
     // Iterators
     var ArrayIterator;
     var DictionaryIterator;
+    var DefaultIfEmptyIterator;
     var WhereIterator;
     var SelectIterator;
     var OrderedIterator;
@@ -167,6 +185,28 @@
         this.current = iterator.current;
     };
 
+    DefaultIfEmptyIterator = function (source, defaultValue) {
+        var iterator = source.getIterator();
+        var current;
+        var empty = true;
+        this.moveNext = function () {
+            if (iterator.moveNext()) {
+                empty = false;
+                current = iterator.current();
+                return true;
+            }
+            else if (empty) {
+                empty = false;
+                current = defaultValue;
+                return true;
+            }
+            return false;
+        };
+        this.current = function () {
+            return current;
+        };
+    };
+
     SelectIterator = function (source, selector) {
         selector = selector || identity;
 
@@ -256,7 +296,7 @@
         // dictionary implementation does not allow "standard" objects to be added as key.
         var l = new List();
 
-        var alreadyUnioned = function (elem) {
+        var alreadyUnioned = function (elem, comparer) {
             if (Dictionary.isValidKey(elem)) {
                 if (d.hasKey(elem)) {
                     return true;
@@ -265,11 +305,11 @@
                     return false;
                 }
             } else {
-                if (l.contains(elem)) {
+                if (l.contains(elem, comparer)) {
                     return true;
                 } else {
                     l.add(elem);
-                    return true;
+                    return false;
                 }
             }
         };
@@ -279,10 +319,9 @@
             var hasNext = iterator.moveNext();
             if (hasNext) {
                 current = iterator.current();
-                if (comparer && contains(current, comparer)) {
+                if (comparer && alreadyUnioned(current, comparer)) {
                     return moveNext(iterator);
                 }
-                l.add(current);
             }
             return hasNext;
         };
@@ -324,7 +363,157 @@
         }
     };
 
+    var empty = new Enumerable();
+    Enumerable.empty = function () {
+        return empty;
+    };
+
     var enumProto = Enumerable.prototype;
+
+    /**
+     * Determines whether all elements of the collection satisfy a condition.
+     * @param {predicate} predicate - A function to test each element for a condition.
+     * @function all
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {Boolean} - True if the list is empty or if all elements in the collection satisfy a condition, else false.
+     */
+     enumProto.all = function (predicate) {
+        var all = true;
+        this.forEach(function (elem) {
+            all = predicate(elem);
+            return all;
+        });
+        return all;
+    };
+
+    /**
+     * Determines whether the collection contains any elements or if any elements satisfy a condition.
+     * @param {predicate} [predicate] - A function to test each element for a condition.
+     * @function any
+     * @see {@link arrgh.Enumerable#some}
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {Boolean} - True if the collection contains any elements or if any elements satisfy a condition, else false.
+     */
+     enumProto.any = function (predicate) {
+        var any = false;
+        this.forEach(function (elem) {
+            if (predicate) {
+                any = predicate(elem);
+                return !any;
+            } else {
+                any = true;
+                return false;
+            }
+        });
+        return any;
+    };
+
+    /**
+     * Determines whether the collection contains any elements or if any elements satisfy a condition.
+     * @param {predicate} [predicate] - A function to test each element for a condition.
+     * @function some
+     * @see {@link arrgh.Enumerable#any}
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {Boolean} - True if the collection contains any elements or if any elements satisfy a condition, else false.
+     */
+     enumProto.some = enumProto.any;
+
+    /**
+     * Computes the average of a collection of values.<br />
+     * If values are not numerics the result may be NaN or something unexpected (e.g. "2" + 2 will results in an average of 11 ("2" + 2 = 22, 22 / 2 = 11)).
+     * @param {selector} [selector] - A function that projects an element into a new form.
+     * @function average
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {Number} - The average of all values in the collection, or NaN.
+     * @throws Throws an error if the collection contains no elements.
+     */
+     enumProto.average = function (selector) {
+        selector = selector || identity;
+
+        var sum = 0;
+        var count = 0;
+        this.forEach(function (elem, index) {
+            sum += selector(elem);
+            count += 1;
+        });
+
+        if (count === 0) {
+            throw new Error("Collection contains no elements.");
+        }
+
+        return sum / count;
+    };
+
+    /**
+     * Determines whether a collection contains a specified element, optionally uses a custom equality comparer.
+     * @param {*} elem - The element to locate in the collection.
+     * @param {equalityComparer} [comparer=(===)] - A function that tests if two elements are equal.
+     * @function contains
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {Boolean} - Returns whether the specified element is contained in the collection.
+     */
+     enumProto.contains = function (elem, comparer) {
+        comparer = comparer || eqComparer;
+
+        var hasElem = false;
+        this.forEach(function (item) {
+            hasElem = comparer(item, elem);
+            return !hasElem;
+        });
+        return hasElem;
+    };
+
+    /**
+     * Specifies how many elements the collection has, or how many satisfy a certain condition.
+     * @function count
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {predicate} [predicate] - A function to test each element for a condition.
+     * @returns {Number} - A number that specifies how many elements the collection has, or how many satisfy a certain condition.
+     */
+     enumProto.count = function (predicate) {
+        var count = 0;
+        predicate = predicate || alwaysTrue;
+
+        this.forEach(function (elem) {
+            if (predicate(elem)) {
+                count += 1;
+            }
+        });
+        return count;
+    };
+
+    /**
+     * Returns the elements of the specified collection or a collection containing only the default value if the collection is empty.
+     * @function defaultIfEmpty
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {*} defaultValue - The default value to be returned when the collection is empty.
+     * @returns {arrgh.Enumerable} - A new collection containing the elements of the specified collection or a new collection containing only the default value if the collection is empty.
+     */
+     enumProto.defaultIfEmpty = function (defaultValue) {
+        var self = this;
+        return new Enumerable(function () {
+            return new DefaultIfEmptyIterator(self, defaultValue);
+        });
+    };
+
+    /**
+     * Returns distinct elements from a collection by using the default or a custom equality comparer to compare values.
+     * @function distinct
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {equalityComparer} [comparer=(===)] - A function that tests if two elements are equal.
+     * @returns {arrgh.Enumerable} - A new collection with unique elements.
+     */
+    enumProto.distinct = function (comparer) {
+        return this.union(empty, comparer);
+    };
 
     /**
      * Performs the specified action on each element of the collection.
@@ -356,26 +545,6 @@
             arr.push(elem);
         });
         return arr;
-    };
-
-    /**
-     * Specifies how many elements the collection has, or how many satisfy a certain condition.
-     * @function count
-     * @memberof arrgh.Enumerable
-     * @instance
-     * @param {predicate} [predicate] - A function to test each element for a condition.
-     * @returns {Number} - A number that specifies how many elements the collection has, or how many satisfy a certain condition.
-     */
-     enumProto.count = function (predicate) {
-        var count = 0;
-        predicate = predicate || alwaysTrue;
-
-        this.forEach(function (elem) {
-            if (predicate(elem)) {
-                count += 1;
-            }
-        });
-        return count;
     };
 
     enumProto.indexOf = function (searchElem, fromIndex) {
@@ -458,25 +627,13 @@
         }
     };
 
-    enumProto.contains = function (elem, comparer) {
-        comparer = comparer || eqComparer;
-
-        var hasElem = false;
-        this.forEach(function (item) {
-            if (comparer(item, elem)) {
-                hasElem = true;
-                return false;
-            }
-        });
-        return hasElem;
-    };
-
     enumProto.unionAll = function (other) {
         var self = this;
         return new Enumerable(function () {
             return new UnionIterator(self, other);
         });
     };
+    enumProto.concat = enumProto.unionAll;
 
     enumProto.union = function (other, comparer) {
         var self = this;
@@ -485,12 +642,23 @@
         });
     };
 
+    enumProto.asEnumerable = function () {
+        return new Enumerable(this.getIterator);
+    };
+
     enumProto.toList = function () {
         return new List(this);
     };
 
-    enumProto.asEnumerable = function () {
-        return new Enumerable(this.getIterator);
+    enumProto.toDictionary = function (keySelector, valueSelector) {
+        keySelector = keySelector || identity;
+        valueSelector = valueSelector || identity;
+
+        var d = new Dictionary();
+        this.forEach(function (elem) {
+            d.add(keySelector(elem), valueSelector(elem));
+        });
+        return d;
     };
 
     /**
@@ -638,7 +806,7 @@
     inherit(Dictionary, Enumerable);
 
     Dictionary.isValidKey = function (elem) {
-        return typeof elem !== "object" || elem.toString() !== "[object Object]"
+        return typeof elem !== "object" || elem.toString() !== "[object Object]";
     };
 
     var dictProto = Dictionary.prototype;
