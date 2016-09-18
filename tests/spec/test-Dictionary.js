@@ -12,8 +12,8 @@
 					d.forEach(function (pair, index) {
 						arr.push(pair.key, pair.value, index);
 					});
-					expect(d[p0.first]).toEqual(p0);
-					expect(d[p1.first]).toEqual(p1);
+					expect(d.get(p0.first)).toEqual(p0);
+					expect(d.get(p1.first)).toEqual(p1);
 					expect(arr).toEqual([p0.first, p0, 0, p1.first, p1, 1]);
 					expect(d.length).toEqual(2);
 				});
@@ -35,20 +35,10 @@
 					d.forEach(function (pair, index) {
 						arr.push(pair.key, pair.value, index);
 					});
-					expect(d[f1]).toEqual(f1);
-					expect(d[f2]).toEqual(f2);
-					expect(arr).toEqual([f1.toString(), f1, 0, f2.toString(), f2, 1]);
+					expect(d.get(f1)).toEqual(f1);
+					expect(d.get(f2)).toEqual(f2);
+					expect(arr).toEqual([f1, f1, 0, f2, f2, 1]);
 					expect(d.length).toEqual(2);
-				});
-			});
-
-			describe("add some object keys", function () {
-				it("should throw", function () {
-					var d = new arrgh.Dictionary();
-
-					expect(function () {
-						d.add({}, "Hi");
-					}).toThrow();
 				});
 			});
 
@@ -69,8 +59,8 @@
 
 					d.add(o1, "Hello");
 					d.add(o2, "Goodbye");
-					expect(d["Hi"]).toEqual("Hello");
-					expect(d["Bye"]).toEqual("Goodbye");
+					expect(d.get(o1)).toEqual("Hello");
+					expect(d.get(o2)).toEqual("Goodbye");
 					expect(d.length).toEqual(2);
 				});
 			});

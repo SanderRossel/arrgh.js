@@ -92,6 +92,189 @@
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="equalityComparer"><span class="type-signature"></span>equalityComparer<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    Defines methods to support the comparison of objects for equality.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>equals</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#equals">equals</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    (===)
+                
+                </td>
+            
+
+            <td class="description last">A function that tests if two elements are equal.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>getHash</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#getHash">getHash</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    getHash() || toString()
+                
+                </td>
+            
+
+            <td class="description last">A function that computes an element's hash code.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line57">line 57</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
 
     
 
@@ -103,7 +286,7 @@
 
     
 
-    <h4 class="name" id="equalityComparer"><span class="type-signature"></span>equalityComparer<span class="signature">(x, y)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id="equals"><span class="type-signature"></span>equals<span class="signature">(x, y)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
@@ -226,7 +409,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line18">line 18</a>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line42">line 42</a>
     </li></ul></dd>
     
 
@@ -455,6 +638,159 @@
 
     
 
+    <h4 class="name" id="getHash"><span class="type-signature"></span>getHash<span class="signature">(obj)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns a hash code for the specified object.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The object for which a hash code is to be returned.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line50">line 50</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - A hash code for the specified object.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+            
+                
+
+    
+
     <h4 class="name" id="keySelector"><span class="type-signature"></span>keySelector<span class="signature">(element)</span><span class="type-signature"> &rarr; {*}</span></h4>
 
     
@@ -555,7 +891,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line43">line 43</a>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -708,7 +1044,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line27">line 27</a>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -861,7 +1197,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line35">line 35</a>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -923,13 +1259,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="arrgh.Dictionary.html">Dictionary</a></li><li><a href="arrgh.Enumerable.html">Enumerable</a></li><li><a href="arrgh.List.html">List</a></li><li><a href="arrgh.OrderedEnumerable.html">OrderedEnumerable</a></li></ul><h3>Namespaces</h3><ul><li><a href="arrgh.html">arrgh</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="arrgh.Dictionary.html">Dictionary</a></li><li><a href="arrgh.Enumerable.html">Enumerable</a></li><li><a href="arrgh.List.html">List</a></li><li><a href="arrgh.OrderedEnumerable.html">OrderedEnumerable</a></li></ul><h3>Namespaces</h3><ul><li><a href="arrgh.html">arrgh</a></li></ul><h3>Global</h3><ul><li><a href="global.html#equalityComparer">equalityComparer</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Sep 03 2016 21:11:42 GMT+0200 (W. Europe Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sun Sep 18 2016 22:08:37 GMT+0200 (W. Europe Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

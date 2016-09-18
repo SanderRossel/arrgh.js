@@ -98,10 +98,15 @@
 			describe("overlapping lists with strings that compare on second character", function () {
 				it("should union only strings with a unique second character", function () {
 					var u = new arrgh.Enumerable([p0.first, p1.first, p2.first, p3.first])
-					.union(new arrgh.Enumerable([p4.first, p5.first, p6.first]), function (x, y) {
-						return x[1] === y[1];
+					.union(new arrgh.Enumerable([p4.first, p5.first, p6.first]), {
+						getHash: function (obj) {
+							return obj[1];
+						},
+						equals: function (x, y) {
+							return x[1] === y[1];
+						}
 					});
-					expect(u.toArray()).toEqual([p0.first, p1.first, p4].first);
+					expect(u.toArray()).toEqual([p0.first, p1.first, p4.first]);
 				});
 			});
 		});

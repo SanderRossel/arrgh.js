@@ -16,15 +16,6 @@
      */
 
     /**
-     * A function that tests if two elements are equal.
-     *
-     * @callback equalityComparer
-     * @param {*} x - The element to test for equality.
-     * @param {*} y - The element to test on.
-     * @returns {Boolean} - Return whether the elements are equal.
-     */
-
-    /**
      * A function to test each element for a condition.
      *
      * @callback predicate
@@ -48,6 +39,29 @@
      * @returns {*} - The value of the key for the current element.
      */
 
+    /**
+     * A function that tests if two elements are equal.
+     * @callback equals
+     * @param {*} x - The element to test for equality.
+     * @param {*} y - The element to test on.
+     * @returns {Boolean} - Return whether the elements are equal.
+     */
+
+    /**
+     * Returns a hash code for the specified object.
+     * @callback getHash
+     * @param {*} obj - The object for which a hash code is to be returned.
+     * @returns {String} - A hash code for the specified object.
+     */
+
+    /**
+     * Defines methods to support the comparison of objects for equality.
+     * @name equalityComparer
+     * @type {Object}
+     * @property {equals} [equals=(===)] - A function that tests if two elements are equal.
+     * @property {getHash} [getHash=getHash() || toString()] - A function that computes an element's hash code.
+     */
+
     // Collections
     var Enumerable;
     var List;
@@ -66,8 +80,8 @@
 
     // Helper functions
     var Temp = function () {
-        // This will shup up JSLint :-)
-        // Minify will make it empty again.
+        // This will shut up JSLint :-)
+        // Minify will remove 'return' so no precious bytes are lost.
         return;
     };
     function inherit(inheritor, inherited) {
@@ -93,9 +107,46 @@
         return x;
     }
 
-    function eqComparer(x, y) {
-        return x === y;
-    }
+    var defaultEqComparer = {
+        equals: function (x, y) {
+            return x === y;
+        },
+        getHash: function (obj) {
+            var hash;
+            if (obj === null) {
+                hash = "null";
+            } else if (obj === undefined) {
+                hash = "undefined";
+            } else {
+                hash = typeof obj.getHash === "function"
+                ? obj.getHash()
+                : (typeof obj.toString === "function" ? obj.toString() : Object.prototype.toString.call(obj));
+            }
+            return hash;
+        }
+    };
+
+    function ensureEqComparer (eqComparer) {
+        if (!eqComparer || eqComparer === defaultEqComparer) {
+            return defaultEqComparer;
+        } else if (eqComparer.equals && eqComparer.getHash) {
+            return eqComparer;
+        }
+
+        var fullEqComparer;
+        if (typeof eqComparer === "function") {
+            fullEqComparer = {
+                equals: eqComparer,
+                getHash: defaultEqComparer.getHash
+            };
+        } else {
+            fullEqComparer = {
+                equals: eqComparer.equals || defaultEqComparer.equals,
+                getHash: eqComparer.getHash || defaultEqComparer.getHash
+            };
+        }
+        return fullEqComparer;
+    };
 
     function qsort(enumerable, comparer) {
         if (enumerable.count() < 2) {
@@ -135,7 +186,7 @@
         var index = -1;
         this.moveNext = function () {
             if (arr.length !== len) {
-                throw "Collection was modified, enumeration operation may not execute.";
+                throw new Error("Collection was modified, enumeration operation may not execute.");
             }
             index += 1;
             return index < len;
@@ -146,20 +197,33 @@
     };
 
     DictionaryIterator = function (dict) {
-        var keys = dict.getKeys();
         var len = dict.length;
-        var index = -1;
-        var currentKey;
+        var current;
+        var hashIndex = -1;
+        var currentKeys;
+        var keyIndex = -1;
         this.moveNext = function () {
             if (dict.length !== len) {
-                throw "Collection was modified, enumeration operation may not execute.";
+                throw new Error("Collection was modified, enumeration operation may not execute.");
             }
-            index += 1;
-            currentKey = keys[index];
-            return index < len;
+            if (!currentKeys || keyIndex == currentKeys.length - 1) {
+                hashIndex += 1;
+                if (hashIndex < dict._.hashes.length) {
+                    var hash = dict._.hashes[hashIndex];
+                    currentKeys = dict._.keys[hash];
+                    keyIndex = 0;
+                    current = currentKeys[keyIndex];
+                } else {
+                    current = null;
+                }
+            } else {
+                keyIndex += 1;
+                current = currentKeys[keyIndex];
+            }
+            return hashIndex <= dict._.hashes.length - 1;
         };
         this.current = function () {
-            return { key: currentKey, value: dict[currentKey] };
+            return current;
         };
     };
 
@@ -285,41 +349,36 @@
         };
     }());
 
-    UnionIterator = function (first, second, comparer) {
+    var Set = function (comparer) {
+
+    };
+
+    UnionIterator = function (first, second, eqComparer) {
         var firstIterator = first.getIterator();
         var secondIterator = second.getIterator();
         var current;
         var moveFirst = true;
-        // Use a dictionary when possible for fast O(1) lookup.
-        var d = new Dictionary();
-        // Use a list as backup,
-        // dictionary implementation does not allow "standard" objects to be added as key.
-        var l = new List();
+        var d;
+        var alreadyUnioned;
+        if (eqComparer) {
+            d = new Dictionary(eqComparer);
 
-        var alreadyUnioned = function (elem, comparer) {
-            if (Dictionary.isValidKey(elem)) {
-                if (d.hasKey(elem)) {
+            alreadyUnioned = function (elem) {
+                if (d.containsKey(elem)) {
                     return true;
                 } else {
                     d.add(elem);
                     return false;
                 }
-            } else {
-                if (l.contains(elem, comparer)) {
-                    return true;
-                } else {
-                    l.add(elem);
-                    return false;
-                }
-            }
-        };
+            };
+        }
 
         var moveNext;
         var move = function (iterator) {
             var hasNext = iterator.moveNext();
             if (hasNext) {
                 current = iterator.current();
-                if (comparer && alreadyUnioned(current, comparer)) {
+                if (eqComparer && alreadyUnioned(current)) {
                     return moveNext(iterator);
                 }
             }
@@ -353,13 +412,19 @@
      * @param {(array|function)} [iterator=[]] - An array to iterate over or a function that returns an iterator.
      */
      Enumerable = function () {
-        var arg0 = arguments[0] || [];
-        if (isArray(arg0)) {
+        var iterable;
+        if (arguments.length > 1) {
+            iterable = Array.prototype.slice.call(arguments);
+        } else {
+            iterable = arguments[0] || [];
+        }
+
+        if (isArray(iterable)) {
             this.getIterator = function () {
-                return new ArrayIterator(arg0);
+                return new ArrayIterator(iterable);
             };
         } else {
-            this.getIterator = arg0;
+            this.getIterator = iterable;
         }
     };
 
@@ -451,18 +516,17 @@
     /**
      * Determines whether a collection contains a specified element, optionally uses a custom equality comparer.
      * @param {*} elem - The element to locate in the collection.
-     * @param {equalityComparer} [comparer=(===)] - A function that tests if two elements are equal.
+     * @param {equals|equalityComparer} [eqComparer=(===)] - A function or object that tests if two elements are equal.
      * @function contains
      * @memberof arrgh.Enumerable
      * @instance
      * @returns {Boolean} - Returns whether the specified element is contained in the collection.
      */
-     enumProto.contains = function (elem, comparer) {
-        comparer = comparer || eqComparer;
-
+     enumProto.contains = function (elem, eqComparer) {
+        eqComparer = ensureEqComparer(eqComparer);
         var hasElem = false;
         this.forEach(function (item) {
-            hasElem = comparer(item, elem);
+            hasElem = eqComparer.equals(item, elem);
             return !hasElem;
         });
         return hasElem;
@@ -508,11 +572,63 @@
      * @function distinct
      * @memberof arrgh.Enumerable
      * @instance
-     * @param {equalityComparer} [comparer=(===)] - A function that tests if two elements are equal.
+     * @param {equals|equalityComparer} [eqComparer=(===)] - A function or object that tests if two elements are equal.
      * @returns {arrgh.Enumerable} - A new collection with unique elements.
      */
-    enumProto.distinct = function (comparer) {
-        return this.union(empty, comparer);
+     enumProto.distinct = function (eqComparer) {
+        return this.union(empty, eqComparer);
+    };
+
+    /**
+     * Returns the element at a specified index.
+     * @function elementAt
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {Number} index - The index of the element to find.
+     * @returns {*} - The element at the specified index.
+     * @throws - Throws an error if the specified index is outside the bounds of the collection.
+     */
+     enumProto.elementAt = function (index) {
+        var def = {};
+        var elem = this.elementAtOrDefault(index, def);
+        if (elem === def) {
+            throw new Error("Index was outside the bounds of the collection.");
+        }
+        return elem;
+    };
+
+    /**
+     * Returns the element at a specified index or a default value.
+     * @function elementAtOrDefault
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {Number} index - The index of the element to find.
+     * @param {*} [defaultValue] - The value that is returned when the specified index is not found.
+     * @returns {*} - The element at the specified index or a default value.
+     */
+     enumProto.elementAtOrDefault = function (index, defaultValue) {
+        if (index < 0) {
+            return defaultValue;
+        }
+
+        var elem;
+        var elemSet = false;
+        this.forEach(function (e, i) {
+            if (i === index) {
+                elem = e;
+                elemSet = true;
+                return false;
+            }
+        });
+
+        if (!elemSet) {
+            return defaultValue;
+        }
+        return elem;
+    };
+
+    enumProto.except = function (other) {
+        //[1, 2, 3].except([3, 4]) == [1, 2];
     };
 
     /**
@@ -523,11 +639,11 @@
      * @instance
      */
      enumProto.forEach = function (callback) {
-        var enumerator = this.getIterator();
+        var iterator = this.getIterator();
         var cont = null;
         var index = 0;
-        while ((isNull(cont) || cont) && enumerator.moveNext()) {
-            cont = callback(enumerator.current(), index);
+        while ((isNull(cont) || cont) && iterator.moveNext()) {
+            cont = callback(iterator.current(), index);
             index += 1;
         }
     };
@@ -635,10 +751,10 @@
     };
     enumProto.concat = enumProto.unionAll;
 
-    enumProto.union = function (other, comparer) {
+    enumProto.union = function (other, eqComparer) {
         var self = this;
         return new Enumerable(function () {
-            return new UnionIterator(self, other, comparer || eqComparer);
+            return new UnionIterator(self, other, ensureEqComparer(eqComparer));
         });
     };
 
@@ -698,17 +814,22 @@
             return new ArrayIterator(self);
         });
 
-        var arg0 = arguments[0];
-        arg0 = arg0 || [];
-        if (isArray(arg0)) {
-            self.length = arg0.length;
-            var i;
-            for (i = 0; i < arg0.length; i += 1) {
-                self[i] = arg0[i];
-            }
+        var iterable;
+        if (arguments.length > 1) {
+            iterable = Array.prototype.slice.call(arguments);
         } else {
+            iterable = arguments[0] || [];
+        }
+
+        if (isArray(iterable)) {
+            self.length = iterable.length;
+            var i;
+            for (i = 0; i < iterable.length; i += 1) {
+                self[i] = iterable[i];
+            }
+        } else { // Enumerable
             self.length = 0;
-            arg0.forEach(function (elem, index) {
+            iterable.forEach(function (elem, index) {
                 self[index] = elem;
                 self.length += 1;
             });
@@ -719,27 +840,24 @@
     var listProto = List.prototype;
 
     listProto.add = function (elem) {
-        var len = this.length;
-        if (this[len] !== undefined) {
-            throw "Index " + len + " already declared.";
-        }
-        this[len] = elem;
+        this[this.length] = elem;
         this.length += 1;
     };
 
     listProto.addRange = function () {
-        if (arguments.length > 1 || isArray(arguments[0])) {
-            var arr = arguments.length > 1 ? arguments : arguments[0];
+        if (arguments.length === 1 && arguments[0].getIterator) {
+            var self = this;
+            arguments[0].forEach(function (elem) {
+                self[self.length] = elem;
+                self.length += 1;
+            });
+        } else {
+            var arr = arguments.length === 1 && isArray(arguments[0]) ? arguments[0] : arguments;
             var i;
             for (i = 0; i < arr.length; i += 1) {
-                this.add(arr[i]);
+                this[this.length] = arr[i];
+                this.length += 1;
             }
-        } else {
-            var self = this;
-            // Assume an Enumerable was passed as argument.
-            arguments[0].forEach(function (elem) {
-                self.add(elem);
-            });
         }
     };
 
@@ -791,7 +909,7 @@
      * @constructor
      * @extends arrgh.Enumerable
      */
-     Dictionary = function () {
+     Dictionary = function (eqComparer) {
         var self = this;
         Enumerable.call(self, function () {
             return new DictionaryIterator(self);
@@ -799,69 +917,95 @@
 
         self.length = 0;
         self._ = {
-            keys: {},
-            values: new List()
+            eqComparer: ensureEqComparer(eqComparer),
+            hashes: new List(),
+            keys: {}
         };
     };
     inherit(Dictionary, Enumerable);
 
-    Dictionary.isValidKey = function (elem) {
-        return typeof elem !== "object" || elem.toString() !== "[object Object]";
-    };
-
     var dictProto = Dictionary.prototype;
 
-    var getKey = function (elem) {
-        if (!Dictionary.isValidKey(elem)) {
-            throw "The specified key object is not valid.";
+    var containsKey = function (hash, key, privs) {
+        if (privs.keys.hasOwnProperty(hash)) {
+            return privs.keys[hash].contains(key, function (x, y) {
+                return privs.eqComparer.equals(x.key, y);
+            });
         }
-
-        var key;
-        if (elem === null) {
-            key = "null";
-        } else if (elem === undefined) {
-            key = "undefined";
-        } else {
-            if (typeof elem.toString === "function") {
-                key = elem.toString();
-            } else {
-                key = Object.prototype.toString.call(elem);
-            }
-        }
-        return key;
+        return false;
     };
 
-    dictProto.hasKey = function (key) {
-        return this._.keys.hasOwnProperty(key);
+    dictProto.containsKey = function (key) {
+        var hash = this._.eqComparer.getHash(key);
+        return containsKey(hash, key, this._);
     };
 
     dictProto.add = function (key, value) {
-        key = getKey(key);
-        if (this.hasKey(key)) {
-            throw "Key " + key + " is already present in the dictionary.";
+        var hash = this._.eqComparer.getHash(key);
+        if (containsKey(hash, key, this._)) {
+            throw new Error("Key [" + key + "] is already present in the dictionary.");
         }
-        if (this.hasOwnProperty(key)) {
-            throw "Key " + key + " already declared";
+
+        if (!this._.keys[hash]) {
+            this._.keys[hash] = new List();
         }
-        this[key] = value;
-        this._.keys[key] = value;
-        this._.values.add(value);
+        this._.keys[hash].add({ key: key, value: value });
+        this._.hashes.add(hash);
+
         this.length += 1;
     };
 
-    dictProto.getKeys = function () {
-        var list = new List();
+    var getKvpByKey = function (dict, hash, key) {
+        if (!dict._.keys.hasOwnProperty(hash)) {
+            throw new Error("Key [" + key + "] was not found in the dictionary.");
+        }
+        var elem = dict._.keys[hash].first(function (kvp) {
+            return dict._.eqComparer.equals(kvp.key, key);
+        });
+        if (!elem) {
+            throw new Error("Key [" + key + "] was not found in the dictionary.");
+        }
+        return elem;
+    };
+
+    dictProto.remove = function (key) {
+        var hash = dict._.eqComparer.getHash(key);
+        var elem = this.getKvpByKey(this, hash, key);
+        var keys = this._.keys[key];
+        keys.remove(elem);
+        if (!keys.any()) {
+            delete this._.keys[key];
+            this._.hashes.remove(hash);
+        }
+        this.length -= 1;
+    };
+
+    dictProto.get = function (key) {
+        var hash = this._.eqComparer.getHash(key);
+        return getKvpByKey(this, hash, key).value;
+    };
+
+    var getKvps = function (selector) {
+        var keys = new List();
         var prop;
         for (prop in this._.keys) {
             if (this._.keys.hasOwnProperty(prop)) {
-                list.add(prop);
+                keys.addRange(this._.keys[prop].select(selector));
             }
         }
-        return list;
+        return keys;
+    };
+
+    dictProto.getKeys = function () {
+        return getKvps(function (kvp) {
+            return kvp.key;
+        });
     };
 
     dictProto.getValues = function () {
-        return this._.values.toList();
+        return getKvps(function (kvp) {
+            return kvp.value;
+        });
     };
 
     /**

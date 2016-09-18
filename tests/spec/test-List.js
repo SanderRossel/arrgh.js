@@ -122,13 +122,12 @@
 			});
 
 			describe("add a custom item", function () {
-				it("should throw", function () {
+				it("should overwrite", function () {
 					var l = new arrgh.List();
 					l.add("Hi");
 					l[1] = "Something";
-					expect(function () {
-						l.add("Bye");
-					}).toThrow();
+					l.add("Bye");
+					expect(l[1]).toBe("Bye");
 				});
 			});
 

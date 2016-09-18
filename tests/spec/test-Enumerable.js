@@ -1,6 +1,58 @@
 (function () {
 	"use strict";
 
+	var arr = [];
+	var l = new arrgh.List();
+
+	var benchmark = function(description, callback) {
+		var start = new Date().getTime();
+		var i = 0;
+		callback();
+		console.log(description + " took: " + (new Date().getTime() - start));
+	};
+
+	/*benchmark("filling list", function () {
+		var i = 0;
+		for (i; i < 10000000; i += 1) {
+			l.add(i);
+		}
+	});
+
+	benchmark("filling array", function () {
+		var i = 0;
+		for (i; i < 10000000; i += 1) {
+			arr.push(i);
+		}
+	});
+
+	benchmark("iterate over array in for loop", function () {
+		var i = 0;
+		for (i; i < arr.length; i += 1) {
+			var a = arr[i];
+		}
+	});
+
+	benchmark("iterate over list in for loop", function () {
+		var i = 0;
+		for (i; i < l.length; i += 1) {
+			var a = l[i];
+		}
+	});
+
+	benchmark("iterate over array using forEach", function () {
+		arr.forEach(function (elem, index) {
+			var a = elem;
+			var b = index;
+		});
+	});
+
+	benchmark("iterate over list using forEach", function () {
+		l.forEach(function (elem, index) {
+			var a = elem;
+			var b = index;
+		});
+	});*/
+
 	describe("Enumerable", function () {
 		describe("all", function () {
 			describe("empty enumerable", function () {
@@ -82,7 +134,7 @@
 
 			describe ("when the collection contains only integers", function () {
 				it("and the result is an integer it should return the average", function () {
-					var e = new arrgh.Enumerable([1, 2, 3, 4, 5]);
+					var e = new arrgh.Enumerable(1, 2, 3, 4, 5);
 					expect(e.average()).toBe(3);
 				});
 
@@ -246,9 +298,87 @@
 
 			it("or remove doubles based on a rather weird, but edge-case, equality comparer", function () {
 				var e = new arrgh.Enumerable([p0.first, p1.first, p2.first, p3.first, p4.first, p5.first, p6.first]);
-				expect(e.distinct(function (x, y) {
-					return x[1] === y[1];
+				expect(e.distinct({
+					getHash: function (obj) {
+						return obj[1];
+					},
+					equals: function (x, y) {
+						return x[1] === y[1];
+					}
 				}).toArray()).toEqual([p0.first, p1.first, p4.first]);
+			});
+		});
+
+		describe("elementAt", function () {
+			it("should return the element at the 0th position", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(e.elementAt(0)).toBe(p0);
+			});
+
+			it("and at the 2nd position", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(e.elementAt(2)).toBe(p2);
+			});
+
+			it("and also at the last position", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(e.elementAt(e.count() - 1)).toBe(p5);
+			});
+
+			it("but not the -1th position (or any negative index)", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(function () {
+					e.elementAt(-1);
+				}).toThrow();
+			});
+
+			it("and the 10th position (list only has 6 elements)", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(function () {
+					e.elementAt(10);
+				}).toThrow();
+			});
+
+			it("should not throw in the edge case the inner (implementation) default is the same as an element", function () {
+				var e = new arrgh.Enumerable([{}]);
+				expect(e.elementAt(0)).toEqual({});
+			});
+		});
+
+		describe("elementAtOrDefault", function () {
+			it("should return the element at the 0th position", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(e.elementAtOrDefault(0, "Hello")).toBe(p0);
+			});
+
+			it("and at the 2nd position", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(e.elementAtOrDefault(2, "Hello")).toBe(p2);
+			});
+
+			it("and also at the last position", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(e.elementAtOrDefault(e.count() - 1, "Hello")).toBe(p5);
+			});
+
+			it("if the index is negative and no default value is supplied it should return undefined", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(e.elementAtOrDefault(-1)).toBe(undefined);
+			});
+
+			it("same for positive out of bounds", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(e.elementAtOrDefault(10)).toBe(undefined);
+			});
+
+			it("if the index is negative and a default value is supplied it should return the default value", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(e.elementAtOrDefault(-1, "Hello")).toBe("Hello");
+			});
+
+			it("also at positive out of bounds", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(e.elementAtOrDefault(10, "Bye")).toBe("Bye");
 			});
 		});
 
