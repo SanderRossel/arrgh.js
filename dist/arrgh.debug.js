@@ -77,6 +77,7 @@
     var SelectIterator;
     var OrderedIterator;
     var UnionIterator;
+    var ExceptIterator;
 
     // Helper functions
     var Temp = function () {
@@ -89,7 +90,7 @@
         inheritor.prototype = new Temp();
         Temp.prototype = null;
         inheritor.prototype.constructor = inheritor;
-    }
+    };
 
     function isArray(o) {
         return Object.prototype.toString.call(o) === "[object Array]";
@@ -349,10 +350,6 @@
         };
     }());
 
-    var Set = function (comparer) {
-
-    };
-
     UnionIterator = function (first, second, eqComparer) {
         var firstIterator = first.getIterator();
         var secondIterator = second.getIterator();
@@ -402,6 +399,10 @@
         this.current = function () {
             return current;
         };
+    };
+
+    ExceptIterator = function (source, other) {
+        var iterator = source.getIterator();
     };
 
     // Collections
