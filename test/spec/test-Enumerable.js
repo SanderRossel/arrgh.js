@@ -382,6 +382,46 @@
 			});
 		});
 
+		describe("except", function () {
+			it("should return elements that are in the source, but not in the other collection", function () {
+				var e = new arrgh.Enumerable(1, 2, 3, 4, 5).except(new arrgh.Enumerable(3, 5));
+				expect(e.toArray()).toEqual([1, 2, 4]);
+			});
+
+			it("should return all elements if the other collection is empty", function () {
+				var e = new arrgh.Enumerable(1, 2, 3, 4, 5).except(arrgh.Enumerable.empty());
+				expect(e.toArray()).toEqual([1, 2, 3, 4, 5]);
+			});
+
+			it("should return no elements if the source is empty", function () {
+				var e = arrgh.Enumerable.empty().except(new arrgh.Enumerable(1, 2));
+				expect(e.toArray()).toEqual([]);
+			});
+
+			it("should return a set with distinct elements", function () {
+				var e = new arrgh.Enumerable(1, 2, 2, 3, 4, 4, 5).except(new arrgh.Enumerable(3, 5, 3));
+				expect(e.toArray()).toEqual([1, 2, 4]);
+			});
+
+			it("should return a set with distinct elements based on an equality comparer", function () {
+				var e = new arrgh.Enumerable(people).except(new arrgh.Enumerable([{
+					first: "Bill",
+					last: "Murray"
+				}, {
+					first: "Bailey",
+					last: null
+				}]), {
+					equals: function (a, b) {
+						return a.first === b.first && a.last === b.last;
+					},
+					getHash: function (obj) {
+						return obj.first + obj.last;
+					}
+				});
+				expect(e.toArray()).toEqual([p0, p2, p4, p5]);
+			});
+		});
+
 		describe("forEach", function () {
 			it("should loop through all people", function () {
 				var arr = [];

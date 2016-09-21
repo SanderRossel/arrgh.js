@@ -90,7 +90,7 @@
         inheritor.prototype = new Temp();
         Temp.prototype = null;
         inheritor.prototype.constructor = inheritor;
-    };
+    }
 
     function isArray(o) {
         return Object.prototype.toString.call(o) === "[object Array]";
@@ -207,6 +207,7 @@
             if (dict.length !== len) {
                 throw new Error("Collection was modified, enumeration operation may not execute.");
             }
+            current = undefined;
             if (!currentKeys || keyIndex == currentKeys.length - 1) {
                 hashIndex += 1;
                 if (hashIndex < dict._.hashes.length) {
@@ -214,8 +215,6 @@
                     currentKeys = dict._.keys[hash];
                     keyIndex = 0;
                     current = currentKeys[keyIndex];
-                } else {
-                    current = null;
                 }
             } else {
                 keyIndex += 1;
@@ -255,12 +254,12 @@
         var current;
         var empty = true;
         this.moveNext = function () {
+            current = undefined;
             if (iterator.moveNext()) {
                 empty = false;
                 current = iterator.current();
                 return true;
-            }
-            else if (empty) {
+            } else if (empty) {
                 empty = false;
                 current = defaultValue;
                 return true;
@@ -277,12 +276,18 @@
 
         var index = -1;
         var iterator = source.getIterator();
+        var next;
         this.moveNext = function () {
             index += 1;
-            return iterator.moveNext();
+            next = iterator.moveNext();
+            return next;
         };
         this.current = function () {
-            return selector(iterator.current(), index);
+            var current;
+            if (next) {
+                current = selector(iterator.current(), index);
+            }
+            return current;
         };
     };
 
@@ -345,7 +350,7 @@
                 return index < len;
             };
             self.current = function () {
-                return arr[index];
+                return arr ? arr[index] : undefined;
             };
         };
     }());
@@ -383,6 +388,7 @@
         };
 
         moveNext = function () {
+            current = undefined;
             if (moveFirst) {
                 moveFirst = move(firstIterator);
                 if (!moveFirst) {
@@ -401,8 +407,30 @@
         };
     };
 
-    ExceptIterator = function (source, other) {
+    ExceptIterator = function (source, other, eqComparer) {
         var iterator = source.getIterator();
+        var d = new Dictionary(eqComparer);
+        other.forEach(function (elem) {
+            if (!d.containsKey(elem)) {
+                d.add(elem);
+            }
+        });
+        var moveNext;
+        moveNext = function () {
+            if (iterator.moveNext()) {
+                if (!d.containsKey(iterator.current())) {
+                    d.add(iterator.current());
+                    return true;
+                } else {
+                    return moveNext();
+                }
+            }
+            return false;
+        };
+        this.moveNext = moveNext;
+        this.current = function () {
+            return iterator.current();
+        };
     };
 
     // Collections
@@ -628,8 +656,20 @@
         return elem;
     };
 
-    enumProto.except = function (other) {
-        //[1, 2, 3].except([3, 4]) == [1, 2];
+    /**
+     * Produces the set difference of two collection.
+     * @function except
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {arrgh.Enumerable} other - A collection whose elements that also occur in the first sequence will cause those elements to be removed from the returned collection.
+     * @param {equals|equalityComparer} [eqComparer=(===)] - A function or object that tests if two elements are equal.
+     * @returns {arrgh.Enumerable} - A collection that contains the set difference of the elements of two collections.
+     */
+    enumProto.except = function (other, eqComparer) {
+        var self = this;
+        return new Enumerable(function () {
+            return new ExceptIterator(self, other, eqComparer);
+        });
     };
 
     /**
@@ -970,8 +1010,8 @@
     };
 
     dictProto.remove = function (key) {
-        var hash = dict._.eqComparer.getHash(key);
-        var elem = this.getKvpByKey(this, hash, key);
+        var hash = this._.eqComparer.getHash(key);
+        var elem = getKvpByKey(this, hash, key);
         var keys = this._.keys[key];
         keys.remove(elem);
         if (!keys.any()) {
