@@ -1,4 +1,4 @@
-(function () {
+var testList = function () {
 	"use strict";
 
 	describe("List", function () {
@@ -141,4 +141,4 @@
 			});
 		});
 	});
-}());
+};

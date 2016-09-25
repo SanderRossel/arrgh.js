@@ -1,4 +1,4 @@
-(function () {
+var testOrderedEnumerable = function () {
 	"use strict";
 
 	describe("OrderedEnumerable", function () {
@@ -77,4 +77,4 @@
 			});
 		});
 	});
-}());
+};

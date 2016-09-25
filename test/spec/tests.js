@@ -46,3 +46,15 @@ var p7 = {
 };
 
 var people = [p0, p1, p2, p3, p4, p5];
+
+(function () {
+	"use strict";
+	describe("arrgh.js tests", function () {
+		testIterators();
+		testList();
+		testDictionary();
+		testEnumerable();
+		testEnumerableUnion();
+		testOrderedEnumerable();
+	});
+}());

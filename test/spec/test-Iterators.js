@@ -1,4 +1,4 @@
-(function () {
+var testIterators = function () {
 	"use strict";
 
 	var test = function (enumerable, getEmptyEnumerable) {
@@ -153,5 +153,15 @@
 				return e.except(arrgh.Enumerable.empty());
 			});
 		});
+
+		describe("- GroupByIterator", function () {
+			test(new arrgh.Enumerable(people).groupBy(function (p) {
+				return p.first;
+			}), function (e) {
+				return e.groupBy(function (p) {
+					return p.first;
+				});
+			});
+		});
 	});
-}());
+};

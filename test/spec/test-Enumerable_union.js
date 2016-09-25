@@ -1,4 +1,4 @@
-(function () {
+var testEnumerableUnion = function () {
 	"use strict";
 
 	describe("unions", function () {
@@ -111,4 +111,4 @@
 			});
 		});
 	});
-}());
+};
