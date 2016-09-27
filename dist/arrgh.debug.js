@@ -51,8 +51,24 @@
      * A function that creates a result value from a group of elements.
      * @callback groupByResultSelector
      * @param {*} key - The key that groups the elements.
-     * @param {arrgh.Enumerable} group - The elements in the group.
+     * @param {grouping} group - The elements in the group.
      * @returns {*} - Returns a result value from a group of elements.
+     */
+
+	/**
+     * A function that creates a result value from a group of elements.
+     * @callback groupJoinResultSelector
+     * @param {*} element - The element that is joined.
+     * @param {grouping} group - The elements that are joined with the element.
+     * @returns {*} - Returns a result value from a group of elements.
+     */
+
+    /**
+     * A function that creates a result value from two elements.
+     * @callback joinResultSelector
+     * @param {*} outer - The element that is joined.
+     * @param {*} inner - The element that is joined with the outer element.
+     * @returns {*} - Returns a result value from two matched elements.
      */
 
     /**
@@ -68,6 +84,13 @@
      * @type {Object}
      * @property {equals} [equals=(===)] - A function that tests if two elements are equal.
      * @property {getHash} [getHash=getHash() || toString()] - A function that computes an element's hash code.
+     */
+
+    /**
+     * A collection of objects that share a common key.
+     * @name grouping
+     * @type {arrgh.Enumerable}
+     * @property {*} key - The key that the elements have in common.
      */
 
     // Collections
@@ -104,6 +127,25 @@
 
     function identity(x) {
     	return x;
+    }
+
+    function compare (a, b) {
+        // Treat undefined and null as
+        // smaller than anything
+        // and equal to each other.
+        if (!isNull(a) && isNull(b)) {
+        	return 1;
+        } else if (isNull(a) && !isNull(b)) {
+        	return -1;
+        } else if (isNull(a) && isNull(b)) {
+        	return 0;
+        } else if (a > b) {
+        	return 1;
+        } else if (a < b) {
+        	return -1;
+        } else {
+        	return 0;
+        }
     }
 
     var defaultEqComparer = {
@@ -158,21 +200,13 @@
     		if (index === 0) {
     			return false;
     		}
-    		if (comparer) {
-    			return comparer(item, head) <= 0;
-    		} else {
-    			return item <= head;
-    		}
+    		return comparer(item, head) <= 0;
     	});
     	var bigger = enumerable.where(function (item, index) {
     		if (index === 0) {
     			return false;
     		}
-    		if (comparer) {
-    			return comparer(item, head) > 0;
-    		} else {
-    			return item > head;
-    		}
+    		return comparer(item, head) > 0;
     	});
 
     	var smallerSorted = qsort(smaller, comparer);
@@ -232,20 +266,25 @@
     	var index = -1;
     	var iterator = source.getIterator();
     	var moveNext;
+    	var current;
     	moveNext = function () {
     		index += 1;
     		if (iterator.moveNext()) {
-    			if (predicate(iterator.current(), index)) {
+    			current = iterator.current();
+    			if (predicate(current, index)) {
     				return true;
     			} else {
     				return moveNext();
     			}
     		} else {
+    			current = undefined;
     			return false;
     		}
     	};
     	this.moveNext = moveNext;
-    	this.current = iterator.current;
+    	this.current = function () {
+    		return current;
+    	};
     };
 
     var DefaultIfEmptyIterator = function (source, defaultValue) {
@@ -299,33 +338,15 @@
     		}
     		return next;
     	};
-    	var compare = function (a, b) {
-            // Treat undefined and null as
-            // smaller than anything
-            // and equal to each other.
-            if (!isNull(a) && isNull(b)) {
-            	return 1;
-            } else if (isNull(a) && !isNull(b)) {
-            	return -1;
-            } else if (isNull(a) && isNull(b)) {
-            	return 0;
-            } else if (a > b) {
-            	return 1;
-            } else if (a < b) {
-            	return -1;
-            } else {
-            	return 0;
-            }
-        };
-        return function (source) {
-        	var self = this;
+    	return function (source) {
+    		var self = this;
 
-        	var arr;
-        	var len;
-        	var index = -1;
-        	self.moveNext = function () {
-        		if (index === -1) {
-        			var parent = getNextSource(source);
+    		var arr;
+    		var len;
+    		var index = -1;
+    		self.moveNext = function () {
+    			if (index === -1) {
+    				var parent = getNextSource(source);
                     // Make sure the source is fully evaluated by calling toArray().
                     arr = qsort(new Enumerable(parent._.source.toArray()), function (x, y) {
                     	var result;
@@ -416,20 +437,23 @@
     		}
     	});
     	var moveNext;
+    	var current;
     	moveNext = function () {
     		if (iterator.moveNext()) {
-    			if (!d.containsKey(iterator.current())) {
-    				d.add(iterator.current());
+    			current = iterator.current();
+    			if (!d.containsKey(current)) {
+    				d.add(current);
     				return true;
     			} else {
     				return moveNext();
     			}
     		}
+    		current = undefined;
     		return false;
     	};
     	this.moveNext = moveNext;
     	this.current = function () {
-    		return iterator.current();
+    		return current;
     	};
     };
 
@@ -470,12 +494,87 @@
 
     	var iterator = source.getIterator();
     	var innerLookup = inner.toLookUp(innerKeySelector, eqComparer);
+    	var moved = false;
 
-    	this.moveNext = iterator.moveNext;
+    	this.moveNext = function () {
+    		moved = iterator.moveNext();
+    		return moved;
+    	};
     	this.current = function () {
+    		if (!moved) {
+    			return undefined;
+    		}
     		var current = iterator.current();
     		var outerKey = outerKeySelector(current);
     		return resultSelector(current, innerLookup.get(outerKey));
+    	};
+    };
+
+    var IntersectIterator = function (source, other, eqComparer) {
+    	var iterator = source.getIterator();
+    	var d = new Dictionary(eqComparer);
+    	other.forEach(function (elem) {
+    		if (!d.containsKey(elem)) {
+    			d.add(elem);
+    		}
+    	});
+    	var moveNext;
+    	var current;
+    	moveNext = function () {
+    		if (iterator.moveNext()) {
+    			current = iterator.current()
+    			if (d.containsKey(current)) {
+    				return d.remove(current);
+    			} else {
+    				return moveNext();
+    			}
+    		}
+    		current = undefined;
+    		return false;
+    	};
+    	this.moveNext = moveNext;
+    	this.current = function () {
+    		return current;
+    	};
+    };
+
+    var JoinIterator = function (source, inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer) {
+    	eqComparer = ensureEqComparer(eqComparer);
+
+    	var outerIterator = source.getIterator();
+    	var innerLookup = inner.toLookUp(innerKeySelector, eqComparer);
+    	var moved;
+    	var innerIterator;
+    	var innerMoved;
+
+    	var outerCurrent;
+    	var innerCurrent;
+    	var moveNext;
+    	moveNext = function () {
+    		if (innerIterator) {
+    			moved = innerIterator.moveNext();
+    			if (moved) {
+    				innerCurrent = innerIterator.current();
+    			} else {
+    				innerIterator = undefined;
+    				moveNext();
+    			}
+    		} else {
+    			moved = outerIterator.moveNext();
+    			if (moved) {
+    				outerCurrent = outerIterator.current();
+    				innerIterator = innerLookup.get(outerKeySelector(outerCurrent)).getIterator();
+    				moveNext();
+    			}
+    		}
+    		return moved;
+    	};
+    	this.moveNext = moveNext;
+    	this.current = function () {
+    		if (!moved) {
+    			return undefined;
+    		}
+    		return resultSelector(outerCurrent, innerCurrent);
     	};
     };
 
@@ -703,7 +802,7 @@
      };
 
     /**
-     * Produces the set difference of two collection.
+     * Produces the set difference of two collections.
      * @function except
      * @memberof arrgh.Enumerable
      * @instance
@@ -740,7 +839,7 @@
      };
 
     /**
-     * Returns the first element in a collection, or the first element that satisfies a condition.
+     * Returns the first element in a collection, or the first element that satisfies a condition.<br />
      * If the element is not found returns a default value.
      * @function firstOrDefault
      * @memberof arrgh.Enumerable
@@ -831,54 +930,171 @@
      	});
      };
 
-     Lookup = function (source, keySelector) {
-     	var d;
-     	Enumerable.call(this, function () {
-     		return new LookupIterator(d);
-     	});
-
-     	var elementSelector;
-     	var eqComparer;
-
-     	if (typeof arguments[2] === "function") {
-     		elementSelector = arguments[2];
-     		eqComparer = arguments[3];
-     	} else {
-     		eqComparer = arguments[2];
-     	}
-     	elementSelector = elementSelector || identity;
-     	eqComparer = ensureEqComparer(eqComparer);
-
-     	d = new Dictionary(eqComparer);
-     	source.forEach(function (elem) {
-     		var key = keySelector(elem);
-     		var element = elementSelector(elem);
-     		if (d.containsKey(key)) {
-     			d.get(key).add(element);
-     		} else {
-     			d.add(key, new List([element]));
-     		}
-     	});
-
-     	this.length = d.length;
-     	this.get = function (key) {
-     		var group = d.get(key).asEnumerable();
-     		group.key = key;
-     		return group;
-     	};
-     	this.containsKey = d.containsKey;
-     };
-     inherit(Lookup, Enumerable);
-
-     enumProto.toLookUp = function (keySelector, elementSelector, eqComparer) {
-     	return new Lookup(this, keySelector, elementSelector, eqComparer);
-     };
-
+	/**
+     * Correlates the elements of two collections based on equality of keys and groups the results.
+     * @param {arrgh.Enumerable} inner - The collection to join with.
+     * @param {keySelector} outerKeySelector - A function that returns the key value from an element of the outer collection.
+     * @param {keySelector} innerKeySelector - A function that returns the key value from an element of the inner collection.
+     * @param {groupJoinResultSelector} resultSelector - A function to create a result value from each group.
+     * @param {equalityComparer} [eqComparer=(===)] - An object that tests if two keys are equal.
+     * @function groupJoin
+     * @memberof arrgh.Enumerable
+     * @instance
+     */
      enumProto.groupJoin = function (inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer) {
      	var self = this;
      	return new Enumerable(function () {
      		return new GroupJoinIterator(self, inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer);
      	});
+     };
+
+    /**
+     * Produces the set intersection of two collections.
+     * @function intersect
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {arrgh.Enumerable} other - A collection whose elements that also occur in the first sequence will cause those elements to be included in the returned collection.
+     * @param {equals|equalityComparer} [eqComparer=(===)] - A function or object that tests if two elements are equal.
+     * @returns {arrgh.Enumerable} - A collection that contains the set intersection of the elements of two collections.
+     */
+     enumProto.intersect = function (other, eqComparer) {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new IntersectIterator(self, other, eqComparer);
+     	});
+     };
+
+	/**
+     * Correlates the elements of two collections based on equality of keys.
+     * @param {arrgh.Enumerable} inner - The collection to join with.
+     * @param {keySelector} outerKeySelector - A function that returns the key value from an element of the outer collection.
+     * @param {keySelector} innerKeySelector - A function that returns the key value from an element of the inner collection.
+     * @param {joinResultSelector} resultSelector - A function to create a result from two matched elements.
+     * @param {equalityComparer} [eqComparer=(===)] - An object that tests if two keys are equal.
+     * @function join
+     * @memberof arrgh.Enumerable
+     * @instance
+     */
+     enumProto.join = function (inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer) {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new JoinIterator(self, inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer);
+     	});
+     };
+
+    /**
+     * Returns the last element in a collection, or the last element that satisfies a condition.
+     * @function last
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {predicate} [predicate] - A function to test each element for a condition.
+     * @returns {*} - Returns the last element of the collection, or the last element that satisfies a condition.
+     * @throws Throws an error if the collection is empty or when no element matches the condition.
+     */
+     enumProto.last = function (predicate) {
+     	if (!this.any()) {
+     		throw new Error("Collection contains no elements.");
+     	}
+     	var def = {};
+     	var elem = this.lastOrDefault(predicate, def);
+     	if (elem === def) {
+     		throw new Error("Collection contains no matching element.");
+     	}
+     	return elem;
+     };
+
+    /**
+     * Returns the last element in a collection, or the last element that satisfies a condition.<br />
+     * If the element is not found returns a default value.
+     * @function lastOrDefault
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {predicate} [predicate] - A function to test each element for a condition.
+     * @param {*} [defaultValue] - The value that is returned when the collection is empty or no element matches the condition.
+     * @returns {*} - Returns the last element of the collection, or the last element that satisfies a condition, or a specified default value.
+     */
+     enumProto.lastOrDefault = function () {
+     	var predicate = typeof arguments[0] === "function" ? arguments[0] : undefined;
+     	var defaultValue = predicate ? arguments[1] : arguments[0];
+     	if (this.any()) {
+     		var last;
+     		var found = false;
+     		this.forEach(function (elem) {
+     			if (predicate) {
+     				if (predicate(elem)) {
+     					last = elem;
+     					found = true;
+     				}
+     			} else {
+     				last = elem;
+     				found = true;
+     			}
+     		});
+     		if (!found) {
+     			return defaultValue;
+     		}
+     		return last;
+     	} else {
+     		return defaultValue;
+     	}
+     };
+
+    /**
+     * Returns the maximum value in a collection.<br />
+     * If values are non numeric results may vary.
+     * @param {selector} [selector] - A function that projects an element into a new form.
+     * @function max
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {*} - Returns the maximum value in the collection.
+     */
+     enumProto.max = function (selector) {
+     	selector = selector || identity;
+     	var max;
+     	var first = true;
+     	this.forEach(function (elem) {
+     		elem = selector(elem);
+     		if (!isNull(elem)) {
+     			if (first) {
+     				first = false;
+     				max = elem;
+     			} else {
+     				if (compare(elem, max) > 0) {
+     					max = elem;
+     				}
+     			}
+     		}
+     	});
+     	return max;
+     };
+
+    /**
+     * Returns the minimum value in a collection.<br />
+     * If values are non numeric results may vary.
+     * @param {selector} [selector] - A function that projects an element into a new form.
+     * @function max
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {*} - Returns the minimum value in the collection.
+     */
+     enumProto.min = function (selector) {
+     	selector = selector || identity;
+     	var min;
+     	var first = true;
+     	this.forEach(function (elem) {
+     		elem = selector(elem);
+     		if (!isNull(elem)) {
+     			if (first) {
+     				first = false;
+     				min = elem;
+     			} else {
+     				if (compare(elem, min) < 0) {
+     					min = elem;
+     				}
+     			}
+     		}
+     	});
+     	return min;
      };
 
     /**
@@ -894,6 +1110,10 @@
      		arr.push(elem);
      	});
      	return arr;
+     };
+
+     enumProto.toLookUp = function (keySelector, elementSelector, eqComparer) {
+     	return new Lookup(this, keySelector, elementSelector, eqComparer);
      };
 
      enumProto.indexOf = function (searchElem, fromIndex) {
@@ -1292,6 +1512,49 @@
      ordProto.thenByDescending = function (keySelector) {
      	return new OrderedEnumerable(this, keySelector, true);
      };
+
+     Lookup = function (source, keySelector) {
+     	var d;
+     	Enumerable.call(this, function () {
+     		return new LookupIterator(d);
+     	});
+
+     	var elementSelector;
+     	var eqComparer;
+
+     	if (typeof arguments[2] === "function") {
+     		elementSelector = arguments[2];
+     		eqComparer = arguments[3];
+     	} else {
+     		eqComparer = arguments[2];
+     	}
+     	elementSelector = elementSelector || identity;
+
+     	d = new Dictionary(ensureEqComparer(eqComparer));
+     	source.forEach(function (elem) {
+     		var key = keySelector(elem);
+     		var element = elementSelector(elem);
+     		if (d.containsKey(key)) {
+     			d.get(key).add(element);
+     		} else {
+     			d.add(key, new List([element]));
+     		}
+     	});
+
+     	this.length = d.length;
+     	this.get = function (key) {
+     		var group;
+     		if (d.containsKey(key)) {
+     			group = d.get(key).asEnumerable();
+     			group.key = key;
+     		} else {
+     			group = new Enumerable();
+     			group.key = key;
+     		}
+     		return group;
+     	};
+     };
+     inherit(Lookup, Enumerable);
 
      return {
      	Enumerable: Enumerable,

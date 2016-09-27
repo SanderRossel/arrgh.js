@@ -47,6 +47,23 @@ var p7 = {
 
 var people = [p0, p1, p2, p3, p4, p5];
 
+var fullNameSelector = function (p) {
+	return p.first + (p.last ? " " + p.last : "");
+};
+
+var firstNameSelector = function (p) {
+	return p.first;
+};
+
+var firstCharEqComparer = {
+	getHash: function (obj) {
+		return obj[0];
+	},
+	equals: function (a, b) {
+		return a[0] === b[0];
+	}
+};
+
 (function () {
 	"use strict";
 	describe("arrgh.js tests", function () {
@@ -54,7 +71,8 @@ var people = [p0, p1, p2, p3, p4, p5];
 		testList();
 		testDictionary();
 		testEnumerable();
-		testEnumerableUnion();
-		testOrderedEnumerable();
+		testEnumerableJoins();
+		testEnumerableOrderings();
+		testEnumerableUnions();
 	});
 }());

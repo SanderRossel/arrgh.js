@@ -1,4 +1,4 @@
-var testEnumerableUnion = function () {
+var testEnumerableUnions = function () {
 	"use strict";
 
 	describe("unions", function () {

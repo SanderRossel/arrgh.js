@@ -117,6 +117,12 @@ var testIterators = function () {
 					return {};
 				});
 			});
+
+			it("should call the selector once, even when the single element is undefined", function () {
+				expect(new arrgh.Enumerable([undefined]).select(function () {
+					return true;
+				}).toArray()).toEqual([true]);
+			});
 		});
 
 		describe("- DefaultIfEmptyIterator", function () {
@@ -161,6 +167,47 @@ var testIterators = function () {
 				return e.groupBy(function (p) {
 					return p.first;
 				});
+			});
+		});
+
+		describe("- GroupJoinIterator", function () {
+			var firstSelector = function (p) {
+				return p.first;
+			};
+			test(new arrgh.Enumerable(people).groupJoin(new arrgh.Enumerable(people), firstSelector, firstSelector, function (p, ppl) {
+				return { p: p, ppl: ppl };
+			}), function (e) {
+				return e.groupJoin(arrgh.Enumerable.empty(), firstSelector, firstSelector);
+			});
+
+			it("should loop once even when there is only a single undefined", function () {
+				var looped = false;
+				var r = new arrgh.Enumerable([undefined]).groupJoin(new arrgh.Enumerable(["bla"]), function () {
+					looped = true;
+					return true;
+				}, function () {
+					return true;
+				}, function (key, group) {
+					return { key: key, group: group };
+				}).toArray();
+				expect(looped).toBe(true);
+			});
+		});
+
+		describe("- IntersectIterator", function () {
+			test(new arrgh.Enumerable(1, 2, 3, 4, 4, 5, 6, 7).intersect(new arrgh.Enumerable(1, 2, 6, 7)), function (e) {
+				return e.except(arrgh.Enumerable.empty());
+			});
+		});
+
+		describe("- JoinIterator", function () {
+			var firstSelector = function (p) {
+				return p.first;
+			};
+			test(new arrgh.Enumerable(people).join(new arrgh.Enumerable(people), firstSelector, firstSelector, function (p1, p2) {
+				return { p1: p1, p2: p2 };
+			}), function (e) {
+				return e.join(new arrgh.Enumerable(people), firstSelector, firstSelector);
 			});
 		});
 	});
