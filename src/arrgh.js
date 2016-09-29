@@ -40,6 +40,14 @@
      */
 
     /**
+     * A function that tests if an object is smaller than, greater than or equal to another object.
+     * @callback compare
+     * @param {*} x - The element to compare to another element.
+     * @param {*} y - The element to compare to.
+     * @returns {Number} - Returns a negative value if the first object is smaller, a positive value if the first object is greater and 0 if both objects are equal.
+     */
+
+    /**
      * A function that tests if two elements are equal.
      * @callback equals
      * @param {*} x - The element to test for equality.
@@ -129,19 +137,25 @@
     	return x;
     }
 
-    function compare (a, b) {
-        // Treat undefined and null as
-        // smaller than anything
-        // and equal to each other.
-        if (!isNull(a) && isNull(b)) {
+    function defaultCompare (x, y) {
+        // Treat undefined as smaller than null
+        // and both as smaller than anything else.
+        var noVal = function (a, b, val) {
+        	if (a !== val && b === val) {
+        		return 1;
+        	} else if (a === val && b !== val) {
+        		return -1;
+        	} else {
+        		return 0;
+        	}
+        };
+        if (isNull(x) || isNull(y)) {
+        	return noVal(x, y, undefined) || noVal(x, y, null);
+        }
+
+        if (x > y) {
         	return 1;
-        } else if (isNull(a) && !isNull(b)) {
-        	return -1;
-        } else if (isNull(a) && isNull(b)) {
-        	return 0;
-        } else if (a > b) {
-        	return 1;
-        } else if (a < b) {
+        } else if (x < y) {
         	return -1;
         } else {
         	return 0;
@@ -190,7 +204,7 @@
     	return fullEqComparer;
     }
 
-    function qsort(enumerable, comparer) {
+    function qsort(enumerable, compare) {
     	if (enumerable.count() < 2) {
     		return enumerable;
     	}
@@ -200,17 +214,17 @@
     		if (index === 0) {
     			return false;
     		}
-    		return comparer(item, head) <= 0;
+    		return compare(item, head) <= 0;
     	});
     	var bigger = enumerable.where(function (item, index) {
     		if (index === 0) {
     			return false;
     		}
-    		return comparer(item, head) > 0;
+    		return compare(item, head) > 0;
     	});
 
-    	var smallerSorted = qsort(smaller, comparer);
-    	var biggerSorted = qsort(bigger, comparer);
+    	var smallerSorted = qsort(smaller, compare);
+    	var biggerSorted = qsort(bigger, compare);
     	return smallerSorted.unionAll(new Enumerable([head])).unionAll(biggerSorted);
     }
 
@@ -353,7 +367,7 @@
                     	var cont = true;
                     	var currentSource = parent;
                     	while (cont) {
-                    		result = compare(currentSource._.keySelector(x), currentSource._.keySelector(y)) * currentSource._.descending;
+                    		result = currentSource._.compare(currentSource._.keySelector(x), currentSource._.keySelector(y)) * currentSource._.descending;
                     		if (result !== 0) {
                     			break;
                     		}
@@ -578,6 +592,24 @@
     	};
     };
 
+    var RangeIterator = function (start, count) {
+    	count = isNull(count) ? Number.MAX_SAFE_INTEGER - start + 1 : count;
+    	if (count < 0) {
+    		throw new Error("Count cannot be lower than 0.");
+    	}
+    	var index = -1;
+    	this.moveNext = function () {
+    		index += 1;
+    		return isNull(count) || index !== count;
+    	};
+    	this.current = function () {
+    		if (index === -1 || index === count) {
+    			return undefined;
+    		}
+    		return start + index;
+    	};
+    };
+
     // Collections
     /**
      * Represents the base class for any collection.
@@ -600,11 +632,6 @@
      	} else {
      		this.getIterator = iterable;
      	}
-     };
-
-     var empty = new Enumerable();
-     Enumerable.empty = function () {
-     	return empty;
      };
 
      var enumProto = Enumerable.prototype;
@@ -799,6 +826,18 @@
      		return defaultValue;
      	}
      	return elem;
+     };
+
+     var empty = new Enumerable();
+     /**
+     * Returns an empty singleton instance of enumerable.
+     * @function empty
+     * @memberof arrgh.Enumerable
+     * @static
+     * @returns {arrgh.Enumerable} - An empty singleton collection.
+     */
+     Enumerable.empty = function () {
+     	return empty;
      };
 
     /**
@@ -1059,7 +1098,7 @@
      				first = false;
      				max = elem;
      			} else {
-     				if (compare(elem, max) > 0) {
+     				if (defaultCompare(elem, max) > 0) {
      					max = elem;
      				}
      			}
@@ -1088,13 +1127,107 @@
      				first = false;
      				min = elem;
      			} else {
-     				if (compare(elem, min) < 0) {
+     				if (defaultCompare(elem, min) < 0) {
      					min = elem;
      				}
      			}
      		}
      	});
      	return min;
+     };
+
+    /**
+     * Filters elements based on a specified type (constructor).<br />
+     * Object and null do not evaluate to the same type and neither do undefined and null.
+     * @param {*|undefined|null} type - The constructor of a type or undefined or null.
+     * @function ofType
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Enumerable} - Returns a collection containing only values that are of the specified type.
+     */
+     enumProto.ofType = function (type) {
+     	var typeName;
+     	var getType;
+     	switch (type)
+     	{
+     		case Boolean: {
+     			typeName = typeof true;
+     			break;
+     		} case Number: {
+     			typeName = typeof 0;
+     			break;
+     		} case String: {
+     			typeName = typeof "";
+     			break;
+     		} case Function: {
+     			typeName = typeof function () { return; };
+     			break;
+     		} case Object: {
+     			typeName = typeof {};
+     			getType = function (elem) {
+     				return elem && typeof elem === typeName;
+     			};
+     			break;
+     		} case undefined: {
+     			typeName = typeof undefined;
+     			break;
+     		} case null: {
+     			getType = function (elem) {
+     				return elem === null;
+     			};
+     			break;
+     		} default: {
+     			getType = function (elem) {
+     				return elem instanceof type;
+     			};
+     			break;
+     		}
+     	}
+     	var getType = getType || function (elem) {
+     		return typeof elem === typeName;
+     	};
+     	return this.where(getType);
+     };
+
+    /**
+     * Sorts the elements of a sequence in ascending order according to a key.
+     * @function orderBy
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {keySelector} keySelector - A function to extract a key from an element.
+     * @param {compare} [compare] - A function that tests if an object is smaller than, greater than or equal to another object.
+     * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
+     */
+     enumProto.orderBy = function (keySelector, compare) {
+     	return new OrderedEnumerable(this, keySelector, compare, false);
+     };
+
+    /**
+     * Sorts the elements of a sequence in descending order according to a key.
+     * @function orderByDescending
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {keySelector} keySelector - A function to extract a key from an element.
+     * @param {compare} [compare] - A function that tests if an object is smaller than, greater than or equal to another object.
+     * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
+     */
+     enumProto.orderByDescending = function (keySelector, compare) {
+     	return new OrderedEnumerable(this, keySelector, compare, true);
+     };
+
+     /**
+     * Generates a collection of integral numbers within a specified range.
+     * @function empty
+     * @memberof arrgh.Enumerable
+     * @static
+     * @param {Number} start - The value of the first integer in the collection.
+     * @param {Number} [count=Number.MAX_SAFE_INTEGER] - The number of sequential integers to generate.
+     * @returns {arrgh.Enumerable} - A collection that contains a range of sequential integral numbers.
+     */
+     Enumerable.range = function (start, count) {
+     	return new Enumerable(function () {
+     		return new RangeIterator(start, count);
+     	});
      };
 
     /**
@@ -1202,30 +1335,6 @@
      		d.add(keySelector(elem), valueSelector(elem));
      	});
      	return d;
-     };
-
-    /**
-     * Sorts the elements of a sequence in ascending order according to a key.
-     * @function orderBy
-     * @memberof arrgh.Enumerable
-     * @instance
-     * @param {keySelector} keySelector - A function to extract a key from an element.
-     * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
-     */
-     enumProto.orderBy = function (keySelector) {
-     	return new OrderedEnumerable(this, keySelector, false);
-     };
-
-    /**
-     * Sorts the elements of a sequence in descending order according to a key.
-     * @function orderByDescending
-     * @memberof arrgh.Enumerable
-     * @instance
-     * @param {keySelector} keySelector - A function to extract a key from an element.
-     * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
-     */
-     enumProto.orderByDescending = function (keySelector) {
-     	return new OrderedEnumerable(this, keySelector, true);
      };
 
     /**
@@ -1472,9 +1581,10 @@
      * @constructor
      * @param {arrgh.Enumerable} source - The collection that needs to be sorted.
      * @param {keySelector} keySelector - A function to extract the key from an element.
+     * @param {compare} [compare] - A function that tests if an object is smaller than, greater than or equal to another object.
      * @param {Boolean} descending - Indicated wheter the collection needs to be sorted ascending or descending.
      */
-     OrderedEnumerable = function (source, keySelector, descending) {
+     OrderedEnumerable = function (source, keySelector, compare, descending) {
      	var self = this;
      	Enumerable.call(this, function () {
      		return new OrderedIterator(self);
@@ -1482,6 +1592,7 @@
      	self._ = {
      		source: source,
      		keySelector: keySelector || identity,
+     		compare: compare || defaultCompare,
      		descending: descending ? -1 : 1
      	};
      };
@@ -1495,10 +1606,11 @@
      * @memberof arrgh.OrderedEnumerable
      * @instance
      * @param {keySelector} keySelector - A function to extract a key from an element.
+     * @param {compare} [compare] - A function that tests if an object is smaller than, greater than or equal to another object.
      * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
      */
-     ordProto.thenBy = function (keySelector) {
-     	return new OrderedEnumerable(this, keySelector, false);
+     ordProto.thenBy = function (keySelector, compare) {
+     	return new OrderedEnumerable(this, keySelector, compare, false);
      };
 
     /**
@@ -1507,10 +1619,11 @@
      * @memberof arrgh.OrderedEnumerable
      * @instance
      * @param {keySelector} keySelector - A function to extract a key from an element.
+     * @param {compare} [compare] - A function that tests if an object is smaller than, greater than or equal to another object.
      * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
      */
-     ordProto.thenByDescending = function (keySelector) {
-     	return new OrderedEnumerable(this, keySelector, true);
+     ordProto.thenByDescending = function (keySelector, compare) {
+     	return new OrderedEnumerable(this, keySelector, compare, true);
      };
 
      Lookup = function (source, keySelector) {

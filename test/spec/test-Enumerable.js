@@ -822,6 +822,48 @@ var testEnumerable = function () {
 			});
 		});
 
+		describe("typeof", function () {
+			var f1 = function () { return 42; };
+			var f2 = function (arg1, arg2) { return "Hi"; };
+			var o1 = { greet: "Hello" };
+			var o2 = new Object();
+			var e1 = new arrgh.Enumerable();
+
+			var allTypes = new arrgh.Enumerable([true, 42, "Hello", f1, o1, undefined, null, e1,
+				false, 666, "Bye", f2, o2, null, undefined, arrgh.Enumerable.empty(), true]);
+			it("should return only booleans", function () {
+				expect(allTypes.ofType(Boolean).toArray()).toEqual([true, false, true]);
+			});
+
+			it("should return only numbers", function () {
+				expect(allTypes.ofType(Number).toArray()).toEqual([42, 666]);
+			});
+
+			it("should return only strings", function () {
+				expect(allTypes.ofType(String).toArray()).toEqual(["Hello", "Bye"]);
+			});
+
+			it("should return only functions", function () {
+				expect(allTypes.ofType(Function).toArray()).toEqual([f1, f2]);
+			});
+
+			it("should return only objects", function () {
+				expect(allTypes.ofType(Object).toArray()).toEqual([o1, e1, o2, arrgh.Enumerable.empty()]);
+			});
+
+			it("should return only undefineds", function () {
+				expect(allTypes.ofType(undefined).toArray()).toEqual([undefined, undefined]);
+			});
+
+			it("should return only nulls", function () {
+				expect(allTypes.ofType(null).toArray()).toEqual([null, null]);
+			});
+
+			it("should return only enumerables", function () {
+				expect(allTypes.ofType(arrgh.Enumerable).toArray()).toEqual([e1, arrgh.Enumerable.empty()]);
+			});
+		});
+
 		describe("where", function () {
 			it("should contain only Bills", function () {
 				var arr = new arrgh.Enumerable(people).where(function (person) {

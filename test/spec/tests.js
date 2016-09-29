@@ -70,6 +70,7 @@ var firstCharEqComparer = {
 		testIterators();
 		testList();
 		testDictionary();
+		testEnumerableStatics();
 		testEnumerable();
 		testEnumerableJoins();
 		testEnumerableOrderings();

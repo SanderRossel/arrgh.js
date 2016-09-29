@@ -8,7 +8,7 @@ var testIterators = function () {
 				expect(iterator.current()).toBe(undefined);
 			});
 
-			it("moveNext should remove false when it's empty", function () {
+			it("moveNext should return false when it's empty", function () {
 				var iterator = getEmptyEnumerable(arrgh.Enumerable.empty()).getIterator();
 				expect(iterator.moveNext()).toBe(false);
 			});
@@ -208,6 +208,12 @@ var testIterators = function () {
 				return { p1: p1, p2: p2 };
 			}), function (e) {
 				return e.join(new arrgh.Enumerable(people), firstSelector, firstSelector);
+			});
+		});
+
+		describe("- RangeIterator", function () {
+			test(arrgh.Enumerable.range(0, 10), function (e) {
+				return arrgh.Enumerable.range(0, 0);
 			});
 		});
 	});
