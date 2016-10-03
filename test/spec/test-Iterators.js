@@ -211,9 +211,49 @@ var testIterators = function () {
 			});
 		});
 
-		describe("- RangeIterator", function () {
+		describe("- RangeCountIterator", function () {
 			test(arrgh.Enumerable.range(0, 10), function (e) {
 				return arrgh.Enumerable.range(0, 0);
+			});
+		});
+
+		describe("- RangeIterator", function () {
+			test(arrgh.Enumerable.range(MAX_SAFE_INTEGER - 5), function (e) {
+				return arrgh.Enumerable.range(MAX_SAFE_INTEGER + 1);
+			});
+		});
+
+		describe("- RepeatIterator", function () {
+			test(arrgh.Enumerable.repeat("Hello", 5), function (e) {
+				return arrgh.Enumerable.repeat("Hello", 0);
+			});
+		});
+
+		describe("- ReverseIterator", function () {
+			test(new arrgh.Enumerable(1, 2, 3, 4, 5).reverse(), function (e) {
+				return e.reverse();
+			});
+		});
+
+		describe(" - SelectManyIterator", function () {
+			test(new arrgh.Enumerable(p0, p1, p4).selectMany(hobbiesSelector), function (e) {
+				return e.selectMany();
+			});
+		});
+
+		describe(" - SkipIterator", function () {
+			test(new arrgh.Enumerable(1, 2, 3, 4, 5).skip(3), function (e) {
+				return e.skip(3);
+			});
+		});
+
+		describe(" - SkipWhileIterator", function () {
+			test(new arrgh.Enumerable(1, 2, 3, 4, 5).skipWhile(function (elem) {
+				return elem < 3;
+			}), function (e) {
+				return e.skipWhile(function () {
+					return false;
+				});
 			});
 		});
 	});

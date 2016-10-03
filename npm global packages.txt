@@ -1,0 +1,6 @@
+To build arrgh.js (run automated tests, generate documentation, minify, etc.) the following global packages are required:
+gulp
+jsdoc
+karma-cli
+
+When these are installed the run_gulp script should execute succesfully.

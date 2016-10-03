@@ -10,13 +10,13 @@ gulp.task('clean', function() {
   return del(['dist/', 'docs/']);
 });
 
-gulp.task('lint', function() {
+gulp.task('lint-src', function() {
   return gulp.src('src/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('lint', function() {
+gulp.task('lint-tests', function() {
   return gulp.src('tests/spec/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
@@ -46,8 +46,8 @@ gulp.task('doc', shell.task([
 	'jsdoc src/arrgh.js -d docs'
 ]));
 
-gulp.watch(['*.js', 'src/*.js'], ['lint', 'compress', 'doc']);
+gulp.watch(['*.js', 'src/*.js'], ['lint-src', 'lint-tests', 'compress', 'doc']);
 
 gulp.task('default', ['clean'], function() {
-  gulp.start('lint', 'test', 'compress', 'doc');
+  gulp.start('lint-src', 'lint-tests', 'test', 'compress', 'doc');
 });

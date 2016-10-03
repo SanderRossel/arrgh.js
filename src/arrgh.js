@@ -6,6 +6,15 @@
 
     // Global types.
 
+	/**
+     * An accumulator function.
+     *
+     * @callback accumulator
+     * @param {*} aggregate - The current aggregate.
+     * @param {*} element - An item that should be aggregated to the aggregate.
+     * @returns {*} - Returns the new aggregate.
+     */
+
     /**
      * A function that is applied to each element in an enumerable.
      *
@@ -23,12 +32,39 @@
      * @returns {Boolean} - Returns whether the current element satisfies the condition.
      */
 
-     /**
+    /**
+     * A function to test each element for a condition.
+     *
+     * @callback indexPredicate
+     * @param {*} element - The element to test for a condition.
+     * @param {Number} [index] - The index of the current element.
+     * @returns {Boolean} - Returns whether the current element satisfies the condition.
+     */
+
+    /**
      * A function that projects an element into a new form.
      *
      * @callback selector
      * @param {*} element - The element to project into a new form.
      * @returns {*} - A projection of the current element.
+     */
+
+    /**
+     * A function that projects an element into a new form.
+     *
+     * @callback indexSelector
+     * @param {*} element - The element to project into a new form.
+     * @param {Number} [index] - The index of the current element.
+     * @returns {*} - A projection of the current element.
+     */
+
+    /**
+     * A function that projects an element into a collection.
+     *
+     * @callback collectionSelector
+     * @param {*} element - The element to project into a collection.
+     * @param {Number} [index] - The index of the current element.
+     * @returns {Array|String|arrgh.Enumerable} - A collection obtained from the current element.
      */
 
     /**
@@ -80,6 +116,14 @@
      */
 
     /**
+     * A function that creates a result value from each element in the intermediate collection.
+     * @callback selectManyResultSelector
+     * @param {*} element - The element whose collection is processed.
+     * @param {*} intermediate - The current element of the intermediate collection.
+     * @returns {*} - Returns a result value from an intermediate element.
+     */
+
+    /**
      * Returns a hash code for the specified object.
      * @callback getHash
      * @param {*} obj - The object for which a hash code is to be returned.
@@ -107,6 +151,8 @@
     var Dictionary;
     var OrderedEnumerable;
     var Lookup;
+
+    var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
 
     // Helper functions
     var Temp = function () {
@@ -149,6 +195,7 @@
         		return 0;
         	}
         };
+
         if (isNull(x) || isNull(y)) {
         	return noVal(x, y, undefined) || noVal(x, y, null);
         }
@@ -173,9 +220,9 @@
     		} else if (obj === undefined) {
     			hash = "undefined";
     		} else {
-    			hash = typeof obj.getHash === "function"
-    			? obj.getHash()
-    			: (typeof obj.toString === "function" ? obj.toString() : Object.prototype.toString.call(obj));
+    			hash = typeof obj.getHash === "function" ?
+    			obj.getHash() :
+    			(typeof obj.toString === "function" ? obj.toString() : Object.prototype.toString.call(obj));
     		}
     		return hash;
     	}
@@ -226,6 +273,61 @@
     	var smallerSorted = qsort(smaller, compare);
     	var biggerSorted = qsort(bigger, compare);
     	return smallerSorted.unionAll(new Enumerable([head])).unionAll(biggerSorted);
+    }
+
+    function findElem (collection, predicate, xOrDefault) {
+    	if (!collection.any()) {
+    		throw new Error("Collection contains no elements.");
+    	}
+    	var def = {};
+    	var elem = xOrDefault(predicate, def);
+    	if (elem === def) {
+    		throw new Error("Collection contains no matching element.");
+    	}
+    	return elem;
+    }
+
+    function findOrDefault (collection, onFound) {
+    	var predicate = typeof arguments[2] === "function" ? arguments[2] : undefined;
+    	var defaultValue = predicate ? arguments[3] : arguments[2];
+    	if (collection.any()) {
+    		var context = {
+    			found: false,
+    			elem: undefined
+    		};
+    		collection.forEach(function (elem) {
+    			if (predicate) {
+    				if (predicate(elem)) {
+    					return onFound(context, elem);
+    				}
+    			} else {
+    				return onFound(context, elem);
+    			}
+    		});
+    		if (!context.found) {
+    			return defaultValue;
+    		}
+    		return context.elem;
+    	} else {
+    		return defaultValue;
+    	}
+    }
+
+    function sumCount (collection, selector, calculator) {
+    	selector = selector || identity;
+
+    	var sum = 0;
+    	var count = 0;
+    	collection.forEach(function (elem) {
+    		sum += +selector(elem);
+    		count += 1;
+    	});
+
+    	if (count === 0) {
+    		throw new Error("Collection contains no elements.");
+    	}
+
+    	return calculator(sum, count);
     }
 
     // Iterators
@@ -282,6 +384,7 @@
     	var moveNext;
     	var current;
     	moveNext = function () {
+    		current = undefined;
     		index += 1;
     		if (iterator.moveNext()) {
     			current = iterator.current();
@@ -290,10 +393,8 @@
     			} else {
     				return moveNext();
     			}
-    		} else {
-    			current = undefined;
-    			return false;
     		}
+    		return false;
     	};
     	this.moveNext = moveNext;
     	this.current = function () {
@@ -536,7 +637,7 @@
     	var current;
     	moveNext = function () {
     		if (iterator.moveNext()) {
-    			current = iterator.current()
+    			current = iterator.current();
     			if (d.containsKey(current)) {
     				return d.remove(current);
     			} else {
@@ -592,15 +693,11 @@
     	};
     };
 
-    var RangeIterator = function (start, count) {
-    	count = isNull(count) ? Number.MAX_SAFE_INTEGER - start + 1 : count;
-    	if (count < 0) {
-    		throw new Error("Count cannot be lower than 0.");
-    	}
+    var RangeCountIterator = function (start, count) {
     	var index = -1;
     	this.moveNext = function () {
     		index += 1;
-    		return isNull(count) || index !== count;
+    		return index !== count;
     	};
     	this.current = function () {
     		if (index === -1 || index === count) {
@@ -610,12 +707,143 @@
     	};
     };
 
+    var RangeIterator = function (start) {
+    	var moved = false;
+    	this.moveNext = function () {
+    		if (!moved) {
+    			moved = true;
+    		} else {
+    			start += 1;
+    		}
+    		return start <= MAX_SAFE_INTEGER;
+    	};
+    	this.current = function () {
+    		if (!moved || start > MAX_SAFE_INTEGER) {
+    			return undefined;
+    		}
+    		return start;
+    	};
+    };
+
+    var RepeatIterator = function (element, count) {
+    	var index = -1;
+    	this.moveNext = function () {
+    		index += 1;
+    		return index !== count;
+    	};
+    	this.current = function () {
+    		if (index === -1 || index === count) {
+    			return undefined;
+    		}
+    		return element;
+    	};
+    };
+
+    var ReverseIterator = function (source) {
+    	var list = new List(source);
+    	var length = list.length;
+    	var index = length;
+    	this.moveNext = function () {
+    		index -= 1;
+    		return index >= 0;
+    	};
+    	this.current = function () {
+    		if (index === length) {
+    			return undefined;
+    		}
+    		return list.get(index);
+    	};
+    };
+
+    var SelectManyIterator = function (source, collectionSelector, resultSelector) {
+    	var iterator = source.getIterator();
+    	var innerIterator;
+    	var outerCurrent;
+    	var current;
+    	var index = -1;
+    	var moveNext;
+    	moveNext = function () {
+    		current = undefined;
+    		if (innerIterator) {
+    			if (innerIterator.moveNext()) {
+    				if (resultSelector) {
+    					current = resultSelector(outerCurrent, innerIterator.current());
+    				} else {
+    					current = innerIterator.current();
+    				}
+    				return true;
+    			} else {
+    				innerIterator = null;
+    				return moveNext();
+    			}
+    		} else {
+    			if (iterator.moveNext()) {
+    				index += 1;
+    				outerCurrent = iterator.current();
+    				innerIterator = new Enumerable(collectionSelector(outerCurrent, index)).getIterator();
+    				return moveNext();
+    			}
+    		}
+    		return false;
+    	};
+    	this.moveNext = moveNext;
+    	this.current = function () {
+    		return current;
+    	};
+    };
+
+    var SkipIterator = function (source, count) {
+    	var iterator = source.getIterator();
+    	var skipped = 0;
+    	this.moveNext = function () {
+    		while (skipped < count) {
+    			skipped += 1;
+    			if (!iterator.moveNext()) {
+    				return false;
+    			}
+    		}
+    		return iterator.moveNext();
+    	};
+    	this.current = function () {
+    		return iterator.current();
+    	};
+    };
+
+    var SkipWhileIterator = function (source, predicate) {
+    	var iterator = source.getIterator();
+    	var index = -1;
+    	var current;
+    	var skipped = false;
+    	this.moveNext = function () {
+    		current = undefined;
+    		while (!skipped) {
+    			index += 1;
+    			if (iterator.moveNext()) {
+    				current = iterator.current();
+    				if (!predicate(current, index)) {
+    					skipped = true;
+    					return true;
+    				}
+    			} else {
+    				skipped = true;
+    				return false;
+    			}
+    		}
+    		var next = iterator.moveNext();
+    		current = iterator.current();
+    		return next;
+    	};
+    	this.current = function () {
+    		return current;
+    	};
+    };
+
     // Collections
     /**
      * Represents the base class for any collection.
      * @memberof arrgh
      * @constructor
-     * @param {(array|function)} [iterator=[]] - An array to iterate over or a function that returns an iterator.
+     * @param {(Array|String|arrgh.Enumerable|Function)} [iterator=[]] - An array, string or enumerable to iterate over or a function that returns an iterator.
      */
      Enumerable = function () {
      	var iterable;
@@ -625,16 +853,65 @@
      		iterable = arguments[0] || [];
      	}
 
-     	if (isArray(iterable)) {
+     	if (isArray(iterable) || typeof iterable === "string") {
      		this.getIterator = function () {
      			return new ArrayIterator(iterable);
      		};
-     	} else {
+     	} else if (iterable.getIterator) {
+     		this.getIterator = iterable.getIterator;
+     	} else if (typeof iterable === "function") {
      		this.getIterator = iterable;
+     	} else {
+     		throw new Error("The input parameter for Enumerable was not valid.");
      	}
      };
 
      var enumProto = Enumerable.prototype;
+
+     var aggregate = function (source, aggregator) {
+     	var iterator = source.getIterator();
+     	if (!iterator.moveNext()) {
+     		throw new Error("Collection contains no elements.");
+     	}
+     	var accumulate = iterator.current();
+     	while (iterator.moveNext()) {
+     		accumulate = aggregator(accumulate, iterator.current());
+     	}
+     	return accumulate;
+     };
+
+     var aggregateSeed = function (source, seed, aggregator, resultSelector) {
+     	resultSelector = resultSelector || identity;
+     	var accumulate = seed;
+     	var loopedOnce = false;
+     	source.forEach(function (elem) {
+     		loopedOnce = true;
+     		accumulate = aggregator(accumulate, elem);
+     	});
+     	if (!loopedOnce) {
+     		throw new Error("Collection contains no elements.");
+     	}
+     	return resultSelector(accumulate);
+     };
+
+    /**
+     * Determines whether all elements of the collection satisfy a condition.<br />
+     * When a result selector is passed to the function a seed should also be specified.
+     * @param {*} [seed] - The initial accumulator value (mandatory if a result selector is specified).
+     * @param {accumulator} accumulator - An accumulator function to be invoked on each element.
+     * @param {selector} [resultSelector] - A function to transform the final accumulator value into the result value.
+     * @function aggregate
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {*} - The final accumulator value.
+     */
+     enumProto.aggregate = function () {
+     	if (arguments.length > 1) {
+     		return aggregateSeed(this, arguments[0], arguments[1], arguments[2]);
+     	} else {
+     		return aggregate(this, arguments[0]);
+     	}
+     };
 
     /**
      * Determines whether all elements of the collection satisfy a condition.
@@ -664,9 +941,9 @@
      */
      enumProto.any = function (predicate) {
      	var any = false;
-     	this.forEach(function (elem) {
+     	this.forEach(function (elem, index) {
      		if (predicate) {
-     			any = predicate(elem);
+     			any = predicate(elem, index);
      			return !any;
      		} else {
      			any = true;
@@ -687,9 +964,20 @@
      */
      enumProto.some = enumProto.any;
 
+     /**
+     * Returns the input typed as Enumerable.
+     * @function asEnumerable
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Enumerable} - The input collection as Enumerable.
+     */
+     enumProto.asEnumerable = function () {
+     	return new Enumerable(this.getIterator);
+     };
+
     /**
      * Computes the average of a collection of values.<br />
-     * If values are not numerics the result may be NaN or something unexpected (e.g. "2" + 2 will results in an average of 11 ("2" + 2 = 22, 22 / 2 = 11)).
+     * Values are converted to numerics, but if this fails unexpected averages may occur.
      * @param {selector} [selector] - A function that projects an element into a new form.
      * @function average
      * @memberof arrgh.Enumerable
@@ -698,20 +986,9 @@
      * @throws Throws an error if the collection contains no elements.
      */
      enumProto.average = function (selector) {
-     	selector = selector || identity;
-
-     	var sum = 0;
-     	var count = 0;
-     	this.forEach(function (elem) {
-     		sum += selector(elem);
-     		count += 1;
+     	return sumCount(this, selector, function (sum, count) {
+     		return sum / count;
      	});
-
-     	if (count === 0) {
-     		throw new Error("Collection contains no elements.");
-     	}
-
-     	return sum / count;
      };
 
     /**
@@ -866,15 +1143,7 @@
      * @throws Throws an error if the collection is empty or when no element matches the condition.
      */
      enumProto.first = function (predicate) {
-     	if (!this.any()) {
-     		throw new Error("Collection contains no elements.");
-     	}
-     	var def = {};
-     	var elem = this.firstOrDefault(predicate, def);
-     	if (elem === def) {
-     		throw new Error("Collection contains no matching element.");
-     	}
-     	return elem;
+     	return findElem(this, predicate, this.firstOrDefault.bind(this));
      };
 
     /**
@@ -888,31 +1157,11 @@
      * @returns {*} - Returns the first element of the collection, or the first element that satisfies a condition, or a specified default value.
      */
      enumProto.firstOrDefault = function () {
-     	var predicate = typeof arguments[0] === "function" ? arguments[0] : undefined;
-     	var defaultValue = predicate ? arguments[1] : arguments[0];
-     	if (this.any()) {
-     		var first;
-     		var found = false;
-     		this.forEach(function (elem) {
-     			if (predicate) {
-     				if (predicate(elem)) {
-     					first = elem;
-     					found = true;
-     					return false;
-     				}
-     			} else {
-     				first = elem;
-     				found = true;
-     				return false;
-     			}
-     		});
-     		if (!found) {
-     			return defaultValue;
-     		}
-     		return first;
-     	} else {
-     		return defaultValue;
-     	}
+     	return findOrDefault(this, function (context, foundElem) {
+     		context.elem = foundElem;
+     		context.found = true;
+     		return false;
+     	}, arguments[0], arguments[1]);
      };
 
     /**
@@ -941,6 +1190,7 @@
      * @function groupBy
      * @memberof arrgh.Enumerable
      * @instance
+     * @arrgh.Enumerable - A collection where each object contains a collection of objects and a key.
      */
      enumProto.groupBy = function (keySelector) {
      	var elementSelector;
@@ -979,12 +1229,34 @@
      * @function groupJoin
      * @memberof arrgh.Enumerable
      * @instance
+     * @returns {arrgh.Enumerable} - A collection that contains elements that are obtained by performing a grouped join on two collections.
      */
      enumProto.groupJoin = function (inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer) {
      	var self = this;
      	return new Enumerable(function () {
      		return new GroupJoinIterator(self, inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer);
      	});
+     };
+
+	/**
+     * Finds the first index at which a given element can be found in the collection, or -1 if it is not present.
+     * @param {*} searchElem - The element to locate in the collection.
+     * @param {Number} [fromIndex=0] - The index to start the search at.
+     * @function indexOf
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {Number} - The first index of the element in the array or -1 if not found.
+     */
+     enumProto.indexOf = function (searchElem, fromIndex) {
+     	fromIndex = fromIndex || 0;
+     	var foundIndex = -1;
+     	this.forEach(function (elem, index) {
+     		if (index >= fromIndex && searchElem === elem) {
+     			foundIndex = index;
+     			return false;
+     		}
+     	});
+     	return foundIndex;
      };
 
     /**
@@ -1013,6 +1285,7 @@
      * @function join
      * @memberof arrgh.Enumerable
      * @instance
+     * returns {arrgh.Enumerable} - A collection that has elements that are obtained by performing an inner join on two collections.
      */
      enumProto.join = function (inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer) {
      	var self = this;
@@ -1028,18 +1301,10 @@
      * @instance
      * @param {predicate} [predicate] - A function to test each element for a condition.
      * @returns {*} - Returns the last element of the collection, or the last element that satisfies a condition.
-     * @throws Throws an error if the collection is empty or when no element matches the condition.
+     * @throws Throws an error when the collection is empty or when no element matches the condition.
      */
      enumProto.last = function (predicate) {
-     	if (!this.any()) {
-     		throw new Error("Collection contains no elements.");
-     	}
-     	var def = {};
-     	var elem = this.lastOrDefault(predicate, def);
-     	if (elem === def) {
-     		throw new Error("Collection contains no matching element.");
-     	}
-     	return elem;
+     	return findElem(this, predicate, this.lastOrDefault.bind(this));
      };
 
     /**
@@ -1053,75 +1318,80 @@
      * @returns {*} - Returns the last element of the collection, or the last element that satisfies a condition, or a specified default value.
      */
      enumProto.lastOrDefault = function () {
-     	var predicate = typeof arguments[0] === "function" ? arguments[0] : undefined;
-     	var defaultValue = predicate ? arguments[1] : arguments[0];
-     	if (this.any()) {
-     		var last;
-     		var found = false;
-     		this.forEach(function (elem) {
-     			if (predicate) {
-     				if (predicate(elem)) {
-     					last = elem;
-     					found = true;
-     				}
-     			} else {
-     				last = elem;
-     				found = true;
-     			}
-     		});
-     		if (!found) {
-     			return defaultValue;
-     		}
-     		return last;
-     	} else {
-     		return defaultValue;
-     	}
+     	return findOrDefault(this, function (context, foundElem) {
+     		context.elem = foundElem;
+     		context.found = true;
+     	}, arguments[0], arguments[1]);
      };
 
     /**
      * Returns the maximum value in a collection.<br />
-     * If values are non numeric results may vary.
+     * Values are converted to numerics. If this fails and the value is NaN then NaN is treated as smaller than anything.
      * @param {selector} [selector] - A function that projects an element into a new form.
      * @function max
      * @memberof arrgh.Enumerable
      * @instance
-     * @returns {*} - Returns the maximum value in the collection.
+     * @returns {*} - Returns the maximum value in the collection or NaN.
+     * @throws - Throws an error when the collection is empty.
      */
      enumProto.max = function (selector) {
      	selector = selector || identity;
      	var max;
      	var first = true;
+     	var hasNan = false;
      	this.forEach(function (elem) {
-     		elem = selector(elem);
+     		elem = +selector(elem);
      		if (!isNull(elem)) {
-     			if (first) {
-     				first = false;
-     				max = elem;
+     			// Really weird behavior where NaN is smaller
+     			// than anything else (except in the min function).
+     			// And, of course, it can't be compared to anything...
+     			if (isNaN(elem)) {
+     				hasNan = true;
      			} else {
-     				if (defaultCompare(elem, max) > 0) {
+     				if (first) {
+     					first = false;
      					max = elem;
+     				} else {
+     					if (defaultCompare(elem, max) > 0) {
+     						max = elem;
+     					}
      				}
      			}
      		}
      	});
+     	if (first) {
+     		if (hasNan) {
+     			max = NaN
+     		} else {
+     			throw new Error("Collection contains no elements.");
+     		}
+     	}
      	return max;
      };
 
     /**
      * Returns the minimum value in a collection.<br />
-     * If values are non numeric results may vary.
+     * Values are converted to numerics. If this fails the function returns NaN.
      * @param {selector} [selector] - A function that projects an element into a new form.
      * @function max
      * @memberof arrgh.Enumerable
      * @instance
-     * @returns {*} - Returns the minimum value in the collection.
+     * @returns {*} - Returns the minimum value in the collection or NaN.
+     * @throws - Throws an error when the collection is empty.
      */
      enumProto.min = function (selector) {
      	selector = selector || identity;
      	var min;
      	var first = true;
      	this.forEach(function (elem) {
-     		elem = selector(elem);
+     		elem = +selector(elem);
+     		if (isNaN(elem)) {
+     			// Really weird behavior where NaN is smaller
+     			// than anything else (except in the min function).
+     			first = false;
+     			min = elem;
+     			return false;
+     		}
      		if (!isNull(elem)) {
      			if (first) {
      				first = false;
@@ -1133,6 +1403,9 @@
      			}
      		}
      	});
+     	if (first) {
+     		throw new Error("Collection contains no elements.");
+     	}
      	return min;
      };
 
@@ -1183,7 +1456,7 @@
      			break;
      		}
      	}
-     	var getType = getType || function (elem) {
+     	getType = getType || function (elem) {
      		return typeof elem === typeName;
      	};
      	return this.where(getType);
@@ -1216,17 +1489,213 @@
      };
 
      /**
-     * Generates a collection of integral numbers within a specified range.
-     * @function empty
+     * Generates a collection of integral numbers within a specified range.<br />
+     * When no count is supplied the range will stop at 9007199254740991 (a.k.a. Number.MAX_SAFE_INTEGER).<br />
+     * Depending on your start value your browser will probably flip though, so just provide a count.
+     * @function range
      * @memberof arrgh.Enumerable
      * @static
      * @param {Number} start - The value of the first integer in the collection.
-     * @param {Number} [count=Number.MAX_SAFE_INTEGER] - The number of sequential integers to generate.
+     * @param {Number} [count] - The number of sequential integers to generate.
      * @returns {arrgh.Enumerable} - A collection that contains a range of sequential integral numbers.
+     * @throws Throws when count is lower than 0 or when the range exceeds 9007199254740991 (a.k.a. Number.MAX_SAFE_INTEGER).
      */
      Enumerable.range = function (start, count) {
+     	if (!isNull(count)) {
+     		if (count < 0) {
+     			throw new Error("Count cannot be lower than 0.");
+     		}
+     		if (start + (count - 1) > MAX_SAFE_INTEGER) {
+     			throw new Error("Start and count can not exceed " + MAX_SAFE_INTEGER + ".");
+     		}
+     	}
      	return new Enumerable(function () {
-     		return new RangeIterator(start, count);
+     		if (isNull(count)) {
+     			return new RangeIterator(start);
+     		} else {
+     			return new RangeCountIterator(start, count);
+     		}
+     	});
+     };
+
+     /**
+     * Generates a collection that contains one repeated value.
+     * @function repeat
+     * @memberof arrgh.Enumerable
+     * @static
+     * @param {*} element - The element to repeat.
+     * @param {Number} count - The number of times to repeat the element.
+     * @returns {arrgh.Enumerable} - A collection that contains a one value count times.
+     * @throws Throws when count is lower than 0.
+     */
+     Enumerable.repeat = function (element, count) {
+     	count = count || 0;
+     	if (count < 0) {
+     		throw new Error("Count cannot be lower than 0.");
+     	}
+     	return new Enumerable(function () {
+     		return new RepeatIterator(element, count);
+     	});
+     };
+
+     /**
+     * Reverses the order of the elements in a collection.
+     * @function reverse
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Enumerable} - A collection that contains the original collection in reversed order.
+     */
+     enumProto.reverse = function () {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new ReverseIterator(self);
+     	});
+     };
+
+    /**
+     * Projects each element of a collection into a new form.
+     * @param {indexSelector} selector - A function that projects an element into a new form.
+     * @function select
+     * @see {@link arrgh.Enumerable#map}
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Enumerable} - A collection whose elements are the result of invoking the transform function on each element of source.
+     */
+     enumProto.select = function (selector) {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new SelectIterator(self, selector);
+     	});
+     };
+
+    /**
+     * Projects each element of a collection into a new form.
+     * @param {indexSelector} selector - A function that projects an element into a new form.
+     * @function map
+     * @see {@link arrgh.Enumerable#select}
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Enumerable} - A collection whose elements are the result of invoking the transform function on each element of source.
+     */
+     enumProto.map = enumProto.select;
+
+	/**
+     * Projects each element of a collection to an Enumerable and flattens the resulting collections into one collection.
+     * @param {collectionSelector} collectionSelector - A function that projects an element into a new form.
+     * @param {selectManyResultSelector} [resultSelector] - A function that creates a result value from each element in the intermediate collection.
+     * @function selectMany
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Enumerable} - A collection whose elements are the result of invoking the one-to-many transform function on each element of the input collection.
+     */
+     enumProto.selectMany = function (collectionSelector, resultSelector) {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new SelectManyIterator(self, collectionSelector, resultSelector);
+     	});
+     };
+
+	/**
+     * Determines whether two collections are equal by comparing the elements, optionally using a custom equality comparer for their type.
+     * @param {arrgh.Enumerable} other - Another collection to compare with.
+	 * @param {equalityComparer} [eqComparer=(===)] - An object that tests if two objects are equal.
+     * @function sequenceEquals
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {Boolean} - True if all elements in both collections match, otherwise false.
+     */
+     enumProto.sequenceEquals = function (other, eqComparer) {
+     	eqComparer = ensureEqComparer(eqComparer);
+
+     	var iterator = this.getIterator();
+     	var otherIterator = other.getIterator();
+     	var equal = true;
+     	while (iterator.moveNext() && equal) {
+     		if (!otherIterator.moveNext() || !eqComparer.equals(iterator.current(), otherIterator.current())) {
+     			equal = false;
+     		}
+     	}
+     	equal = !otherIterator.moveNext();
+     	return equal;
+     };
+
+    /**
+     * Returns the only element in a collection, or the only element that satisfies a condition.
+     * @function single
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {predicate} [predicate] - A function to test each element for a condition.
+     * @returns {*} - Returns the only element of the collection, or the only element that satisfies a condition.
+     * @throws Throws an error when the collection is empty or when no element matches the condition or when the collection (or predicate) returns more than a single element.
+     */
+     enumProto.single = function (predicate) {
+     	return findElem(this, predicate, this.singleOrDefault.bind(this));
+     };
+
+    /**
+     * Returns the only element in a collection, or the only element that satisfies a condition.<br />
+     * If the element is not found returns a default value.
+     * @function singleOrDefault
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {predicate} [predicate] - A function to test each element for a condition.
+     * @param {*} [defaultValue] - The value that is returned when the collection is empty or no element matches the condition.
+     * @returns {*} - Returns the only element of the collection, or the only element that satisfies a condition, or a specified default value.
+     * @throws Throws an error when the collection (or predicate) returns more than a single element.
+     */
+     enumProto.singleOrDefault = function () {
+     	return findOrDefault(this, function (context, foundElem) {
+     		if (context.found) {
+     			throw new Error("Collection contains more than one matching element.");
+     		}
+     		context.elem = foundElem;
+     		context.found = true;
+     	}, arguments[0], arguments[1]);
+     };
+
+    /**
+     * Bypasses a specified number of elements in a collection and then returns the remaining elements.
+     * @function skip
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {Number} count - The number of elements to skip.
+     * @returns {arrgh.Enumerable} - A collection that contains the elements that occur after the specified index.
+     */
+     enumProto.skip = function (count) {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new SkipIterator(self, count);
+     	});
+     };
+
+    /**
+     * Bypasses elements in a collection as long as a specified condition is true and then returns the remaining elements.
+     * @function skipWhile
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {indexPredicate} predicate - The number of elements to skip.
+     * @returns {arrgh.Enumerable} - A collection that contains the elements starting at the first element in the linear series that does not pass the test specified by predicate.
+     */
+     enumProto.skipWhile = function (predicate) {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new SkipWhileIterator(self, predicate);
+     	});
+     };
+
+    /**
+     * Computes the sum of a collection of values.<br />
+     * If values are not numerics the result may be NaN or something unexpected (e.g. "2" + 2 will results 22).
+     * @param {selector} [selector] - A function that projects an element into a new form.
+     * @function sum
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {Number} - The sum of all values in the collection, or NaN.
+     * @throws Throws an error if the collection contains no elements.
+     */
+     enumProto.sum = function (selector, calculator) {
+     	return sumCount(this, selector, function (sum, count) {
+     		return sum;
      	});
      };
 
@@ -1235,7 +1704,7 @@
      * @function toArray
      * @memberof arrgh.Enumerable
      * @instance
-     * @returns {array} - Returns a JavaScript array.
+     * @returns {Array} - Returns a JavaScript array.
      */
      enumProto.toArray = function () {
      	var arr = [];
@@ -1249,59 +1718,13 @@
      	return new Lookup(this, keySelector, elementSelector, eqComparer);
      };
 
-     enumProto.indexOf = function (searchElem, fromIndex) {
-     	var arr = this.toArray();
-     	if (Array.prototype.indexOf) {
-     		return arr.indexOf(searchElem, fromIndex);
-     	}
-
-     	var len = this.count();
-     	fromIndex = fromIndex || -1;
-
-     	if (len === 0 || fromIndex > len) {
-     		return -1;
-     	}
-
-     	var foundIndex = -1;
-     	var i;
-     	for (i = fromIndex; i < len; i += 1) {
-     		if (arr[i] === searchElem) {
-     			foundIndex = i;
-     			break;
-     		}
-     	}
-     	return foundIndex;
-     };
-
-     enumProto.filter = function (predicate) {
+     enumProto.where = function (predicate) {
      	var self = this;
      	return new Enumerable(function () {
      		return new WhereIterator(self, predicate);
      	});
      };
-     enumProto.where = enumProto.filter;
-
-     enumProto.map = function (selector) {
-     	var self = this;
-     	return new Enumerable(function () {
-     		return new SelectIterator(self, selector);
-     	});
-     };
-     enumProto.select = enumProto.map;
-
-     enumProto.tail = function () {
-     	if (this.count() > 0) {
-     		var elems = [];
-     		this.forEach(function (elem, index) {
-     			if (index !== 0) {
-     				elems.push(elem);
-     			}
-     		});
-     		return elems;
-     	} else {
-     		throw "Collection contains no elements.";
-     	}
-     };
+     enumProto.filter = enumProto.where;
 
      enumProto.unionAll = function (other) {
      	var self = this;
@@ -1316,10 +1739,6 @@
      	return new Enumerable(function () {
      		return new UnionIterator(self, other, ensureEqComparer(eqComparer));
      	});
-     };
-
-     enumProto.asEnumerable = function () {
-     	return new Enumerable(this.getIterator);
      };
 
      enumProto.toList = function () {
@@ -1342,7 +1761,7 @@
      * @memberof arrgh
      * @constructor
      * @extends arrgh.Enumerable
-     * @param {array|arrgh.Enumerable} [arr=[]] - An array or Enumerable whose elements are copied to the new list.
+     * @param {(Array|String|arrgh.Enumerable)} [enumerable=[]] - An array, string or enumerable whose elements are copied to the new list.
      */
      List = function () {
      	var self = this;
@@ -1357,67 +1776,73 @@
      		iterable = arguments[0] || [];
      	}
 
-     	if (isArray(iterable)) {
+     	if (isArray(iterable) || typeof iterable === "string") {
      		self.length = iterable.length;
      		var i;
      		for (i = 0; i < iterable.length; i += 1) {
      			self[i] = iterable[i];
      		}
-        } else { // Enumerable
-        	self.length = 0;
-        	iterable.forEach(function (elem, index) {
-        		self[index] = elem;
-        		self.length += 1;
-        	});
-        }
-    };
-    inherit(List, Enumerable);
+     	} else if (iterable.getIterator) {
+     		self.length = 0;
+     		iterable.forEach(function (elem, index) {
+     			self[index] = elem;
+     			self.length += 1;
+     		});
+     	} else {
+     		throw new Error("The input parameter for List was not valid.");
+     	}
+     };
+     inherit(List, Enumerable);
 
-    var listProto = List.prototype;
+     var listProto = List.prototype;
 
-    listProto.add = function (elem) {
-    	this[this.length] = elem;
-    	this.length += 1;
-    };
+     listProto.add = function (elem) {
+     	this[this.length] = elem;
+     	this.length += 1;
+     };
 
-    listProto.addRange = function () {
-    	if (arguments.length === 1 && arguments[0].getIterator) {
-    		var self = this;
-    		arguments[0].forEach(function (elem) {
-    			self[self.length] = elem;
-    			self.length += 1;
-    		});
-    	} else {
-    		var arr = (arguments.length === 1 && isArray(arguments[0])) ? arguments[0] : arguments;
-    		var i;
-    		for (i = 0; i < arr.length; i += 1) {
-    			this[this.length] = arr[i];
-    			this.length += 1;
-    		}
-    	}
-    };
+     listProto.addRange = function () {
+     	if (arguments.length === 1 && arguments[0].getIterator) {
+     		var self = this;
+     		arguments[0].forEach(function (elem) {
+     			self[self.length] = elem;
+     			self.length += 1;
+     		});
+     	} else {
+     		var arr = (arguments.length === 1 && isArray(arguments[0])) ? arguments[0] : arguments;
+     		var i;
+     		for (i = 0; i < arr.length; i += 1) {
+     			this[this.length] = arr[i];
+     			this.length += 1;
+     		}
+     	}
+     };
 
-    listProto.push = function () {
-    	this.addRange(arguments);
-    	return this.length;
-    };
+     listProto.push = function () {
+     	this.addRange(arguments);
+     	return this.length;
+     };
 
-    listProto.remove = function (elem) {
-    	var len = this.length;
-    	var i;
-    	var found = false;
-    	for (i = 0; i < len; i += 1) {
-    		found = found || this[i] === elem;
-    		if (found) {
-    			this[i] = this[i + 1];
-    		}
-    	}
-    	if (found) {
-    		delete this[len - 1];
-    		this.length -= 1;
-    	}
-    	return found;
-    };
+     listProto.remove = function (elem) {
+     	var len = this.length;
+     	var i;
+     	var found = false;
+     	for (i = 0; i < len; i += 1) {
+     		found = found || this[i] === elem;
+     		if (found) {
+     			this[i] = this[i + 1];
+     		}
+     	}
+     	if (found) {
+     		delete this[len - 1];
+     		this.length -= 1;
+     	}
+     	return found;
+     };
+
+     listProto.get = function (index) {
+     	return this[index];
+     };
 
     /**
      * Specifies how many elements the collection has, or how many satisfy a certain condition.

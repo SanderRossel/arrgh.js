@@ -2,33 +2,33 @@ var testList = function () {
 	"use strict";
 
 	describe("List", function () {
-		describe("from array", function () {
-			it("should initialize from an array", function () {
-				var l = new arrgh.List([p0, p1, p2]);
-				expect(l.length).toEqual(3);
-				expect(l[0]).toEqual(p0);
-				expect(l[1]).toEqual(p1);
-				expect(l[2]).toEqual(p2);
+		describe("ctors", function () {
+			it("should construct from an array", function () {
+				var e = new arrgh.List([1, 2, 3, 4, 5]);
+				expect(e.toArray()).toEqual([1, 2, 3, 4, 5]);
 			});
-		});
 
-		describe("from Enumerable", function () {
-			it("should initialize from an Enumerable", function () {
-				var l = new arrgh.List(new arrgh.Enumerable([p0, p1, p2]));
-				expect(l.length).toEqual(3);
-				expect(l[0]).toEqual(p0);
-				expect(l[1]).toEqual(p1);
-				expect(l[2]).toEqual(p2);
+			it("should construct from some random objects", function () {
+				var o = {};
+				var e = new arrgh.List("Hello", true, 1, o);
+				expect(e.toArray()).toEqual(["Hello", true, 1, o]);
 			});
-		});
 
-		describe("from List", function () {
-			it("should initialize from another List", function () {
-				var l = new arrgh.List(new arrgh.List([p0, p1, p2]));
-				expect(l.length).toEqual(3);
-				expect(l[0]).toEqual(p0);
-				expect(l[1]).toEqual(p1);
-				expect(l[2]).toEqual(p2);
+			it("should construct from another Enumerable", function () {
+				var e1 = new arrgh.Enumerable([1, 2, 3, 4, 5]);
+				var e2 = new arrgh.List(e1);
+				expect(e2.toArray()).toEqual([1, 2, 3, 4, 5]);
+			});
+
+			it("should construct from a string", function () {
+				var e = new arrgh.List("Hello");
+				expect(e.toArray()).toEqual(["H", "e", "l", "l", "o"]);
+			});
+
+			it("should throw on an invalid argument", function () {
+				expect(function () {
+					new arrgh.Enumerable(true);
+				}).toThrow();
 			});
 		});
 
@@ -50,94 +50,93 @@ var testList = function () {
 		});
 
 		describe("addRange", function () {
-			describe("add an array", function () {
-				it("should have added all the items", function () {
-					var list = new arrgh.List([p0, p1, p2]);
-					list.addRange([p3, p4, p5]);
-					expect(list.toArray()).toEqual(people);
-					expect(list.length).toEqual(people.length);
-				});
+			it("should add all the items in an array", function () {
+				var list = new arrgh.List([p0, p1, p2]);
+				list.addRange([p3, p4, p5]);
+				expect(list.toArray()).toEqual(people);
+				expect(list.length).toEqual(people.length);
 			});
 
-			describe("add another list", function () {
-				it("should have added all the items", function () {
-					var list = new arrgh.List([p0, p1, p2]);
-					list.addRange(new arrgh.List([p3, p4, p5]));
-					expect(list.toArray()).toEqual(people);
-					expect(list.length).toEqual(people.length);
-				});
+			it("should add all the items in another list", function () {
+				var list = new arrgh.List([p0, p1, p2]);
+				list.addRange(new arrgh.List([p3, p4, p5]));
+				expect(list.toArray()).toEqual(people);
+				expect(list.length).toEqual(people.length);
 			});
 
-			describe("add multiple arguments", function () {
-				it("should have added all the items", function () {
-					var list = new arrgh.List([p0, p1, p2]);
-					list.addRange(p3, p4, p5);
-					expect(list.toArray()).toEqual(people);
-					expect(list.length).toEqual(people.length);
-				});
+			it("should add all the items that are passed as arguments", function () {
+				var list = new arrgh.List([p0, p1, p2]);
+				list.addRange(p3, p4, p5);
+				expect(list.toArray()).toEqual(people);
+				expect(list.length).toEqual(people.length);
+			});
+		});
+
+		describe("asEnumerable", function () {
+			it("should return a new enumerable", function () {
+				var e = new arrgh.List(1, 2, 3, 4, 5);
+				expect(e.asEnumerable()).not.toBe(e);
+			});
+
+			it("should not be a list", function () {
+				var e = new arrgh.List(1, 2, 3, 4, 5);
+				expect(e.asEnumerable() instanceof arrgh.Enumerable).toBe(true);
+			});
+
+			it("should contain the same elements as the original enumerable", function () {
+				var e = new arrgh.List(1, 2, 3, 4, 5);
+				expect(e.asEnumerable().sequenceEquals(e)).toBe(true);
 			});
 		});
 
 		describe("remove", function () {
-			describe("remove an existing item", function () {
-				it("should have the item removed", function () {
-					var list = new arrgh.List(people);
-					list.remove(p3);
-					var arr = people.slice();
-					arr.splice(3, 1);
-					expect(list.toArray()).toEqual(arr);
-					expect(list.length).toEqual(people.length - 1);
-				});
+			it("should remove an item that's in the list", function () {
+				var list = new arrgh.List(people);
+				list.remove(p3);
+				var arr = people.slice();
+				arr.splice(3, 1);
+				expect(list.toArray()).toEqual(arr);
+				expect(list.length).toEqual(people.length - 1);
 			});
 
-			describe("remove non-existing item", function () {
-				it("should do nothing", function () {
-					var list = new arrgh.List(people);
-					list.remove("hello");
-					expect(list.toArray()).toEqual(people);
-					expect(list.length).toEqual(people.length);
-				});
+			it("should not remove anything when the item is not in the list", function () {
+				var list = new arrgh.List(people);
+				list.remove("hello");
+				expect(list.toArray()).toEqual(people);
+				expect(list.length).toEqual(people.length);
 			});
 		});
 
 		describe("indices", function () {
-			describe("add one item", function () {
-				it("should have index 0", function () {
-					var l = new arrgh.List();
-					expect(l.hasOwnProperty(0)).toEqual(false);
-					l.add("Hello");
-					expect(l.hasOwnProperty(0)).toEqual(true);
-					expect(l[0]).toEqual("Hello");
-				});
+			it("should give the first added element an index of 0", function () {
+				var l = new arrgh.List();
+				expect(l.hasOwnProperty(0)).toEqual(false);
+				l.add("Hello");
+				expect(l.hasOwnProperty(0)).toEqual(true);
+				expect(l[0]).toEqual("Hello");
 			});
 
-			describe("add three items", function () {
-				it("should have index 0, 1, 2", function () {
-					var l = new arrgh.List();
-					l.addRange("Greetings", "Hello", "Bye");
-					expect(l[0]).toEqual("Greetings");
-					expect(l[1]).toEqual("Hello");
-					expect(l[2]).toEqual("Bye");
-				});
+			it("should generate indices 0, 1, 2 if three items are added", function () {
+				var l = new arrgh.List();
+				l.addRange("Greetings", "Hello", "Bye");
+				expect(l[0]).toEqual("Greetings");
+				expect(l[1]).toEqual("Hello");
+				expect(l[2]).toEqual("Bye");
 			});
 
-			describe("add a custom item", function () {
-				it("should overwrite", function () {
-					var l = new arrgh.List();
-					l.add("Hi");
-					l[1] = "Something";
-					l.add("Bye");
-					expect(l[1]).toBe("Bye");
-				});
+			it("should overwrite any items that are not added through add methods", function () {
+				var l = new arrgh.List();
+				l.add("Hi");
+				l[1] = "Something";
+				l.add("Bye");
+				expect(l[1]).toBe("Bye");
 			});
 
-			describe("remove an item", function () {
-				it("should remove the last index", function () {
-					var l = new arrgh.List(["Greetings", "Hello", "Bye"]);
-					l.remove("Hello");
-					expect(l.hasOwnProperty(2)).toEqual(false);
-					expect(l[1]).toEqual("Bye");
-				});
+			it("should remove the last index when that item is removed", function () {
+				var l = new arrgh.List(["Greetings", "Hello", "Bye"]);
+				l.remove("Hello");
+				expect(l.hasOwnProperty(2)).toEqual(false);
+				expect(l[1]).toEqual("Bye");
 			});
 		});
 	});

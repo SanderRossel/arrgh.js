@@ -1,13 +1,15 @@
 var p0 = {
 	first: "Sander",
 	last: "Rossel",
-	age: 28
+	age: 28,
+	hobbies: ["Programming" ,"Gaming" ,"Music"]
 };
 
 var p1 = {
 	first: "Bill",
 	last: "Murray",
-	age: 58
+	age: 58,
+	hobbies: ["Hiking", "Travelling"]
 };
 
 var p2 = {
@@ -25,7 +27,8 @@ var p3 = {
 var p4 = {
 	first: "Steve",
 	last: "McQueen",
-	age: 68
+	age: 68,
+	hobbies: []
 };
 
 var p5 = {
@@ -47,12 +50,27 @@ var p7 = {
 
 var people = [p0, p1, p2, p3, p4, p5];
 
+var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
+
 var fullNameSelector = function (p) {
 	return p.first + (p.last ? " " + p.last : "");
 };
 
 var firstNameSelector = function (p) {
 	return p.first;
+};
+
+var hobbiesSelector = function (p) {
+	return p.hobbies;
+};
+
+var firstNameEqComparer = {
+	getHash: function (obj) {
+		return obj.first;
+	},
+	equals: function (a, b) {
+		return a.first === b.first;
+	}
 };
 
 var firstCharEqComparer = {

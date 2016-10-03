@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92.99% </span>
+        <span class="strong">96.37% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>730/785</span>
+        <span class='fraction'>903/937</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">87.96% </span>
+        <span class="strong">93.37% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>263/299</span>
+        <span class='fraction'>324/347</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">90.42% </span>
+        <span class="strong">93.81% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>151/167</span>
+        <span class='fraction'>197/210</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.11% </span>
+        <span class="strong">96.47% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>730/784</span>
+        <span class='fraction'>903/936</span>
       </div>
     </div>
   </div>
@@ -1718,7 +1718,433 @@
 1673
 1674
 1675
-1676</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+1676
+1677
+1678
+1679
+1680
+1681
+1682
+1683
+1684
+1685
+1686
+1687
+1688
+1689
+1690
+1691
+1692
+1693
+1694
+1695
+1696
+1697
+1698
+1699
+1700
+1701
+1702
+1703
+1704
+1705
+1706
+1707
+1708
+1709
+1710
+1711
+1712
+1713
+1714
+1715
+1716
+1717
+1718
+1719
+1720
+1721
+1722
+1723
+1724
+1725
+1726
+1727
+1728
+1729
+1730
+1731
+1732
+1733
+1734
+1735
+1736
+1737
+1738
+1739
+1740
+1741
+1742
+1743
+1744
+1745
+1746
+1747
+1748
+1749
+1750
+1751
+1752
+1753
+1754
+1755
+1756
+1757
+1758
+1759
+1760
+1761
+1762
+1763
+1764
+1765
+1766
+1767
+1768
+1769
+1770
+1771
+1772
+1773
+1774
+1775
+1776
+1777
+1778
+1779
+1780
+1781
+1782
+1783
+1784
+1785
+1786
+1787
+1788
+1789
+1790
+1791
+1792
+1793
+1794
+1795
+1796
+1797
+1798
+1799
+1800
+1801
+1802
+1803
+1804
+1805
+1806
+1807
+1808
+1809
+1810
+1811
+1812
+1813
+1814
+1815
+1816
+1817
+1818
+1819
+1820
+1821
+1822
+1823
+1824
+1825
+1826
+1827
+1828
+1829
+1830
+1831
+1832
+1833
+1834
+1835
+1836
+1837
+1838
+1839
+1840
+1841
+1842
+1843
+1844
+1845
+1846
+1847
+1848
+1849
+1850
+1851
+1852
+1853
+1854
+1855
+1856
+1857
+1858
+1859
+1860
+1861
+1862
+1863
+1864
+1865
+1866
+1867
+1868
+1869
+1870
+1871
+1872
+1873
+1874
+1875
+1876
+1877
+1878
+1879
+1880
+1881
+1882
+1883
+1884
+1885
+1886
+1887
+1888
+1889
+1890
+1891
+1892
+1893
+1894
+1895
+1896
+1897
+1898
+1899
+1900
+1901
+1902
+1903
+1904
+1905
+1906
+1907
+1908
+1909
+1910
+1911
+1912
+1913
+1914
+1915
+1916
+1917
+1918
+1919
+1920
+1921
+1922
+1923
+1924
+1925
+1926
+1927
+1928
+1929
+1930
+1931
+1932
+1933
+1934
+1935
+1936
+1937
+1938
+1939
+1940
+1941
+1942
+1943
+1944
+1945
+1946
+1947
+1948
+1949
+1950
+1951
+1952
+1953
+1954
+1955
+1956
+1957
+1958
+1959
+1960
+1961
+1962
+1963
+1964
+1965
+1966
+1967
+1968
+1969
+1970
+1971
+1972
+1973
+1974
+1975
+1976
+1977
+1978
+1979
+1980
+1981
+1982
+1983
+1984
+1985
+1986
+1987
+1988
+1989
+1990
+1991
+1992
+1993
+1994
+1995
+1996
+1997
+1998
+1999
+2000
+2001
+2002
+2003
+2004
+2005
+2006
+2007
+2008
+2009
+2010
+2011
+2012
+2013
+2014
+2015
+2016
+2017
+2018
+2019
+2020
+2021
+2022
+2023
+2024
+2025
+2026
+2027
+2028
+2029
+2030
+2031
+2032
+2033
+2034
+2035
+2036
+2037
+2038
+2039
+2040
+2041
+2042
+2043
+2044
+2045
+2046
+2047
+2048
+2049
+2050
+2051
+2052
+2053
+2054
+2055
+2056
+2057
+2058
+2059
+2060
+2061
+2062
+2063
+2064
+2065
+2066
+2067
+2068
+2069
+2070
+2071
+2072
+2073
+2074
+2075
+2076
+2077
+2078
+2079
+2080
+2081
+2082
+2083
+2084
+2085
+2086
+2087
+2088
+2089
+2090
+2091
+2092
+2093
+2094
+2095
+2096
+2097
+2098
+2099
+2100
+2101
+2102</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -1822,10 +2248,56 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1842,11 +2314,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1554×</span>
+<span class="cline-any cline-yes">1744×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">7574×</span>
+<span class="cline-any cline-yes">8126×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -1854,13 +2326,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">216×</span>
+<span class="cline-any cline-yes">302×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1236×</span>
+<span class="cline-any cline-yes">1247×</span>
 <span class="cline-any cline-yes">172×</span>
 <span class="cline-any cline-yes">8×</span>
 <span class="cline-any cline-yes">164×</span>
@@ -1869,22 +2341,23 @@
 <span class="cline-any cline-yes">86×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1236×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1247×</span>
 <span class="cline-any cline-yes">86×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1150×</span>
-<span class="cline-any cline-yes">189×</span>
-<span class="cline-any cline-yes">961×</span>
-<span class="cline-any cline-yes">795×</span>
+<span class="cline-any cline-yes">1161×</span>
+<span class="cline-any cline-yes">210×</span>
+<span class="cline-any cline-yes">951×</span>
+<span class="cline-any cline-yes">801×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">166×</span>
+<span class="cline-any cline-yes">150×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">339×</span>
+<span class="cline-any cline-yes">370×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">632×</span>
@@ -1902,16 +2375,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">404×</span>
-<span class="cline-any cline-yes">134×</span>
+<span class="cline-any cline-yes">415×</span>
+<span class="cline-any cline-yes">143×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">270×</span>
-<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">272×</span>
+<span class="cline-any cline-yes">29×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">242×</span>
-<span class="cline-any cline-yes">242×</span>
-<span class="cline-any cline-yes">236×</span>
+<span class="cline-any cline-yes">243×</span>
+<span class="cline-any cline-yes">243×</span>
+<span class="cline-any cline-yes">237×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1921,7 +2394,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">242×</span>
+<span class="cline-any cline-yes">243×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -1948,19 +2421,74 @@
 <span class="cline-any cline-yes">44×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57×</span>
+<span class="cline-any cline-yes">57×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1247×</span>
-<span class="cline-any cline-yes">1247×</span>
-<span class="cline-any cline-yes">1247×</span>
-<span class="cline-any cline-yes">23591×</span>
+<span class="cline-any cline-yes">222×</span>
+<span class="cline-any cline-yes">222×</span>
+<span class="cline-any cline-yes">222×</span>
+<span class="cline-any cline-yes">216×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">216×</span>
+<span class="cline-any cline-yes">294×</span>
+<span class="cline-any cline-yes">233×</span>
+<span class="cline-any cline-yes">159×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">212×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">202×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-yes">96×</span>
+<span class="cline-any cline-yes">96×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26×</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">23589×</span>
-<span class="cline-any cline-yes">23589×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1247×</span>
-<span class="cline-any cline-yes">5100×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1401×</span>
+<span class="cline-any cline-yes">1401×</span>
+<span class="cline-any cline-yes">1401×</span>
+<span class="cline-any cline-yes">30172×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30170×</span>
+<span class="cline-any cline-yes">30170×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1401×</span>
+<span class="cline-any cline-yes">8563×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2004,6 +2532,7 @@
 <span class="cline-any cline-yes">518×</span>
 <span class="cline-any cline-yes">4470×</span>
 <span class="cline-any cline-yes">4470×</span>
+<span class="cline-any cline-yes">4470×</span>
 <span class="cline-any cline-yes">2128×</span>
 <span class="cline-any cline-yes">2128×</span>
 <span class="cline-any cline-yes">1073×</span>
@@ -2012,8 +2541,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2342×</span>
-<span class="cline-any cline-yes">2342×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">518×</span>
 <span class="cline-any cline-yes">518×</span>
@@ -2312,6 +2839,151 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">2035×</span>
+<span class="cline-any cline-yes">2035×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">1030×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1027×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">2009×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2001×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2009×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">1008×</span>
+<span class="cline-any cline-yes">996×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">2021×</span>
+<span class="cline-any cline-yes">2021×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">1018×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1015×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">2015×</span>
+<span class="cline-any cline-yes">2015×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">1014×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1012×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">2081×</span>
+<span class="cline-any cline-yes">2081×</span>
+<span class="cline-any cline-yes">64×</span>
+<span class="cline-any cline-yes">43×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">43×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2017×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1996×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">1035×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">2017×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2015×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">1013×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">2023×</span>
+<span class="cline-any cline-yes">2023×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2014×</span>
+<span class="cline-any cline-yes">2014×</span>
+<span class="cline-any cline-yes">2014×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">1018×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2320,23 +2992,72 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1136×</span>
-<span class="cline-any cline-yes">1136×</span>
-<span class="cline-any cline-yes">40×</span>
+<span class="cline-any cline-yes">1316×</span>
+<span class="cline-any cline-yes">1316×</span>
+<span class="cline-any cline-yes">115×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1096×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1136×</span>
-<span class="cline-any cline-yes">238×</span>
-<span class="cline-any cline-yes">631×</span>
+<span class="cline-any cline-yes">1201×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">898×</span>
+<span class="cline-any cline-yes">1316×</span>
+<span class="cline-any cline-yes">352×</span>
+<span class="cline-any cline-yes">784×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">964×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">963×</span>
+<span class="cline-any cline-yes">961×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2365,17 +3086,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">289×</span>
-<span class="cline-any cline-yes">289×</span>
-<span class="cline-any cline-yes">269×</span>
+<span class="cline-any cline-yes">311×</span>
+<span class="cline-any cline-yes">311×</span>
+<span class="cline-any cline-yes">287×</span>
 <span class="cline-any cline-yes">10×</span>
 <span class="cline-any cline-yes">10×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">259×</span>
-<span class="cline-any cline-yes">259×</span>
+<span class="cline-any cline-yes">277×</span>
+<span class="cline-any cline-yes">277×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">289×</span>
+<span class="cline-any cline-yes">311×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2396,24 +3117,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">82×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">12×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10×</span>
-<span class="cline-any cline-yes">10×</span>
-<span class="cline-any cline-yes">10×</span>
-<span class="cline-any cline-yes">37×</span>
-<span class="cline-any cline-yes">37×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2539,7 +3260,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">66×</span>
+<span class="cline-any cline-yes">85×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2568,15 +3289,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">49×</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">47×</span>
-<span class="cline-any cline-yes">47×</span>
-<span class="cline-any cline-yes">47×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">46×</span>
+<span class="cline-any cline-yes">50×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2590,30 +3303,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">197×</span>
-<span class="cline-any cline-yes">197×</span>
-<span class="cline-any cline-yes">197×</span>
-<span class="cline-any cline-yes">195×</span>
-<span class="cline-any cline-yes">195×</span>
-<span class="cline-any cline-yes">195×</span>
-<span class="cline-any cline-yes">209×</span>
-<span class="cline-any cline-yes">163×</span>
-<span class="cline-any cline-yes">145×</span>
-<span class="cline-any cline-yes">145×</span>
-<span class="cline-any cline-yes">145×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">46×</span>
-<span class="cline-any cline-yes">46×</span>
-<span class="cline-any cline-yes">46×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">195×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">191×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">198×</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-yes">192×</span>
+<span class="cline-any cline-yes">192×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2625,12 +3318,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1079×</span>
-<span class="cline-any cline-yes">1079×</span>
-<span class="cline-any cline-yes">1079×</span>
-<span class="cline-any cline-yes">1079×</span>
-<span class="cline-any cline-yes">1974×</span>
-<span class="cline-any cline-yes">1973×</span>
+<span class="cline-any cline-yes">1188×</span>
+<span class="cline-any cline-yes">1188×</span>
+<span class="cline-any cline-yes">1188×</span>
+<span class="cline-any cline-yes">1188×</span>
+<span class="cline-any cline-yes">2335×</span>
+<span class="cline-any cline-yes">2330×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2682,39 +3376,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">6×</span>
@@ -2733,80 +3394,126 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">11×</span>
-<span class="cline-any cline-yes">11×</span>
-<span class="cline-any cline-yes">11×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">46×</span>
-<span class="cline-any cline-yes">38×</span>
-<span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">38×</span>
-<span class="cline-any cline-yes">38×</span>
-<span class="cline-any cline-yes">38×</span>
-<span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-yes">56×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">56×</span>
 <span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">47×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">36×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2819,23 +3526,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">38×</span>
-<span class="cline-any cline-yes">38×</span>
-<span class="cline-any cline-yes">38×</span>
-<span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">30×</span>
-<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-yes">50×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">46×</span>
+<span class="cline-any cline-yes">46×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">35×</span>
+<span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2917,20 +3634,6 @@
 <span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-yes">2012×</span>
-<span class="cline-any cline-yes">2012×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-yes">1012×</span>
-<span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1009×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2944,8 +3647,123 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">37×</span>
 <span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2957,39 +3775,93 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">112×</span>
-<span class="cline-any cline-yes">112×</span>
-<span class="cline-any cline-yes">465×</span>
+<span class="cline-any cline-yes">7×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">145×</span>
+<span class="cline-any cline-yes">145×</span>
+<span class="cline-any cline-yes">593×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">145×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">29×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -2999,28 +3871,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">7×</span>
-<span class="cline-any cline-yes">7×</span>
-<span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">92×</span>
@@ -3038,10 +3888,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">77×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3064,30 +3910,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">417×</span>
-<span class="cline-any cline-yes">417×</span>
-<span class="cline-any cline-yes">616×</span>
+<span class="cline-any cline-yes">427×</span>
+<span class="cline-any cline-yes">427×</span>
+<span class="cline-any cline-yes">617×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">417×</span>
-<span class="cline-any cline-yes">417×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">427×</span>
+<span class="cline-any cline-yes">427×</span>
+<span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">416×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">417×</span>
-<span class="cline-any cline-yes">415×</span>
-<span class="cline-any cline-yes">415×</span>
-<span class="cline-any cline-yes">415×</span>
-<span class="cline-any cline-yes">149×</span>
+<span class="cline-any cline-yes">422×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">427×</span>
+<span class="cline-any cline-yes">419×</span>
+<span class="cline-any cline-yes">419×</span>
+<span class="cline-any cline-yes">419×</span>
+<span class="cline-any cline-yes">172×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -3138,6 +3986,10 @@
 <span class="cline-any cline-yes">43×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1012×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3155,7 +4007,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">13×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3401,6 +4253,15 @@
 &nbsp;
     // Global types.
 &nbsp;
+	/**
+     * An accumulator function.
+     *
+     * @callback accumulator
+     * @param {*} aggregate - The current aggregate.
+     * @param {*} element - An item that should be aggregated to the aggregate.
+     * @returns {*} - Returns the new aggregate.
+     */
+&nbsp;
     /**
      * A function that is applied to each element in an enumerable.
      *
@@ -3418,12 +4279,39 @@
      * @returns {Boolean} - Returns whether the current element satisfies the condition.
      */
 &nbsp;
-     /**
+    /**
+     * A function to test each element for a condition.
+     *
+     * @callback indexPredicate
+     * @param {*} element - The element to test for a condition.
+     * @param {Number} [index] - The index of the current element.
+     * @returns {Boolean} - Returns whether the current element satisfies the condition.
+     */
+&nbsp;
+    /**
      * A function that projects an element into a new form.
      *
      * @callback selector
      * @param {*} element - The element to project into a new form.
      * @returns {*} - A projection of the current element.
+     */
+&nbsp;
+    /**
+     * A function that projects an element into a new form.
+     *
+     * @callback indexSelector
+     * @param {*} element - The element to project into a new form.
+     * @param {Number} [index] - The index of the current element.
+     * @returns {*} - A projection of the current element.
+     */
+&nbsp;
+    /**
+     * A function that projects an element into a collection.
+     *
+     * @callback collectionSelector
+     * @param {*} element - The element to project into a collection.
+     * @param {Number} [index] - The index of the current element.
+     * @returns {Array|String|arrgh.Enumerable} - A collection obtained from the current element.
      */
 &nbsp;
     /**
@@ -3475,6 +4363,14 @@
      */
 &nbsp;
     /**
+     * A function that creates a result value from each element in the intermediate collection.
+     * @callback selectManyResultSelector
+     * @param {*} element - The element whose collection is processed.
+     * @param {*} intermediate - The current element of the intermediate collection.
+     * @returns {*} - Returns a result value from an intermediate element.
+     */
+&nbsp;
+    /**
      * Returns a hash code for the specified object.
      * @callback getHash
      * @param {*} obj - The object for which a hash code is to be returned.
@@ -3502,6 +4398,8 @@
     var Dictionary;
     var OrderedEnumerable;
     var Lookup;
+&nbsp;
+    var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || <span class="branch-1 cbranch-no" title="branch not covered" >9007199254740991;</span>
 &nbsp;
     // Helper functions
     var Temp = function () {
@@ -3544,6 +4442,7 @@
         		return 0;
         	}
         };
+&nbsp;
         if (isNull(x) || isNull(y)) {
         	return noVal(x, y, undefined) || noVal(x, y, null);
         }
@@ -3568,9 +4467,9 @@
     		} else <span class="missing-if-branch" title="if path not taken" >I</span>if (obj === undefined) {
 <span class="cstat-no" title="statement not covered" >    			hash = "undefined";</span>
     		} else {
-    			hash = typeof obj.getHash === "function"
-    			? obj.getHash()
-    			: (typeof obj.toString === "function" ? obj.toString() : <span class="branch-1 cbranch-no" title="branch not covered" >Object.prototype.toString.call(obj))</span>;
+    			hash = typeof obj.getHash === "function" ?
+    			obj.getHash() :
+    			(typeof obj.toString === "function" ? obj.toString() : <span class="branch-1 cbranch-no" title="branch not covered" >Object.prototype.toString.call(obj))</span>;
     		}
     		return hash;
     	}
@@ -3621,6 +4520,61 @@
     	var smallerSorted = qsort(smaller, compare);
     	var biggerSorted = qsort(bigger, compare);
     	return smallerSorted.unionAll(new Enumerable([head])).unionAll(biggerSorted);
+    }
+&nbsp;
+    function findElem (collection, predicate, xOrDefault) {
+    	if (!collection.any()) {
+    		throw new Error("Collection contains no elements.");
+    	}
+    	var def = {};
+    	var elem = xOrDefault(predicate, def);
+    	if (elem === def) {
+    		throw new Error("Collection contains no matching element.");
+    	}
+    	return elem;
+    }
+&nbsp;
+    function findOrDefault (collection, onFound) {
+    	var predicate = typeof arguments[2] === "function" ? arguments[2] : undefined;
+    	var defaultValue = predicate ? arguments[3] : arguments[2];
+    	if (collection.any()) {
+    		var context = {
+    			found: false,
+    			elem: undefined
+    		};
+    		collection.forEach(function (elem) {
+    			if (predicate) {
+    				if (predicate(elem)) {
+    					return onFound(context, elem);
+    				}
+    			} else {
+    				return onFound(context, elem);
+    			}
+    		});
+    		if (!context.found) {
+    			return defaultValue;
+    		}
+    		return context.elem;
+    	} else {
+    		return defaultValue;
+    	}
+    }
+&nbsp;
+    function sumCount (collection, selector, calculator) {
+    	selector = selector || identity;
+&nbsp;
+    	var sum = 0;
+    	var count = 0;
+    	collection.forEach(function (elem) {
+    		sum += +selector(elem);
+    		count += 1;
+    	});
+&nbsp;
+    	if (count === 0) {
+    		throw new Error("Collection contains no elements.");
+    	}
+&nbsp;
+    	return calculator(sum, count);
     }
 &nbsp;
     // Iterators
@@ -3677,6 +4631,7 @@
     	var moveNext;
     	var current;
     	moveNext = function () {
+    		current = undefined;
     		index += 1;
     		if (iterator.moveNext()) {
     			current = iterator.current();
@@ -3685,10 +4640,8 @@
     			} else {
     				return moveNext();
     			}
-    		} else {
-    			current = undefined;
-    			return false;
     		}
+    		return false;
     	};
     	this.moveNext = moveNext;
     	this.current = function () {
@@ -3931,7 +4884,7 @@
     	var current;
     	moveNext = function () {
     		if (iterator.moveNext()) {
-    			current = iterator.current()
+    			current = iterator.current();
     			if (d.containsKey(current)) {
     				return d.remove(current);
     			} else {
@@ -3987,12 +4940,157 @@
     	};
     };
 &nbsp;
+    var RangeCountIterator = function (start, count) {
+    	var index = -1;
+    	this.moveNext = function () {
+    		index += 1;
+    		return index !== count;
+    	};
+    	this.current = function () {
+    		if (index === -1 || index === count) {
+    			return undefined;
+    		}
+    		return start + index;
+    	};
+    };
+&nbsp;
+    var RangeIterator = function (start) {
+    	var moved = false;
+    	this.moveNext = function () {
+    		if (!moved) {
+    			moved = true;
+    		} else {
+    			start += 1;
+    		}
+    		return start &lt;= MAX_SAFE_INTEGER;
+    	};
+    	this.current = function () {
+    		if (!moved || start &gt; MAX_SAFE_INTEGER) {
+    			return undefined;
+    		}
+    		return start;
+    	};
+    };
+&nbsp;
+    var RepeatIterator = function (element, count) {
+    	var index = -1;
+    	this.moveNext = function () {
+    		index += 1;
+    		return index !== count;
+    	};
+    	this.current = function () {
+    		if (index === -1 || index === count) {
+    			return undefined;
+    		}
+    		return element;
+    	};
+    };
+&nbsp;
+    var ReverseIterator = function (source) {
+    	var list = new List(source);
+    	var length = list.length;
+    	var index = length;
+    	this.moveNext = function () {
+    		index -= 1;
+    		return index &gt;= 0;
+    	};
+    	this.current = function () {
+    		if (index === length) {
+    			return undefined;
+    		}
+    		return list.get(index);
+    	};
+    };
+&nbsp;
+    var SelectManyIterator = function (source, collectionSelector, resultSelector) {
+    	var iterator = source.getIterator();
+    	var innerIterator;
+    	var outerCurrent;
+    	var current;
+    	var index = -1;
+    	var moveNext;
+    	moveNext = function () {
+    		current = undefined;
+    		if (innerIterator) {
+    			if (innerIterator.moveNext()) {
+    				if (resultSelector) {
+    					current = resultSelector(outerCurrent, innerIterator.current());
+    				} else {
+    					current = innerIterator.current();
+    				}
+    				return true;
+    			} else {
+    				innerIterator = null;
+    				return moveNext();
+    			}
+    		} else {
+    			if (iterator.moveNext()) {
+    				index += 1;
+    				outerCurrent = iterator.current();
+    				innerIterator = new Enumerable(collectionSelector(outerCurrent, index)).getIterator();
+    				return moveNext();
+    			}
+    		}
+    		return false;
+    	};
+    	this.moveNext = moveNext;
+    	this.current = function () {
+    		return current;
+    	};
+    };
+&nbsp;
+    var SkipIterator = function (source, count) {
+    	var iterator = source.getIterator();
+    	var skipped = 0;
+    	this.moveNext = function () {
+    		while (skipped &lt; count) {
+    			skipped += 1;
+    			if (!iterator.moveNext()) {
+    				return false;
+    			}
+    		}
+    		return iterator.moveNext();
+    	};
+    	this.current = function () {
+    		return iterator.current();
+    	};
+    };
+&nbsp;
+    var SkipWhileIterator = function (source, predicate) {
+    	var iterator = source.getIterator();
+    	var index = -1;
+    	var current;
+    	var skipped = false;
+    	this.moveNext = function () {
+    		current = undefined;
+    		while (!skipped) {
+    			index += 1;
+    			if (iterator.moveNext()) {
+    				current = iterator.current();
+    				if (!predicate(current, index)) {
+    					skipped = true;
+    					return true;
+    				}
+    			} else {
+    				skipped = true;
+    				return false;
+    			}
+    		}
+    		var next = iterator.moveNext();
+    		current = iterator.current();
+    		return next;
+    	};
+    	this.current = function () {
+    		return current;
+    	};
+    };
+&nbsp;
     // Collections
     /**
      * Represents the base class for any collection.
      * @memberof arrgh
      * @constructor
-     * @param {(array|function)} [iterator=[]] - An array to iterate over or a function that returns an iterator.
+     * @param {(Array|String|arrgh.Enumerable|Function)} [iterator=[]] - An array, string or enumerable to iterate over or a function that returns an iterator.
      */
      Enumerable = function () {
      	var iterable;
@@ -4002,16 +5100,65 @@
      		iterable = arguments[0] || [];
      	}
 &nbsp;
-     	if (isArray(iterable)) {
+     	if (isArray(iterable) || typeof iterable === "string") {
      		this.getIterator = function () {
      			return new ArrayIterator(iterable);
      		};
-     	} else {
+     	} else if (iterable.getIterator) {
+     		this.getIterator = iterable.getIterator;
+     	} else if (typeof iterable === "function") {
      		this.getIterator = iterable;
+     	} else {
+     		throw new Error("The input parameter for Enumerable was not valid.");
      	}
      };
 &nbsp;
      var enumProto = Enumerable.prototype;
+&nbsp;
+     var aggregate = function (source, aggregator) {
+     	var iterator = source.getIterator();
+     	if (!iterator.moveNext()) {
+     		throw new Error("Collection contains no elements.");
+     	}
+     	var accumulate = iterator.current();
+     	while (iterator.moveNext()) {
+     		accumulate = aggregator(accumulate, iterator.current());
+     	}
+     	return accumulate;
+     };
+&nbsp;
+     var aggregateSeed = function (source, seed, aggregator, resultSelector) {
+     	resultSelector = resultSelector || identity;
+     	var accumulate = seed;
+     	var loopedOnce = false;
+     	source.forEach(function (elem) {
+     		loopedOnce = true;
+     		accumulate = aggregator(accumulate, elem);
+     	});
+     	if (!loopedOnce) {
+     		throw new Error("Collection contains no elements.");
+     	}
+     	return resultSelector(accumulate);
+     };
+&nbsp;
+    /**
+     * Determines whether all elements of the collection satisfy a condition.&lt;br /&gt;
+     * When a result selector is passed to the function a seed should also be specified.
+     * @param {*} [seed] - The initial accumulator value (mandatory if a result selector is specified).
+     * @param {accumulator} accumulator - An accumulator function to be invoked on each element.
+     * @param {selector} [resultSelector] - A function to transform the final accumulator value into the result value.
+     * @function aggregate
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {*} - The final accumulator value.
+     */
+     enumProto.aggregate = function () {
+     	if (arguments.length &gt; 1) {
+     		return aggregateSeed(this, arguments[0], arguments[1], arguments[2]);
+     	} else {
+     		return aggregate(this, arguments[0]);
+     	}
+     };
 &nbsp;
     /**
      * Determines whether all elements of the collection satisfy a condition.
@@ -4041,9 +5188,9 @@
      */
      enumProto.any = function (predicate) {
      	var any = false;
-     	this.forEach(function (elem) {
+     	this.forEach(function (elem, index) {
      		if (predicate) {
-     			any = predicate(elem);
+     			any = predicate(elem, index);
      			return !any;
      		} else {
      			any = true;
@@ -4064,9 +5211,20 @@
      */
      enumProto.some = enumProto.any;
 &nbsp;
+     /**
+     * Returns the input typed as Enumerable.
+     * @function asEnumerable
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Enumerable} - The input collection as Enumerable.
+     */
+     enumProto.asEnumerable = function () {
+     	return new Enumerable(this.getIterator);
+     };
+&nbsp;
     /**
      * Computes the average of a collection of values.&lt;br /&gt;
-     * If values are not numerics the result may be NaN or something unexpected (e.g. "2" + 2 will results in an average of 11 ("2" + 2 = 22, 22 / 2 = 11)).
+     * Values are converted to numerics, but if this fails unexpected averages may occur.
      * @param {selector} [selector] - A function that projects an element into a new form.
      * @function average
      * @memberof arrgh.Enumerable
@@ -4075,20 +5233,9 @@
      * @throws Throws an error if the collection contains no elements.
      */
      enumProto.average = function (selector) {
-     	selector = selector || identity;
-&nbsp;
-     	var sum = 0;
-     	var count = 0;
-     	this.forEach(function (elem) {
-     		sum += selector(elem);
-     		count += 1;
+     	return sumCount(this, selector, function (sum, count) {
+     		return sum / count;
      	});
-&nbsp;
-     	if (count === 0) {
-     		throw new Error("Collection contains no elements.");
-     	}
-&nbsp;
-     	return sum / count;
      };
 &nbsp;
     /**
@@ -4243,15 +5390,7 @@
      * @throws Throws an error if the collection is empty or when no element matches the condition.
      */
      enumProto.first = function (predicate) {
-     	if (!this.any()) {
-     		throw new Error("Collection contains no elements.");
-     	}
-     	var def = {};
-     	var elem = this.firstOrDefault(predicate, def);
-     	if (elem === def) {
-     		throw new Error("Collection contains no matching element.");
-     	}
-     	return elem;
+     	return findElem(this, predicate, this.firstOrDefault.bind(this));
      };
 &nbsp;
     /**
@@ -4265,31 +5404,11 @@
      * @returns {*} - Returns the first element of the collection, or the first element that satisfies a condition, or a specified default value.
      */
      enumProto.firstOrDefault = function () {
-     	var predicate = typeof arguments[0] === "function" ? arguments[0] : undefined;
-     	var defaultValue = predicate ? arguments[1] : arguments[0];
-     	if (this.any()) {
-     		var first;
-     		var found = false;
-     		this.forEach(function (elem) {
-     			if (predicate) {
-     				if (predicate(elem)) {
-     					first = elem;
-     					found = true;
-     					return false;
-     				}
-     			} else {
-     				first = elem;
-     				found = true;
-     				return false;
-     			}
-     		});
-     		if (!found) {
-     			return defaultValue;
-     		}
-     		return first;
-     	} else {
-     		return defaultValue;
-     	}
+     	return findOrDefault(this, function (context, foundElem) {
+     		context.elem = foundElem;
+     		context.found = true;
+     		return false;
+     	}, arguments[0], arguments[1]);
      };
 &nbsp;
     /**
@@ -4318,6 +5437,7 @@
      * @function groupBy
      * @memberof arrgh.Enumerable
      * @instance
+     * @arrgh.Enumerable - A collection where each object contains a collection of objects and a key.
      */
      enumProto.groupBy = function (keySelector) {
      	var elementSelector;
@@ -4356,12 +5476,34 @@
      * @function groupJoin
      * @memberof arrgh.Enumerable
      * @instance
+     * @returns {arrgh.Enumerable} - A collection that contains elements that are obtained by performing a grouped join on two collections.
      */
      enumProto.groupJoin = function (inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer) {
      	var self = this;
      	return new Enumerable(function () {
      		return new GroupJoinIterator(self, inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer);
      	});
+     };
+&nbsp;
+	/**
+     * Finds the first index at which a given element can be found in the collection, or -1 if it is not present.
+     * @param {*} searchElem - The element to locate in the collection.
+     * @param {Number} [fromIndex=0] - The index to start the search at.
+     * @function indexOf
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {Number} - The first index of the element in the array or -1 if not found.
+     */
+     enumProto.indexOf = function (searchElem, fromIndex) {
+     	fromIndex = fromIndex || 0;
+     	var foundIndex = -1;
+     	this.forEach(function (elem, index) {
+     		if (index &gt;= fromIndex &amp;&amp; searchElem === elem) {
+     			foundIndex = index;
+     			return false;
+     		}
+     	});
+     	return foundIndex;
      };
 &nbsp;
     /**
@@ -4390,6 +5532,7 @@
      * @function join
      * @memberof arrgh.Enumerable
      * @instance
+     * returns {arrgh.Enumerable} - A collection that has elements that are obtained by performing an inner join on two collections.
      */
      enumProto.join = function (inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer) {
      	var self = this;
@@ -4405,18 +5548,10 @@
      * @instance
      * @param {predicate} [predicate] - A function to test each element for a condition.
      * @returns {*} - Returns the last element of the collection, or the last element that satisfies a condition.
-     * @throws Throws an error if the collection is empty or when no element matches the condition.
+     * @throws Throws an error when the collection is empty or when no element matches the condition.
      */
      enumProto.last = function (predicate) {
-     	if (!this.any()) {
-     		throw new Error("Collection contains no elements.");
-     	}
-     	var def = {};
-     	var elem = this.lastOrDefault(predicate, def);
-     	if (elem === def) {
-     		throw new Error("Collection contains no matching element.");
-     	}
-     	return elem;
+     	return findElem(this, predicate, this.lastOrDefault.bind(this));
      };
 &nbsp;
     /**
@@ -4430,75 +5565,80 @@
      * @returns {*} - Returns the last element of the collection, or the last element that satisfies a condition, or a specified default value.
      */
      enumProto.lastOrDefault = function () {
-     	var predicate = typeof arguments[0] === "function" ? arguments[0] : undefined;
-     	var defaultValue = predicate ? arguments[1] : arguments[0];
-     	if (this.any()) {
-     		var last;
-     		var found = false;
-     		this.forEach(function (elem) {
-     			if (predicate) {
-     				if (predicate(elem)) {
-     					last = elem;
-     					found = true;
-     				}
-     			} else {
-     				last = elem;
-     				found = true;
-     			}
-     		});
-     		if (!found) {
-     			return defaultValue;
-     		}
-     		return last;
-     	} else {
-     		return defaultValue;
-     	}
+     	return findOrDefault(this, function (context, foundElem) {
+     		context.elem = foundElem;
+     		context.found = true;
+     	}, arguments[0], arguments[1]);
      };
 &nbsp;
     /**
      * Returns the maximum value in a collection.&lt;br /&gt;
-     * If values are non numeric results may vary.
+     * Values are converted to numerics. If this fails and the value is NaN then NaN is treated as smaller than anything.
      * @param {selector} [selector] - A function that projects an element into a new form.
      * @function max
      * @memberof arrgh.Enumerable
      * @instance
-     * @returns {*} - Returns the maximum value in the collection.
+     * @returns {*} - Returns the maximum value in the collection or NaN.
+     * @throws - Throws an error when the collection is empty.
      */
      enumProto.max = function (selector) {
      	selector = selector || identity;
      	var max;
      	var first = true;
+     	var hasNan = false;
      	this.forEach(function (elem) {
-     		elem = selector(elem);
+     		elem = +selector(elem);
      		<span class="missing-if-branch" title="else path not taken" >E</span>if (!isNull(elem)) {
-     			if (first) {
-     				first = false;
-     				max = elem;
+     			// Really weird behavior where NaN is smaller
+     			// than anything else (except in the min function).
+     			// And, of course, it can't be compared to anything...
+     			if (isNaN(elem)) {
+     				hasNan = true;
      			} else {
-     				if (defaultCompare(elem, max) &gt; 0) {
+     				if (first) {
+     					first = false;
      					max = elem;
+     				} else {
+     					if (defaultCompare(elem, max) &gt; 0) {
+     						max = elem;
+     					}
      				}
      			}
      		}
      	});
+     	if (first) {
+     		if (hasNan) {
+     			max = NaN
+     		} else {
+     			throw new Error("Collection contains no elements.");
+     		}
+     	}
      	return max;
      };
 &nbsp;
     /**
      * Returns the minimum value in a collection.&lt;br /&gt;
-     * If values are non numeric results may vary.
+     * Values are converted to numerics. If this fails the function returns NaN.
      * @param {selector} [selector] - A function that projects an element into a new form.
      * @function max
      * @memberof arrgh.Enumerable
      * @instance
-     * @returns {*} - Returns the minimum value in the collection.
+     * @returns {*} - Returns the minimum value in the collection or NaN.
+     * @throws - Throws an error when the collection is empty.
      */
      enumProto.min = function (selector) {
      	selector = selector || identity;
      	var min;
      	var first = true;
      	this.forEach(function (elem) {
-     		elem = selector(elem);
+     		elem = +selector(elem);
+     		if (isNaN(elem)) {
+     			// Really weird behavior where NaN is smaller
+     			// than anything else (except in the min function).
+     			first = false;
+     			min = elem;
+     			return false;
+     		}
      		<span class="missing-if-branch" title="else path not taken" >E</span>if (!isNull(elem)) {
      			if (first) {
      				first = false;
@@ -4510,6 +5650,9 @@
      			}
      		}
      	});
+     	if (first) {
+     		throw new Error("Collection contains no elements.");
+     	}
      	return min;
      };
 &nbsp;
@@ -4560,7 +5703,7 @@
      			break;
      		}
      	}
-     	var getType = getType || function (elem) {
+     	getType = getType || function (elem) {
      		return typeof elem === typeName;
      	};
      	return this.where(getType);
@@ -4592,44 +5735,223 @@
      	return new OrderedEnumerable(this, keySelector, compare, true);
      };
 &nbsp;
-    var RangeIterator = function (start, count) {
-     	<span class="missing-if-branch" title="if path not taken" >I</span>if (count &lt; 0) {
-<span class="cstat-no" title="statement not covered" >     		throw new Error("Count cannot be lower than 0.");</span>
-     	}
-     	var index = -1;
-     	this.moveNext = function () {
-     		index += 1;
-     		return count !== index;
-     	};
-     	this.current = function () {
-     		if (index === -1 || count === index) {
-     			return undefined;
-     		}
-     		return start + index;
-     	};
-    };
-&nbsp;
      /**
-     * Generates a collection of integral numbers within a specified range.
-     * @function empty
+     * Generates a collection of integral numbers within a specified range.&lt;br /&gt;
+     * When no count is supplied the range will stop at 9007199254740991 (a.k.a. Number.MAX_SAFE_INTEGER).&lt;br /&gt;
+     * Depending on your start value your browser will probably flip though, so just provide a count.
+     * @function range
      * @memberof arrgh.Enumerable
      * @static
      * @param {Number} start - The value of the first integer in the collection.
-     * @param {Number} [count=Infinity] - The number of sequential integers to generate.
+     * @param {Number} [count] - The number of sequential integers to generate.
      * @returns {arrgh.Enumerable} - A collection that contains a range of sequential integral numbers.
+     * @throws Throws when count is lower than 0 or when the range exceeds 9007199254740991 (a.k.a. Number.MAX_SAFE_INTEGER).
      */
-    Enumerable.range = function (start, count) {
+     Enumerable.range = function (start, count) {
+     	if (!isNull(count)) {
+     		if (count &lt; 0) {
+     			throw new Error("Count cannot be lower than 0.");
+     		}
+     		if (start + (count - 1) &gt; MAX_SAFE_INTEGER) {
+     			throw new Error("Start and count can not exceed " + MAX_SAFE_INTEGER + ".");
+     		}
+     	}
      	return new Enumerable(function () {
-     		return new RangeIterator(start, count || Infinity);
+     		if (isNull(count)) {
+     			return new RangeIterator(start);
+     		} else {
+     			return new RangeCountIterator(start, count);
+     		}
      	});
-    };
+     };
+&nbsp;
+     /**
+     * Generates a collection that contains one repeated value.
+     * @function repeat
+     * @memberof arrgh.Enumerable
+     * @static
+     * @param {*} element - The element to repeat.
+     * @param {Number} count - The number of times to repeat the element.
+     * @returns {arrgh.Enumerable} - A collection that contains a one value count times.
+     * @throws Throws when count is lower than 0.
+     */
+     Enumerable.repeat = function (element, count) {
+     	count = count || 0;
+     	if (count &lt; 0) {
+     		throw new Error("Count cannot be lower than 0.");
+     	}
+     	return new Enumerable(function () {
+     		return new RepeatIterator(element, count);
+     	});
+     };
+&nbsp;
+     /**
+     * Reverses the order of the elements in a collection.
+     * @function reverse
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Enumerable} - A collection that contains the original collection in reversed order.
+     */
+     enumProto.reverse = function () {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new ReverseIterator(self);
+     	});
+     };
+&nbsp;
+    /**
+     * Projects each element of a collection into a new form.
+     * @param {indexSelector} selector - A function that projects an element into a new form.
+     * @function select
+     * @see {@link arrgh.Enumerable#map}
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Enumerable} - A collection whose elements are the result of invoking the transform function on each element of source.
+     */
+     enumProto.select = function (selector) {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new SelectIterator(self, selector);
+     	});
+     };
+&nbsp;
+    /**
+     * Projects each element of a collection into a new form.
+     * @param {indexSelector} selector - A function that projects an element into a new form.
+     * @function map
+     * @see {@link arrgh.Enumerable#select}
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Enumerable} - A collection whose elements are the result of invoking the transform function on each element of source.
+     */
+     enumProto.map = enumProto.select;
+&nbsp;
+	/**
+     * Projects each element of a collection to an Enumerable and flattens the resulting collections into one collection.
+     * @param {collectionSelector} collectionSelector - A function that projects an element into a new form.
+     * @param {selectManyResultSelector} [resultSelector] - A function that creates a result value from each element in the intermediate collection.
+     * @function selectMany
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Enumerable} - A collection whose elements are the result of invoking the one-to-many transform function on each element of the input collection.
+     */
+     enumProto.selectMany = function (collectionSelector, resultSelector) {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new SelectManyIterator(self, collectionSelector, resultSelector);
+     	});
+     };
+&nbsp;
+	/**
+     * Determines whether two collections are equal by comparing the elements, optionally using a custom equality comparer for their type.
+     * @param {arrgh.Enumerable} other - Another collection to compare with.
+	 * @param {equalityComparer} [eqComparer=(===)] - An object that tests if two objects are equal.
+     * @function sequenceEquals
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {Boolean} - True if all elements in both collections match, otherwise false.
+     */
+     enumProto.sequenceEquals = function (other, eqComparer) {
+     	eqComparer = ensureEqComparer(eqComparer);
+&nbsp;
+     	var iterator = this.getIterator();
+     	var otherIterator = other.getIterator();
+     	var equal = true;
+     	while (iterator.moveNext() &amp;&amp; equal) {
+     		if (!otherIterator.moveNext() || !eqComparer.equals(iterator.current(), otherIterator.current())) {
+     			equal = false;
+     		}
+     	}
+     	equal = !otherIterator.moveNext();
+     	return equal;
+     };
+&nbsp;
+    /**
+     * Returns the only element in a collection, or the only element that satisfies a condition.
+     * @function single
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {predicate} [predicate] - A function to test each element for a condition.
+     * @returns {*} - Returns the only element of the collection, or the only element that satisfies a condition.
+     * @throws Throws an error when the collection is empty or when no element matches the condition or when the collection (or predicate) returns more than a single element.
+     */
+     enumProto.single = function (predicate) {
+     	return findElem(this, predicate, this.singleOrDefault.bind(this));
+     };
+&nbsp;
+    /**
+     * Returns the only element in a collection, or the only element that satisfies a condition.&lt;br /&gt;
+     * If the element is not found returns a default value.
+     * @function singleOrDefault
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {predicate} [predicate] - A function to test each element for a condition.
+     * @param {*} [defaultValue] - The value that is returned when the collection is empty or no element matches the condition.
+     * @returns {*} - Returns the only element of the collection, or the only element that satisfies a condition, or a specified default value.
+     * @throws Throws an error when the collection (or predicate) returns more than a single element.
+     */
+     enumProto.singleOrDefault = function () {
+     	return findOrDefault(this, function (context, foundElem) {
+     		if (context.found) {
+     			throw new Error("Collection contains more than one matching element.");
+     		}
+     		context.elem = foundElem;
+     		context.found = true;
+     	}, arguments[0], arguments[1]);
+     };
+&nbsp;
+    /**
+     * Bypasses a specified number of elements in a collection and then returns the remaining elements.
+     * @function skip
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {Number} count - The number of elements to skip.
+     * @returns {arrgh.Enumerable} - A collection that contains the elements that occur after the specified index.
+     */
+     enumProto.skip = function (count) {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new SkipIterator(self, count);
+     	});
+     };
+&nbsp;
+    /**
+     * Bypasses elements in a collection as long as a specified condition is true and then returns the remaining elements.
+     * @function skipWhile
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @param {indexPredicate} predicate - The number of elements to skip.
+     * @returns {arrgh.Enumerable} - A collection that contains the elements starting at the first element in the linear series that does not pass the test specified by predicate.
+     */
+     enumProto.skipWhile = function (predicate) {
+     	var self = this;
+     	return new Enumerable(function () {
+     		return new SkipWhileIterator(self, predicate);
+     	});
+     };
+&nbsp;
+    /**
+     * Computes the sum of a collection of values.&lt;br /&gt;
+     * If values are not numerics the result may be NaN or something unexpected (e.g. "2" + 2 will results 22).
+     * @param {selector} [selector] - A function that projects an element into a new form.
+     * @function sum
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {Number} - The sum of all values in the collection, or NaN.
+     * @throws Throws an error if the collection contains no elements.
+     */
+     enumProto.sum = function (selector, calculator) {
+     	return sumCount(this, selector, function (sum, count) {
+     		return sum;
+     	});
+     };
 &nbsp;
     /**
      * Converts the collection to a JavaScript array.
      * @function toArray
      * @memberof arrgh.Enumerable
      * @instance
-     * @returns {array} - Returns a JavaScript array.
+     * @returns {Array} - Returns a JavaScript array.
      */
      enumProto.toArray = function () {
      	var arr = [];
@@ -4643,59 +5965,13 @@
      	return new Lookup(this, keySelector, elementSelector, eqComparer);
      };
 &nbsp;
-     enumProto.indexOf = <span class="fstat-no" title="function not covered" >function (searchElem, fromIndex) {</span>
-<span class="cstat-no" title="statement not covered" >     	var arr = this.toArray();</span>
-<span class="cstat-no" title="statement not covered" >     	if (Array.prototype.indexOf) {</span>
-<span class="cstat-no" title="statement not covered" >     		return arr.indexOf(searchElem, fromIndex);</span>
-     	}
-&nbsp;
-<span class="cstat-no" title="statement not covered" >     	var len = this.count();</span>
-<span class="cstat-no" title="statement not covered" >     	fromIndex = fromIndex || -1;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >     	if (len === 0 || fromIndex &gt; len) {</span>
-<span class="cstat-no" title="statement not covered" >     		return -1;</span>
-     	}
-&nbsp;
-<span class="cstat-no" title="statement not covered" >     	var foundIndex = -1;</span>
-<span class="cstat-no" title="statement not covered" >     	var i;</span>
-<span class="cstat-no" title="statement not covered" >     	for (i = fromIndex; i &lt; len; i += 1) {</span>
-<span class="cstat-no" title="statement not covered" >     		if (arr[i] === searchElem) {</span>
-<span class="cstat-no" title="statement not covered" >     			foundIndex = i;</span>
-<span class="cstat-no" title="statement not covered" >     			break;</span>
-     		}
-     	}
-<span class="cstat-no" title="statement not covered" >     	return foundIndex;</span>
-     };
-&nbsp;
-     enumProto.filter = function (predicate) {
+     enumProto.where = function (predicate) {
      	var self = this;
      	return new Enumerable(function () {
      		return new WhereIterator(self, predicate);
      	});
      };
-     enumProto.where = enumProto.filter;
-&nbsp;
-     enumProto.map = function (selector) {
-     	var self = this;
-     	return new Enumerable(function () {
-     		return new SelectIterator(self, selector);
-     	});
-     };
-     enumProto.select = enumProto.map;
-&nbsp;
-     enumProto.tail = <span class="fstat-no" title="function not covered" >function () {</span>
-<span class="cstat-no" title="statement not covered" >     	if (this.count() &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >     		var elems = [];</span>
-<span class="cstat-no" title="statement not covered" >     		this.forEach(<span class="fstat-no" title="function not covered" >function (elem, index) {</span></span>
-<span class="cstat-no" title="statement not covered" >     			if (index !== 0) {</span>
-<span class="cstat-no" title="statement not covered" >     				elems.push(elem);</span>
-     			}
-     		});
-<span class="cstat-no" title="statement not covered" >     		return elems;</span>
-     	} else {
-<span class="cstat-no" title="statement not covered" >     		throw "Collection contains no elements.";</span>
-     	}
-     };
+     enumProto.filter = enumProto.where;
 &nbsp;
      enumProto.unionAll = function (other) {
      	var self = this;
@@ -4710,10 +5986,6 @@
      	return new Enumerable(function () {
      		return new UnionIterator(self, other, ensureEqComparer(eqComparer));
      	});
-     };
-&nbsp;
-     enumProto.asEnumerable = function () {
-     	return new Enumerable(this.getIterator);
      };
 &nbsp;
      enumProto.toList = <span class="fstat-no" title="function not covered" >function () {</span>
@@ -4736,7 +6008,7 @@
      * @memberof arrgh
      * @constructor
      * @extends arrgh.Enumerable
-     * @param {array|arrgh.Enumerable} [arr=[]] - An array or Enumerable whose elements are copied to the new list.
+     * @param {(Array|String|arrgh.Enumerable)} [enumerable=[]] - An array, string or enumerable whose elements are copied to the new list.
      */
      List = function () {
      	var self = this;
@@ -4751,67 +6023,73 @@
      		iterable = arguments[0] || [];
      	}
 &nbsp;
-     	if (isArray(iterable)) {
+     	if (isArray(iterable) || typeof iterable === "string") {
      		self.length = iterable.length;
      		var i;
      		for (i = 0; i &lt; iterable.length; i += 1) {
      			self[i] = iterable[i];
      		}
-        } else { // Enumerable
-        	self.length = 0;
-        	iterable.forEach(function (elem, index) {
-        		self[index] = elem;
-        		self.length += 1;
-        	});
-        }
-    };
-    inherit(List, Enumerable);
+     	} else <span class="missing-if-branch" title="else path not taken" >E</span>if (iterable.getIterator) {
+     		self.length = 0;
+     		iterable.forEach(function (elem, index) {
+     			self[index] = elem;
+     			self.length += 1;
+     		});
+     	} else {
+<span class="cstat-no" title="statement not covered" >     		throw new Error("The input parameter for List was not valid.");</span>
+     	}
+     };
+     inherit(List, Enumerable);
 &nbsp;
-    var listProto = List.prototype;
+     var listProto = List.prototype;
 &nbsp;
-    listProto.add = function (elem) {
-    	this[this.length] = elem;
-    	this.length += 1;
-    };
+     listProto.add = function (elem) {
+     	this[this.length] = elem;
+     	this.length += 1;
+     };
 &nbsp;
-    listProto.addRange = function () {
-    	if (arguments.length === 1 &amp;&amp; arguments[0].getIterator) {
-    		var self = this;
-    		arguments[0].forEach(function (elem) {
-    			self[self.length] = elem;
-    			self.length += 1;
-    		});
-    	} else {
-    		var arr = (arguments.length === 1 &amp;&amp; isArray(arguments[0])) ? arguments[0] : arguments;
-    		var i;
-    		for (i = 0; i &lt; arr.length; i += 1) {
-    			this[this.length] = arr[i];
-    			this.length += 1;
-    		}
-    	}
-    };
+     listProto.addRange = function () {
+     	if (arguments.length === 1 &amp;&amp; arguments[0].getIterator) {
+     		var self = this;
+     		arguments[0].forEach(function (elem) {
+     			self[self.length] = elem;
+     			self.length += 1;
+     		});
+     	} else {
+     		var arr = (arguments.length === 1 &amp;&amp; isArray(arguments[0])) ? arguments[0] : arguments;
+     		var i;
+     		for (i = 0; i &lt; arr.length; i += 1) {
+     			this[this.length] = arr[i];
+     			this.length += 1;
+     		}
+     	}
+     };
 &nbsp;
-    listProto.push = <span class="fstat-no" title="function not covered" >function () {</span>
-<span class="cstat-no" title="statement not covered" >    	this.addRange(arguments);</span>
-<span class="cstat-no" title="statement not covered" >    	return this.length;</span>
-    };
+     listProto.push = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >     	this.addRange(arguments);</span>
+<span class="cstat-no" title="statement not covered" >     	return this.length;</span>
+     };
 &nbsp;
-    listProto.remove = function (elem) {
-    	var len = this.length;
-    	var i;
-    	var found = false;
-    	for (i = 0; i &lt; len; i += 1) {
-    		found = found || this[i] === elem;
-    		if (found) {
-    			this[i] = this[i + 1];
-    		}
-    	}
-    	if (found) {
-    		delete this[len - 1];
-    		this.length -= 1;
-    	}
-    	return found;
-    };
+     listProto.remove = function (elem) {
+     	var len = this.length;
+     	var i;
+     	var found = false;
+     	for (i = 0; i &lt; len; i += 1) {
+     		found = found || this[i] === elem;
+     		if (found) {
+     			this[i] = this[i + 1];
+     		}
+     	}
+     	if (found) {
+     		delete this[len - 1];
+     		this.length -= 1;
+     	}
+     	return found;
+     };
+&nbsp;
+     listProto.get = function (index) {
+     	return this[index];
+     };
 &nbsp;
     /**
      * Specifies how many elements the collection has, or how many satisfy a certain condition.
@@ -5074,7 +6352,7 @@
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Sep 30 2016 00:48:24 GMT+0200 (W. Europe Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Oct 02 2016 22:04:29 GMT+0200 (W. Europe Daylight Time)
 </div>
 </div>
 <script src="../prettify.js"></script>
