@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Dictionary</title>
+    <title>JSDoc: Class: Lookup</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Dictionary</h1>
+    <h1 class="page-title">Class: Lookup</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="arrgh.html">arrgh</a>.</span>Dictionary</h2>
+            <span class="ancestors"><a href="arrgh.html">arrgh</a>.</span>Lookup</h2>
         
     
 </header>
@@ -41,14 +41,14 @@
 
     
 
-    <h4 class="name" id="Dictionary"><span class="type-signature"></span>new Dictionary<span class="signature">(eqComparer<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Lookup"><span class="type-signature"></span>new Lookup<span class="signature">(source, keySelector, elementSelector<span class="signature-attributes">opt</span>, eqComparer<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Represents a collection of keys and values.
+    Represents a collection of keys each mapped to one or more values.
 </div>
 
 
@@ -88,6 +88,113 @@
 
         <tr>
             
+                <td class="name"><code>source</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="arrgh.Enumerable.html">arrgh.Enumerable</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The collection to map to a lookup.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keySelector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#keySelector">keySelector</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">A function that returns the key value from an element of the inner collection.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>elementSelector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#selector">selector</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">A function that projects an element into a new form.</td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>eqComparer</code></td>
             
 
@@ -120,7 +227,7 @@
                 </td>
             
 
-            <td class="description last">An object that tests if two objects are equal.</td>
+            <td class="description last">An object that tests if two keys are equal.</td>
         </tr>
 
     
@@ -161,7 +268,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line424">line 424</a>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line463">line 463</a>
     </li></ul></dd>
     
 
@@ -1552,10 +1659,8 @@
     
 
     
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="arrgh.Enumerable.html#count">arrgh.Enumerable#count</a>
     </li></ul></dd>
     
@@ -1577,9 +1682,11 @@
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line2230">line 2230</a>
+        <a href="arrgh.js.html">arrgh.js</a>, <a href="arrgh.js.html#line1219">line 1219</a>
     </li></ul></dd>
     
 

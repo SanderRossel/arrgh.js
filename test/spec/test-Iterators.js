@@ -3,23 +3,23 @@ var testIterators = function () {
 
 	var test = function (enumerable, getEmptyEnumerable) {
 		if (getEmptyEnumerable) {
-			it("current should return undefined when it's empty", function () {
+			it("should not return a current when it's empty", function () {
 				var iterator = getEmptyEnumerable(arrgh.Enumerable.empty()).getIterator();
 				expect(iterator.current()).toBe(undefined);
 			});
 
-			it("moveNext should return false when it's empty", function () {
+			it("should not return moveNext when it's empty", function () {
 				var iterator = getEmptyEnumerable(arrgh.Enumerable.empty()).getIterator();
 				expect(iterator.moveNext()).toBe(false);
 			});
 		}
 
-		it("current should return undefined when not moved", function () {
+		it("should not return a current when it's not moved", function () {
 			var iterator = enumerable.getIterator();
 			expect(iterator.current()).toBe(undefined);
 		});
 
-		it("should not return undefined when moveNext is true", function () {
+		it("should return a current when moveNext is true", function () {
 			var iterator = enumerable.getIterator();
 			var i = 0;
 			for (i; i < 1000; i += 1) {
@@ -34,7 +34,7 @@ var testIterators = function () {
 			}
 		});
 
-		it("should return undefined when moveNext is false", function () {
+		it("should not return a current when moveNext is false", function () {
 			var iterator = enumerable.getIterator();
 			var i = 0;
 			for (i; i < 1000; i += 1) {
@@ -46,6 +46,39 @@ var testIterators = function () {
 						break;
 					}
 				}
+			}
+		});
+
+		it("should keep returning false after moveNext returned false once", function () {
+			var iterator = enumerable.getIterator();
+			var i = 0;
+			var moved = true;
+			for (i; i < 1000; i += 1) {
+				var movedNow = iterator.moveNext();
+				if (!moved) {
+					expect(movedNow).toBe(false);
+					if (movedNow) {
+						break;
+					}
+				}
+				moved = movedNow;
+			}
+		});
+
+		it("should keep returning no current after moveNext returned false once", function () {
+			var iterator = enumerable.getIterator();
+			var i = 0;
+			var moved = true;
+			for (i; i < 1000; i += 1) {
+				var movedNow = iterator.moveNext();
+				if (!moved) {
+					var current = iterator.current();
+					expect(current).toBe(undefined);
+					if (current) {
+						break;
+					}
+				}
+				moved = movedNow;
 			}
 		});
 	};
@@ -252,6 +285,32 @@ var testIterators = function () {
 				return elem < 3;
 			}), function (e) {
 				return e.skipWhile(function () {
+					return false;
+				});
+			});
+		});
+
+		describe(" - TakeIterator", function () {
+			test(new arrgh.Enumerable(1, 2, 3, 4, 5, 6, 7, 8, 9, 0).take(5), function (e) {
+				return e.take(5);
+			});
+		});
+
+		describe(" - TakeWhileIterator", function () {
+			test(new arrgh.Enumerable(1, 2, 3, 4, 5).takeWhile(function (elem) {
+				return elem < 4;
+			}), function (e) {
+				return e.takeWhile(function () {
+					return false;
+				});
+			});
+		});
+
+		describe(" - ZipIterator", function () {
+			test(new arrgh.Enumerable(1, 2, 3, 4, 5).zip(new arrgh.Enumerable(1, 2, 3, 4, 5), function (first, other) {
+				return first + other;
+			}), function (e) {
+				return e.zip(arrgh.Enumerable.empty(), function () {
 					return false;
 				});
 			});

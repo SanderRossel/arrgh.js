@@ -86,12 +86,13 @@ var firstCharEqComparer = {
 	"use strict";
 	describe("arrgh.js tests", function () {
 		testIterators();
-		testList();
-		testDictionary();
-		testEnumerableStatics();
 		testEnumerable();
+		testEnumerableUnions();
 		testEnumerableJoins();
 		testEnumerableOrderings();
-		testEnumerableUnions();
+		testEnumerableToSomethings();
+		testEnumerableStatics();
+		testList();
+		testDictionary();
 	});
 }());

@@ -27,7 +27,7 @@ var testList = function () {
 
 			it("should throw on an invalid argument", function () {
 				expect(function () {
-					new arrgh.Enumerable(true);
+					new arrgh.List(true);
 				}).toThrow();
 			});
 		});
