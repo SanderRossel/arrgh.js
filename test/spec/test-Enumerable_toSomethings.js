@@ -2,28 +2,6 @@ var testEnumerableToSomethings = function () {
 	"use strict";
 
 	describe("toSomethings", function () {
-		describe("toArray", function () {
-			it("should convert back to the original array", function () {
-				var arr = new arrgh.Enumerable(people).toArray();
-				expect(arr).toEqual(people);
-			});
-
-			it("should convert back to an empty array", function () {
-				var arr = arrgh.Enumerable.empty().toArray();
-				expect(arr).toEqual([]);
-			});
-
-			it("should convert back to a string array", function () {
-				var arr = new arrgh.Enumerable("Hello").toArray();
-				expect(arr).toEqual(["H", "e", "l", "l", "o"]);
-			});
-
-			it("should convert back to a string", function () {
-				var arr = new arrgh.Enumerable("Hello").toArray().join("");
-				expect(arr).toBe("Hello");
-			});
-		});
-
 		describe("toDictionary", function () {
 			it("should create a dictionary", function () {
 				var e = new arrgh.Enumerable(people);
@@ -159,6 +137,45 @@ var testEnumerableToSomethings = function () {
 					key: "Steve",
 					arr: [p4]
 				}]);
+			});
+
+			it("should group by first name and return a group with one element", function () {
+				var e = new arrgh.Enumerable(people);
+				var group = e.toLookup(firstNameSelector).get("Sander");
+				group = {
+					key: group.key,
+					arr: group.toArray()
+				};
+				expect(group).toEqual({
+					key: "Sander",
+					arr: [p0]
+				});
+			});
+
+			it("should group by first name and return a group with elements", function () {
+				var e = new arrgh.Enumerable(people);
+				var group = e.toLookup(firstNameSelector).get("Bill");
+				group = {
+					key: group.key,
+					arr: group.toArray()
+				};
+				expect(group).toEqual({
+					key: "Bill",
+					arr: [p1, p2, p5]
+				});
+			});
+
+			it("should group by first name and also return not existing names, but without elements", function () {
+				var e = new arrgh.Enumerable(people);
+				var group = e.toLookup(firstNameSelector).get("Someone");
+				group = {
+					key: group.key,
+					arr: group.toArray()
+				};
+				expect(group).toEqual({
+					key: "Someone",
+					arr: []
+				});
 			});
 
 			it("should group people by first name and select full names as elements", function () {

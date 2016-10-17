@@ -4,7 +4,7 @@ var testDictionary = function () {
 	describe("Dictionary", function () {
 		describe("add", function () {
 			describe("without an equality comparer", function () {
-				it("should add and get a key and undefined", function () {
+				it("should add and get a key", function () {
 					var d = new arrgh.Dictionary();
 					d.add("a");
 					expect(d.get("a")).toBe(undefined);
@@ -200,9 +200,33 @@ var testDictionary = function () {
 					expect(d.containsKey("Hi")).toBe(false);
 					expect(d.containsKey("Bye")).toBe(false);
 				});
+
+				it("should work with undefined, null and NaN", function () {
+					var d = new arrgh.Dictionary();
+					d.add(undefined, "a");
+					d.add(null, "b");
+					d.add(NaN, "c");
+					var o = {};
+					o.toString = undefined;
+					d.add(o, "d");
+					expect(d.get(undefined)).toBe("a");
+					expect(d.get(null)).toBe("b");
+					expect(d.get(NaN)).toBe("c");
+					expect(d.get(o)).toBe("d");
+				});
 			});
 
 			describe("with an equality comparer", function () {
+				it("should work with a weird default comparer", function () {
+					var d = new arrgh.Dictionary({
+						equals: function (a, b) {
+							return a === b;
+						}
+					});
+					d.add(p0);
+					expect(d.containsKey(p0)).toBe(true);
+				});
+
 				it("should contain the simple string key", function () {
 					var usedHash = false;
 					var d = new arrgh.Dictionary({
@@ -328,6 +352,43 @@ var testDictionary = function () {
 					expect(d.length).toBe(1);
 				});
 			});
-		})
+		});
+
+		describe("count", function () {
+			var d = new arrgh.Dictionary();
+			d.add(p0, p0);
+			d.add(p1, p1);
+			d.add(p2, p2);
+			d.add(p3, p3);
+			d.add(p4, p4);
+			d.add(p5, p5);
+
+			describe("with an empty enumerable", function () {
+				it("should always returns 0", function () {
+					expect(new arrgh.Dictionary().count()).toBe(0);
+				});
+				it("should always return 0 even when a predicate is defined", function () {
+					expect(new arrgh.Dictionary().count(function () {
+						return true;
+					})).toBe(0);
+				});
+			});
+
+			it("should return the number of elements when no predicate is defined", function () {
+				expect(d.count()).toBe(6);
+			});
+
+			it("should return the number of matching elements when some elements match the predicate", function () {
+				expect(d.count(function (pair) {
+					return pair.value.first === "Bill";
+				})).toBe(3);
+			});
+
+			it("should return 0 when no element match the predicate", function () {
+				expect(d.count(function (pair) {
+					return pair.value.first === "nope";
+				})).toBe(0);
+			});
+		});
 	});
 };

@@ -1,7 +1,7 @@
 var testIterators = function () {
 	"use strict";
 
-	var test = function (enumerable, getEmptyEnumerable) {
+	var test = function (enumerable, getEmptyEnumerable, getComparableCurrent) {
 		if (getEmptyEnumerable) {
 			it("should not return a current when it's empty", function () {
 				var iterator = getEmptyEnumerable(arrgh.Enumerable.empty()).getIterator();
@@ -81,6 +81,36 @@ var testIterators = function () {
 				moved = movedNow;
 			}
 		});
+
+		it("should return the same result every time it's iterated over (be reusable)", function () {
+			var getResult = function (iterator) {
+				var result = [];
+				var i = 0;
+				for (i; i < 20; i += 1) {
+					if (iterator.moveNext()) {
+						var current = iterator.current();
+						if (getComparableCurrent) {
+							current = getComparableCurrent(current);
+						} else {
+							if (current instanceof arrgh.Enumerable) {
+								if (current.key) {
+									// For Lookups.
+									current = {
+										key: current.key,
+										arr: current.toArray()
+									};
+								} else {
+									current = current.toArray();
+								}
+							}
+						}
+						result.push(current);
+					}
+				}
+				return result;
+			};
+			expect(getResult(enumerable.getIterator())).toEqual(getResult(enumerable.getIterator()));
+		});
 	};
 
 	var testList = function (list) {
@@ -119,45 +149,6 @@ var testIterators = function () {
 			});
 		});
 
-		describe("- DictionaryIterator", function () {
-			var d = new arrgh.Dictionary();
-			d.add(1, 1);
-			d.add(2, 2);
-			d.add(3, 3);
-			d.add(4, 4);
-			d.add(5, 5);
-			test(d, function () {
-				return new arrgh.Dictionary();
-			});
-			testList(d);
-		});
-
-		describe("- WhereIterator", function () {
-			test(new arrgh.Enumerable(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).where(function (n) {
-				return n % 2 == 1;
-			}), function (e) {
-				return e.where(function () {
-					return false;
-				});
-			});
-		});
-
-		describe("- SelectIterator", function () {
-			test(new arrgh.Enumerable(1, 2, 3, 4, 5).select(function (n) {
-				return n;
-			}), function (e) {
-				return e.select(function () {
-					return {};
-				});
-			});
-
-			it("should call the selector once, even when the single element is undefined", function () {
-				expect(new arrgh.Enumerable([undefined]).select(function () {
-					return true;
-				}).toArray()).toEqual([true]);
-			});
-		});
-
 		describe("- DefaultIfEmptyIterator", function () {
 			// DefaultIfEmpty is a little weird because it can never be empty.
 			var enumerable = new arrgh.Enumerable(1, 2, 3, 4, 5);
@@ -171,20 +162,17 @@ var testIterators = function () {
 			});
 		});
 
-		describe("- OrderedIterator", function () {
-			test(new arrgh.Enumerable(3, 2, 4, 5, 1).orderBy(function (elem) {
-				return elem;
-			}), function (e) {
-				return e.orderBy(function (elem) {
-					return elem;
-				});
+		describe("- DictionaryIterator", function () {
+			var d = new arrgh.Dictionary();
+			d.add(1, 1);
+			d.add(2, 2);
+			d.add(3, 3);
+			d.add(4, 4);
+			d.add(5, 5);
+			test(d, function () {
+				return new arrgh.Dictionary();
 			});
-		});
-
-		describe("- UnionIterator", function () {
-			test(new arrgh.Enumerable(1, 2, 3).union(new arrgh.Enumerable(1, 2)), function (e) {
-				return e.union(arrgh.Enumerable.empty());
-			});
+			testList(d);
 		});
 
 		describe("- ExceptIterator", function () {
@@ -211,6 +199,14 @@ var testIterators = function () {
 				return { p: p, ppl: ppl };
 			}), function (e) {
 				return e.groupJoin(arrgh.Enumerable.empty(), firstSelector, firstSelector);
+			}, function (c) {
+				return {
+					p: c.p,
+					ppl: {
+						key: c.ppl.key,
+						arr: c.ppl.toArray()
+					}
+				};
 			});
 
 			it("should loop once even when there is only a single undefined", function () {
@@ -244,6 +240,16 @@ var testIterators = function () {
 			});
 		});
 
+		describe("- OrderedIterator", function () {
+			test(new arrgh.Enumerable(3, 2, 4, 5, 1).orderBy(function (elem) {
+				return elem;
+			}), function (e) {
+				return e.orderBy(function (elem) {
+					return elem;
+				});
+			});
+		});
+
 		describe("- RangeCountIterator", function () {
 			test(arrgh.Enumerable.range(0, 10), function (e) {
 				return arrgh.Enumerable.range(0, 0);
@@ -265,6 +271,22 @@ var testIterators = function () {
 		describe("- ReverseIterator", function () {
 			test(new arrgh.Enumerable(1, 2, 3, 4, 5).reverse(), function (e) {
 				return e.reverse();
+			});
+		});
+
+		describe("- SelectIterator", function () {
+			test(new arrgh.Enumerable(1, 2, 3, 4, 5).select(function (n) {
+				return n;
+			}), function (e) {
+				return e.select(function () {
+					return {};
+				});
+			});
+
+			it("should call the selector once, even when the single element is undefined", function () {
+				expect(new arrgh.Enumerable([undefined]).select(function () {
+					return true;
+				}).toArray()).toEqual([true]);
 			});
 		});
 
@@ -301,6 +323,22 @@ var testIterators = function () {
 				return elem < 4;
 			}), function (e) {
 				return e.takeWhile(function () {
+					return false;
+				});
+			});
+		});
+
+		describe("- UnionIterator", function () {
+			test(new arrgh.Enumerable(1, 2, 3).union(new arrgh.Enumerable(1, 2)), function (e) {
+				return e.union(arrgh.Enumerable.empty());
+			});
+		});
+
+		describe("- WhereIterator", function () {
+			test(new arrgh.Enumerable(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).where(function (n) {
+				return n % 2 == 1;
+			}), function (e) {
+				return e.where(function () {
 					return false;
 				});
 			});

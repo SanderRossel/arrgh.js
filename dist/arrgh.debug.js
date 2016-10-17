@@ -185,17 +185,31 @@
         // Treat undefined as smaller than null
         // and both as smaller than anything else.
         var noVal = function (a, b, val) {
-            if (a !== val && b === val) {
-                return 1;
+            if (a === b) {
+                return 0;
             } else if (a === val && b !== val) {
                 return -1;
-            } else {
-                return 0;
+            } else if (a !== val && b === val) {
+                return 1;
             }
         };
 
         if (isNull(x) || isNull(y)) {
-            return noVal(x, y, undefined) || noVal(x, y, null);
+            var eq = noVal(x, y, undefined);
+            if (eq === undefined) {
+                return  noVal(x, y, null);
+            }
+            return eq;
+        }
+
+        // Treat NaN as smaller than anything else
+        // except undefined and null.
+        if (x !== x && y !== y) {
+            return 0;
+        } else if (x !== x) {
+            return -1;
+        } else if (y !== y) {
+            return 1;
         }
 
         if (x > y) {
@@ -209,7 +223,7 @@
 
     var defaultEqComparer = {
         equals: function (x, y) {
-            return x === y;
+            return x === y || (x !== x && y !== y); // NaN edge case.
         },
         getHash: function (obj) {
             var hash;
@@ -217,6 +231,8 @@
                 hash = "null";
             } else if (obj === undefined) {
                 hash = "undefined";
+            } else if (obj !== obj) {
+                hash = "NaN";
             } else {
                 hash = typeof obj.getHash === "function" ?
                 obj.getHash() :
@@ -304,26 +320,63 @@
         return calculator(sum, count);
     }
 
-    var ArrayIterator = function (arr) {
+    /**
+     * A parameterless function that moves the iterator to the next position.<br />
+     * Returns false when no next position is found.
+     * @function moveNext
+     * @memberof arrgh.Iterator
+     * @instance
+     * @returns {Boolean} - Returns whether the Iterator has moved to the next position.
+     */
+
+     /**
+     * A parameterless function that returns the value at the current position.<br />
+     * Returns undefined when the iterator is at its initial position or when moveNext returns false.
+     * @function current
+     * @memberof arrgh.Iterator
+     * @instance
+     * @returns {*} - Returns the value at the current position of the Iterator.
+     */
+
+    /**
+     * Supports iteration over a collection.
+     * @memberof arrgh
+     * @constructor
+     * @param {function} moveNext - A parameterless function that moves the iterator to the next position.
+     * @param {function} current - A parameterless function that returns the value at the current position.
+     */
+     var Iterator = function (moveNext, current) {
+        this.moveNext = moveNext;
+        this.current = current;
+    };
+
+    var getArrayIterator = function (arr) {
         var len = arr.length;
         var index = -1;
-        this.moveNext = function () {
+        return new Iterator (function () {
             if (arr.length !== len) {
                 throw new Error("Collection was modified, enumeration operation may not execute.");
             }
             index += 1;
             return index < len;
-        };
-        this.current = function () {
+        }, function () {
             return arr[index];
-        };
+        });
     };
+
+    /**
+     * Returns an iterator that iterates through the collection.
+     * @function getIterator
+     * @memberof arrgh.Enumerable
+     * @instance
+     * @returns {arrgh.Iterator} - Returns an iterator that iterates through the collection.
+     */
 
     /**
      * Represents the base class for any collection.
      * @memberof arrgh
      * @constructor
-     * @param {(Array|String|arrgh.Enumerable|Function)} [iterator=[]] - An array, string or enumerable to iterate over or a function that returns an iterator.
+     * @param {(Array|String|arrgh.Enumerable|Function)} [iterator=[]] - An array, string or enumerable to add to the new collection or a parameterless function that returns an {@link arrgh.Iterator}.
      */
      var Enumerable = function () {
         var iterable;
@@ -335,7 +388,7 @@
 
         if (isArray(iterable) || typeof iterable === "string") {
             this.getIterator = function () {
-                return new ArrayIterator(iterable);
+                return getArrayIterator(iterable);
             };
         } else if (iterable.getIterator) {
             this.getIterator = iterable.getIterator;
@@ -356,7 +409,7 @@
      var List = function () {
         var self = this;
         Enumerable.call(self, function () {
-            return new ArrayIterator(self);
+            return getArrayIterator(self);
         });
 
         var iterable;
@@ -384,36 +437,6 @@
     };
     inherit(List, Enumerable);
 
-    var DictionaryIterator = function (dict) {
-        var len = dict.length;
-        var current;
-        var hashIndex = -1;
-        var currentKeys;
-        var keyIndex = -1;
-        this.moveNext = function () {
-            if (dict.length !== len) {
-                throw new Error("Collection was modified, enumeration operation may not execute.");
-            }
-            current = undefined;
-            if (!currentKeys || keyIndex === currentKeys.length - 1) {
-                hashIndex += 1;
-                if (hashIndex < dict._.hashes.length) {
-                    var hash = dict._.hashes[hashIndex];
-                    currentKeys = dict._.keys[hash];
-                    keyIndex = 0;
-                    current = currentKeys[keyIndex];
-                }
-            } else {
-                keyIndex += 1;
-                current = currentKeys[keyIndex];
-            }
-            return hashIndex <= dict._.hashes.length - 1;
-        };
-        this.current = function () {
-            return current;
-        };
-    };
-
     /**
      * Represents a collection of keys and values.
      * @memberof arrgh
@@ -424,31 +447,42 @@
      var Dictionary = function (eqComparer) {
         var self = this;
         Enumerable.call(self, function () {
-            return new DictionaryIterator(self);
+            var len = self.length;
+            var current;
+            var hashIndex = -1;
+            var currentKeys;
+            var keyIndex = -1;
+            return new Iterator(function () {
+                if (self.length !== len) {
+                    throw new Error("Collection was modified, enumeration operation may not execute.");
+                }
+                current = undefined;
+                if (!currentKeys || keyIndex === currentKeys.length - 1) {
+                    hashIndex += 1;
+                    if (hashIndex < self._.hashes.length) {
+                        var hash = self._.hashes[hashIndex];
+                        currentKeys = self._.keys[hash];
+                        keyIndex = 0;
+                        current = currentKeys[keyIndex];
+                    }
+                } else {
+                    keyIndex += 1;
+                    current = currentKeys[keyIndex];
+                }
+                return hashIndex <= self._.hashes.length - 1;
+            }, function () {
+                return current;
+            });
         });
 
         self.length = 0;
         self._ = {
             eqComparer: ensureEqComparer(eqComparer),
-            hashes: new List(),
-            keys: {}
+            keys: {},
+            hashes: new List()
         };
     };
     inherit(Dictionary, Enumerable);
-
-    var LookupIterator = function (dictionary) {
-        var iterator = dictionary.getIterator();
-        this.moveNext = iterator.moveNext;
-        this.current = function () {
-            var current = iterator.current();
-            if (isNull(current)) {
-                return current;
-            }
-            var group = current.value.asEnumerable();
-            group.key = current.key;
-            return group;
-        };
-    };
 
     /**
      * Represents a collection of keys each mapped to one or more values.
@@ -463,7 +497,16 @@
      var Lookup = function (source, keySelector) {
         var d;
         Enumerable.call(this, function () {
-            return new LookupIterator(d);
+            var iterator = d.getIterator();
+            return new Iterator(iterator.moveNext, function () {
+                var current = iterator.current();
+                if (isNull(current)) {
+                    return current;
+                }
+                var group = current.value.asEnumerable();
+                group.key = current.key;
+                return group;
+            });
         });
 
         var elementSelector;
@@ -503,76 +546,30 @@
     };
     inherit(Lookup, Enumerable);
 
-    function qsort(enumerable, compare) {
-        if (enumerable.count() < 2) {
-            return enumerable;
+    // TODO: Use a faster stable sorting algorithm.
+    // This one chokes at around 3000 elements...
+    function stableQuicksort (items, compare) {
+        if (items.length <= 1) {
+            return items;
         }
 
-        var head = enumerable.first();
-        var smaller = enumerable.where(function (item, index) {
-            if (index === 0) {
-                return false;
+        var smaller = [];
+        var bigger = [];
+        var pivot = items[0];
+        var i;
+        for (i = 1; i < items.length; i += 1) {
+            var item = items[i];
+            var result = compare(item, pivot);
+            if (result < 0) {
+                smaller.push(item);
+            } else if (result > 0) {
+                bigger.push(item);
+            } else {
+                bigger.push(item);
             }
-            return compare(item, head) <= 0;
-        });
-        var bigger = enumerable.where(function (item, index) {
-            if (index === 0) {
-                return false;
-            }
-            return compare(item, head) > 0;
-        });
-
-        var smallerSorted = qsort(smaller, compare);
-        var biggerSorted = qsort(bigger, compare);
-        return smallerSorted.concat(new Enumerable([head])).concat(biggerSorted);
+        }
+        return stableQuicksort(smaller, compare).concat([pivot]).concat(stableQuicksort(bigger, compare));
     }
-
-    var OrderedEnumerable;
-    var OrderedIterator = (function () {
-        var getNextSource = function (source, currentSource) {
-            var next = source;
-            while (next._.source instanceof OrderedEnumerable && next._.source !== currentSource) {
-                next = next._.source;
-            }
-            return next;
-        };
-        return function (source) {
-            var self = this;
-
-            var arr;
-            var len;
-            var index = -1;
-            self.moveNext = function () {
-                if (index === -1) {
-                    var parent = getNextSource(source);
-                    // Make sure the source is fully evaluated by calling toArray().
-                    arr = qsort(new Enumerable(parent._.source.toArray()), function (x, y) {
-                        var result;
-                        var cont = true;
-                        var currentSource = parent;
-                        while (cont) {
-                            result = currentSource._.compare(currentSource._.keySelector(x), currentSource._.keySelector(y)) * currentSource._.descending;
-                            if (result !== 0) {
-                                break;
-                            }
-                            if (currentSource === source) {
-                                cont = false;
-                            } else {
-                                currentSource = getNextSource(source, currentSource);
-                            }
-                        }
-                        return result;
-                    }).toArray();
-                    len = arr.length;
-                }
-                index += 1;
-                return index < len;
-            };
-            self.current = function () {
-                return arr ? arr[index] : undefined;
-            };
-        };
-    }());
 
     /**
      * Represents an ordered collection that can be iterated over.
@@ -584,378 +581,61 @@
      * @param {compare} [compare] - A function that tests if an object is smaller than, greater than or equal to another object.
      * @param {Boolean} descending - Indicated wheter the collection needs to be sorted ascending or descending.
      */
-     OrderedEnumerable = function (source, keySelector, compare, descending) {
+     var OrderedEnumerable = function (source, keySelector, compare, descending) {
         var self = this;
-        Enumerable.call(this, function () {
-            return new OrderedIterator(self);
-        });
-        self._ = {
-            source: source,
-            keySelector: keySelector,
-            compare: compare || defaultCompare,
-            descending: descending ? -1 : 1
+        var keys;
+        compare = compare || defaultCompare;
+        descending = descending ? -1 : 1;
+
+        self.getSource = function () {
+            if (source.getSource) {
+                return source.getSource();
+            }
+            return source;
         };
+
+        self.computeKeys = function (elements, count) {
+            var arr = new Array(count);
+            elements.forEach(function (elem, index) {
+                arr[index] = keySelector(elem);
+            });
+            keys = arr;
+            if (source.computeKeys) {
+                source.computeKeys(elements, count);
+            }
+        };
+        self.compareKeys = function (i, j) {
+            var result = 0;
+            if (source.compareKeys) {
+                result = source.compareKeys(i, j);
+            }
+            if (result === 0) {
+                result = compare(keys[i], keys[j]) * descending;
+            }
+            return result;
+        };
+        Enumerable.call(this, function () {
+            var sourceArr = self.getSource().toArray();
+            var count = sourceArr.length;
+            self.computeKeys(sourceArr, count);
+            var map = new Array(count);
+            var i;
+            for (i = 0; i < count; i += 1) {
+                map[i] = i;
+            }
+            var sorted = stableQuicksort(map, self.compareKeys);
+            var index = -1;
+            return new Iterator(function () {
+                index += 1;
+                return index < count;
+            }, function () {
+                return sourceArr[sorted[index]];
+            });
+        });
     };
     inherit(OrderedEnumerable, Enumerable);
 
-    var DefaultIfEmptyIterator = function (source, defaultValue) {
-        var iterator = source.getIterator();
-        var current;
-        var empty = true;
-        this.moveNext = function () {
-            current = undefined;
-            if (iterator.moveNext()) {
-                empty = false;
-                current = iterator.current();
-                return true;
-            }
-            if (empty) {
-                empty = false;
-                current = defaultValue;
-                return true;
-            }
-            return false;
-        };
-        this.current = function () {
-            return current;
-        };
-    };
-
-    var ExceptIterator = function (source, other, eqComparer) {
-        var iterator = source.getIterator();
-        var d = new Dictionary(eqComparer);
-        other.forEach(function (elem) {
-            if (!d.containsKey(elem)) {
-                d.add(elem);
-            }
-        });
-        var moveNext;
-        var current;
-        moveNext = function () {
-            if (iterator.moveNext()) {
-                current = iterator.current();
-                if (!d.containsKey(current)) {
-                    d.add(current);
-                    return true;
-                } else {
-                    return moveNext();
-                }
-            }
-            current = undefined;
-            return false;
-        };
-        this.moveNext = moveNext;
-        this.current = function () {
-            return current;
-        };
-    };
-
-    var GroupByIterator = function (source, keySelector, elementSelector, resultSelector, eqComparer) {
-        elementSelector = elementSelector || identity;
-        eqComparer = ensureEqComparer(eqComparer);
-
-        var iterator = source.toLookup(keySelector, elementSelector, eqComparer).getIterator();
-        this.moveNext = iterator.moveNext;
-        this.current = function () {
-            var current = iterator.current();
-            if (isNull(current)) {
-                return current;
-            }
-            if (resultSelector) {
-                return resultSelector(current.key, current);
-            }
-            return current;
-        };
-    };
-
-    var GroupJoinIterator = function (source, inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer) {
-        eqComparer = ensureEqComparer(eqComparer);
-
-        var iterator = source.getIterator();
-        var innerLookup = inner.toLookup(innerKeySelector, eqComparer);
-        var moved = false;
-
-        this.moveNext = function () {
-            moved = iterator.moveNext();
-            return moved;
-        };
-        this.current = function () {
-            if (!moved) {
-                return undefined;
-            }
-            var current = iterator.current();
-            var outerKey = outerKeySelector(current);
-            return resultSelector(current, innerLookup.get(outerKey));
-        };
-    };
-
-    var IntersectIterator = function (source, other, eqComparer) {
-        var iterator = source.getIterator();
-        var d = new Dictionary(eqComparer);
-        other.forEach(function (elem) {
-            if (!d.containsKey(elem)) {
-                d.add(elem);
-            }
-        });
-        var moveNext;
-        var current;
-        moveNext = function () {
-            if (iterator.moveNext()) {
-                current = iterator.current();
-                if (d.containsKey(current)) {
-                    return d.remove(current);
-                } else {
-                    return moveNext();
-                }
-            }
-            current = undefined;
-            return false;
-        };
-        this.moveNext = moveNext;
-        this.current = function () {
-            return current;
-        };
-    };
-
-    var JoinIterator = function (source, inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer) {
-        eqComparer = ensureEqComparer(eqComparer);
-
-        var outerIterator = source.getIterator();
-        var innerLookup = inner.toLookup(innerKeySelector, eqComparer);
-        var moved;
-        var innerIterator;
-
-        var outerCurrent;
-        var innerCurrent;
-        var moveNext;
-        moveNext = function () {
-            if (innerIterator) {
-                moved = innerIterator.moveNext();
-                if (moved) {
-                    innerCurrent = innerIterator.current();
-                } else {
-                    innerIterator = undefined;
-                    moveNext();
-                }
-            } else {
-                moved = outerIterator.moveNext();
-                if (moved) {
-                    outerCurrent = outerIterator.current();
-                    innerIterator = innerLookup.get(outerKeySelector(outerCurrent)).getIterator();
-                    moveNext();
-                }
-            }
-            return moved;
-        };
-        this.moveNext = moveNext;
-        this.current = function () {
-            if (!moved) {
-                return undefined;
-            }
-            return resultSelector(outerCurrent, innerCurrent);
-        };
-    };
-
-    var RangeCountIterator = function (start, count) {
-        var index = -1;
-        this.moveNext = function () {
-            index += 1;
-            return index < count;
-        };
-        this.current = function () {
-            if (index === -1 || index >= count) {
-                return undefined;
-            }
-            return start + index;
-        };
-    };
-
-    var RangeIterator = function (start) {
-        var moved = false;
-        this.moveNext = function () {
-            if (!moved) {
-                moved = true;
-            } else {
-                start += 1;
-            }
-            return start <= MAX_SAFE_INTEGER;
-        };
-        this.current = function () {
-            if (!moved || start > MAX_SAFE_INTEGER) {
-                return undefined;
-            }
-            return start;
-        };
-    };
-
-    var RepeatIterator = function (element, count) {
-        var index = -1;
-        this.moveNext = function () {
-            index += 1;
-            return index < count;
-        };
-        this.current = function () {
-            if (index === -1 || index >= count) {
-                return undefined;
-            }
-            return element;
-        };
-    };
-
-    var ReverseIterator = function (source) {
-        var list = new List(source);
-        var length = list.length;
-        var index = length;
-        this.moveNext = function () {
-            index -= 1;
-            return index >= 0;
-        };
-        this.current = function () {
-            if (index === length) {
-                return undefined;
-            }
-            return list.get(index);
-        };
-    };
-
-    var SelectIterator = function (source, selector) {
-        var index = -1;
-        var iterator = source.getIterator();
-        var next;
-        this.moveNext = function () {
-            index += 1;
-            next = iterator.moveNext();
-            return next;
-        };
-        this.current = function () {
-            var current;
-            if (next) {
-                current = selector(iterator.current(), index);
-            }
-            return current;
-        };
-    };
-
-    var SelectManyIterator = function (source, collectionSelector, resultSelector) {
-        var iterator = source.getIterator();
-        var innerIterator;
-        var outerCurrent;
-        var current;
-        var index = -1;
-        var moveNext;
-        moveNext = function () {
-            current = undefined;
-            if (innerIterator) {
-                if (innerIterator.moveNext()) {
-                    if (resultSelector) {
-                        current = resultSelector(outerCurrent, innerIterator.current());
-                    } else {
-                        current = innerIterator.current();
-                    }
-                    return true;
-                } else {
-                    innerIterator = null;
-                    return moveNext();
-                }
-            }
-
-            if (iterator.moveNext()) {
-                index += 1;
-                outerCurrent = iterator.current();
-                innerIterator = new Enumerable(collectionSelector(outerCurrent, index)).getIterator();
-                return moveNext();
-            }
-            return false;
-        };
-        this.moveNext = moveNext;
-        this.current = function () {
-            return current;
-        };
-    };
-
-    var SkipIterator = function (source, count) {
-        var iterator = source.getIterator();
-        var skipped = 0;
-        this.moveNext = function () {
-            while (skipped < count) {
-                skipped += 1;
-                if (!iterator.moveNext()) {
-                    return false;
-                }
-            }
-            return iterator.moveNext();
-        };
-        this.current = function () {
-            return iterator.current();
-        };
-    };
-
-    var SkipWhileIterator = function (source, predicate) {
-        var iterator = source.getIterator();
-        var index = -1;
-        var current;
-        var skipped = false;
-        this.moveNext = function () {
-            current = undefined;
-            while (!skipped) {
-                index += 1;
-                if (iterator.moveNext()) {
-                    current = iterator.current();
-                    if (!predicate(current, index)) {
-                        skipped = true;
-                        return true;
-                    }
-                } else {
-                    skipped = true;
-                    return false;
-                }
-            }
-            var next = iterator.moveNext();
-            current = iterator.current();
-            return next;
-        };
-        this.current = function () {
-            return current;
-        };
-    };
-
-    var TakeIterator = function (source, count) {
-        var iterator = source.getIterator();
-        var index = -1;
-        this.moveNext = function () {
-            index += 1;
-            return index < count && iterator.moveNext();
-        };
-        this.current = function () {
-            if (index === -1 || index >= count) {
-                return undefined;
-            }
-            return iterator.current();
-        };
-    };
-
-    var TakeWhileIterator = function (source, predicate) {
-        var iterator = source.getIterator();
-        var take = true;
-        var current;
-        var index = -1;
-        this.moveNext = function () {
-            take = take && iterator.moveNext();
-            if (take) {
-                index += 1;
-                current = iterator.current();
-                take = predicate(current, index);
-            }
-            return take;
-        };
-        this.current = function () {
-            if (take) {
-                return current;
-            }
-        };
-    };
-
-    var UnionIterator = function (first, second, eqComparer) {
+    var getUnionIterator = function (first, second, eqComparer) {
         var firstIterator = first.getIterator();
         var secondIterator = second.getIterator();
         var current;
@@ -996,52 +676,16 @@
                     // move on to the second iterator.
                     return moveNext();
                 }
+
                 return true;
             } else {
                 return move(secondIterator);
             }
         };
-        this.moveNext = moveNext;
-        this.current = function () {
-            return current;
-        };
-    };
 
-    var WhereIterator = function (source, predicate) {
-        var index = -1;
-        var iterator = source.getIterator();
-        var current;
-        this.moveNext = function () {
-            while (iterator.moveNext()) {
-                index += 1;
-                current = iterator.current();
-                if (predicate(current, index)) {
-                    return true;
-                }
-            }
-            current = undefined;
-            return false;
-        };
-        this.current = function () {
+        return new Iterator(moveNext, function () {
             return current;
-        };
-    };
-
-    var ZipIterator = function (source, other, resultSelector) {
-        var sourceIterator = source.getIterator();
-        var otherIterator = other.getIterator();
-        var current;
-        this.moveNext = function () {
-            current = undefined;
-            if (sourceIterator.moveNext() && otherIterator.moveNext()) {
-                current = resultSelector(sourceIterator.current(), otherIterator.current());
-                return true;
-            }
-            return false;
-        };
-        this.current = function () {
-            return current;
-        };
+        });
     };
 
     var empty = new Enumerable();
@@ -1182,7 +826,7 @@
      enumProto.concat = function (other) {
         var self = this;
         return new Enumerable(function () {
-            return new UnionIterator(self, other);
+            return getUnionIterator(self, other);
         });
     };
 
@@ -1247,7 +891,25 @@
      enumProto.defaultIfEmpty = function (defaultValue) {
         var self = this;
         return new Enumerable(function () {
-            return new DefaultIfEmptyIterator(self, defaultValue);
+            var iterator = self.getIterator();
+            var current;
+            var empty = true;
+            return new Iterator(function () {
+                current = undefined;
+                if (iterator.moveNext()) {
+                    empty = false;
+                    current = iterator.current();
+                    return true;
+                }
+                if (empty) {
+                    empty = false;
+                    current = defaultValue;
+                    return true;
+                }
+                return false;
+            }, function () {
+                return current;
+            });
         });
     };
 
@@ -1334,7 +996,28 @@
      enumProto.except = function (other, eqComparer) {
         var self = this;
         return new Enumerable(function () {
-            return new ExceptIterator(self, other, eqComparer);
+            var iterator = self.getIterator();
+            var d = new Dictionary(eqComparer);
+            other.forEach(function (elem) {
+                if (!d.containsKey(elem)) {
+                    d.add(elem);
+                }
+            });
+            var moveNext;
+            var current;
+            return new Iterator(function () {
+                while (iterator.moveNext()) {
+                    current = iterator.current();
+                    if (!d.containsKey(current)) {
+                        d.add(current);
+                        return true;
+                    }
+                }
+                current = undefined;
+                return false;
+            }, function () {
+                return current;
+            });
         });
     };
 
@@ -1418,9 +1101,23 @@
         setArg(1);
         setArg(2);
         setArg(3);
+
+        elementSelector = elementSelector || identity;
+        eqComparer = ensureEqComparer(eqComparer);
+
         var self = this;
         return new Enumerable(function () {
-            return new GroupByIterator(self, keySelector, elementSelector, resultSelector, eqComparer);
+            var iterator = self.toLookup(keySelector, elementSelector, eqComparer).getIterator();
+            return new Iterator(iterator.moveNext, function () {
+                var current = iterator.current();
+                if (isNull(current)) {
+                    return current;
+                }
+                if (resultSelector) {
+                    return resultSelector(current.key, current);
+                }
+                return current;
+            });
         });
     };
 
@@ -1438,8 +1135,22 @@
      */
      enumProto.groupJoin = function (inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer) {
         var self = this;
+        eqComparer = ensureEqComparer(eqComparer);
         return new Enumerable(function () {
-            return new GroupJoinIterator(self, inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer);
+            var iterator = self.getIterator();
+            var innerLookup = inner.toLookup(innerKeySelector, eqComparer);
+            var moved = false;
+            return new Iterator(function () {
+                moved = iterator.moveNext();
+                return moved;
+            }, function () {
+                if (!moved) {
+                    return undefined;
+                }
+                var current = iterator.current();
+                var outerKey = outerKeySelector(current);
+                return resultSelector(current, innerLookup.get(outerKey));
+            });
         });
     };
 
@@ -1476,7 +1187,27 @@
      enumProto.intersect = function (other, eqComparer) {
         var self = this;
         return new Enumerable(function () {
-            return new IntersectIterator(self, other, eqComparer);
+            var iterator = self.getIterator();
+            var d = new Dictionary(eqComparer);
+            other.forEach(function (elem) {
+                if (!d.containsKey(elem)) {
+                    d.add(elem);
+                }
+            });
+            var moveNext;
+            var current;
+            return new Iterator(function () {
+                while (iterator.moveNext()) {
+                    current = iterator.current();
+                    if (d.containsKey(current)) {
+                        return d.remove(current);
+                    }
+                }
+                current = undefined;
+                return false;
+            }, function () {
+                return current;
+            });
         });
     };
 
@@ -1494,8 +1225,42 @@
      */
      enumProto.join = function (inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer) {
         var self = this;
+        eqComparer = ensureEqComparer(eqComparer);
         return new Enumerable(function () {
-            return new JoinIterator(self, inner, outerKeySelector, innerKeySelector, resultSelector, eqComparer);
+
+            var outerIterator = self.getIterator();
+            var innerLookup = inner.toLookup(innerKeySelector, eqComparer);
+            var moved;
+            var innerIterator;
+
+            var outerCurrent;
+            var innerCurrent;
+            var moveNext;
+            moveNext = function () {
+                if (innerIterator) {
+                    moved = innerIterator.moveNext();
+                    if (moved) {
+                        innerCurrent = innerIterator.current();
+                    } else {
+                        innerIterator = undefined;
+                        moveNext();
+                    }
+                } else {
+                    moved = outerIterator.moveNext();
+                    if (moved) {
+                        outerCurrent = outerIterator.current();
+                        innerIterator = innerLookup.get(outerKeySelector(outerCurrent)).getIterator();
+                        moveNext();
+                    }
+                }
+                return moved;
+            };
+            return new Iterator(moveNext, function () {
+                if (!moved) {
+                    return undefined;
+                }
+                return resultSelector(outerCurrent, innerCurrent);
+            });
         });
     };
 
@@ -1706,9 +1471,31 @@
         }
         return new Enumerable(function () {
             if (isNull(count)) {
-                return new RangeIterator(start);
+                var moved = false;
+                return new Iterator(function () {
+                    if (!moved) {
+                        moved = true;
+                    } else {
+                        start += 1;
+                    }
+                    return start <= MAX_SAFE_INTEGER;
+                }, function () {
+                    if (!moved || start > MAX_SAFE_INTEGER) {
+                        return undefined;
+                    }
+                    return start;
+                });
             } else {
-                return new RangeCountIterator(start, count);
+                var index = -1;
+                return new Iterator(function () {
+                    index += 1;
+                    return index < count;
+                }, function () {
+                    if (index === -1 || index >= count) {
+                        return undefined;
+                    }
+                    return start + index;
+                });
             }
         });
     };
@@ -1729,7 +1516,16 @@
             throw new Error("Count cannot be lower than 0.");
         }
         return new Enumerable(function () {
-            return new RepeatIterator(element, count);
+            var index = -1;
+            return new Iterator(function () {
+                index += 1;
+                return index < count;
+            }, function () {
+                if (index === -1 || index >= count) {
+                    return undefined;
+                }
+                return element;
+            });
         });
     };
 
@@ -1743,7 +1539,18 @@
     enumProto.reverse = function () {
         var self = this;
         return new Enumerable(function () {
-            return new ReverseIterator(self);
+            var list = new List(self);
+            var length = list.length;
+            var index = length;
+            return new Iterator(function () {
+                index -= 1;
+                return index >= 0;
+            }, function () {
+                if (index === length) {
+                    return undefined;
+                }
+                return list.get(index);
+            });
         });
     };
 
@@ -1759,7 +1566,20 @@
      enumProto.select = function (selector) {
         var self = this;
         return new Enumerable(function () {
-            return new SelectIterator(self, selector);
+            var index = -1;
+            var iterator = self.getIterator();
+            var next;
+            return new Iterator(function () {
+                index += 1;
+                next = iterator.moveNext();
+                return next;
+            }, function () {
+                var current;
+                if (next) {
+                    current = selector(iterator.current(), index);
+                }
+                return current;
+            });
         });
     };
 
@@ -1786,7 +1606,39 @@
      enumProto.selectMany = function (collectionSelector, resultSelector) {
         var self = this;
         return new Enumerable(function () {
-            return new SelectManyIterator(self, collectionSelector, resultSelector);
+            var iterator = self.getIterator();
+            var innerIterator;
+            var outerCurrent;
+            var current;
+            var index = -1;
+            var moveNext;
+            moveNext = function () {
+                current = undefined;
+                if (innerIterator) {
+                    if (innerIterator.moveNext()) {
+                        if (resultSelector) {
+                            current = resultSelector(outerCurrent, innerIterator.current());
+                        } else {
+                            current = innerIterator.current();
+                        }
+                        return true;
+                    } else {
+                        innerIterator = null;
+                        return moveNext();
+                    }
+                }
+
+                if (iterator.moveNext()) {
+                    index += 1;
+                    outerCurrent = iterator.current();
+                    innerIterator = new Enumerable(collectionSelector(outerCurrent, index)).getIterator();
+                    return moveNext();
+                }
+                return false;
+            };
+            return new Iterator(moveNext, function () {
+                return current;
+            });
         });
     };
 
@@ -1859,7 +1711,19 @@
      enumProto.skip = function (count) {
         var self = this;
         return new Enumerable(function () {
-            return new SkipIterator(self, count);
+            var iterator = self.getIterator();
+            var skipped = 0;
+            return new Iterator(function () {
+                while (skipped < count) {
+                    skipped += 1;
+                    if (!iterator.moveNext()) {
+                        return false;
+                    }
+                }
+                return iterator.moveNext();
+            }, function () {
+                return iterator.current();
+            });
         });
     };
 
@@ -1874,7 +1738,31 @@
      enumProto.skipWhile = function (predicate) {
         var self = this;
         return new Enumerable(function () {
-            return new SkipWhileIterator(self, predicate);
+            var iterator = self.getIterator();
+            var index = -1;
+            var current;
+            var skipped = false;
+            return new Iterator(function () {
+                current = undefined;
+                while (!skipped) {
+                    index += 1;
+                    if (iterator.moveNext()) {
+                        current = iterator.current();
+                        if (!predicate(current, index)) {
+                            skipped = true;
+                            return true;
+                        }
+                    } else {
+                        skipped = true;
+                        return false;
+                    }
+                }
+                var next = iterator.moveNext();
+                current = iterator.current();
+                return next;
+            }, function () {
+                return current;
+            });
         });
     };
 
@@ -1905,7 +1793,17 @@
      enumProto.take = function (count) {
         var self = this;
         return new Enumerable(function () {
-            return new TakeIterator(self, count);
+            var iterator = self.getIterator();
+            var index = -1;
+            return new Iterator(function () {
+                index += 1;
+                return index < count && iterator.moveNext();
+            }, function () {
+                if (index === -1 || index >= count) {
+                    return undefined;
+                }
+                return iterator.current();
+            });
         });
     };
 
@@ -1920,8 +1818,50 @@
      enumProto.takeWhile = function (predicate) {
         var self = this;
         return new Enumerable(function () {
-            return new TakeWhileIterator(self, predicate);
+            var iterator = self.getIterator();
+            var take = true;
+            var current;
+            var index = -1;
+            return new Iterator(function () {
+                take = take && iterator.moveNext();
+                if (take) {
+                    index += 1;
+                    current = iterator.current();
+                    take = predicate(current, index);
+                }
+                return take;
+            }, function () {
+                if (take) {
+                    return current;
+                }
+            });
         });
+    };
+
+    /**
+     * Performs a subsequent ordering of the elements in a sequence in ascending order according to a key.
+     * @function thenBy
+     * @memberof arrgh.OrderedEnumerable
+     * @instance
+     * @param {keySelector} keySelector - A function to extract a key from an element.
+     * @param {compare} [compare] - A function that tests if an object is smaller than, greater than or equal to another object.
+     * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
+     */
+     OrderedEnumerable.prototype.thenBy = function (keySelector, compare) {
+        return new OrderedEnumerable(this, keySelector, compare, false);
+    };
+
+    /**
+     * Performs a subsequent ordering of the elements in a sequence in descending order according to a key.
+     * @function thenByDescending
+     * @memberof arrgh.OrderedEnumerable
+     * @instance
+     * @param {keySelector} keySelector - A function to extract a key from an element.
+     * @param {compare} [compare] - A function that tests if an object is smaller than, greater than or equal to another object.
+     * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
+     */
+     OrderedEnumerable.prototype.thenByDescending = function (keySelector, compare) {
+        return new OrderedEnumerable(this, keySelector, compare, true);
     };
 
     /**
@@ -2012,7 +1952,7 @@
      enumProto.union = function (other, eqComparer) {
         var self = this;
         return new Enumerable(function () {
-            return new UnionIterator(self, other, ensureEqComparer(eqComparer));
+            return getUnionIterator(self, other, ensureEqComparer(eqComparer));
         });
     };
 
@@ -2028,7 +1968,22 @@
      enumProto.where = function (predicate) {
         var self = this;
         return new Enumerable(function () {
-            return new WhereIterator(self, predicate);
+            var index = -1;
+            var iterator = self.getIterator();
+            var current;
+            return new Iterator(function () {
+                while (iterator.moveNext()) {
+                    index += 1;
+                    current = iterator.current();
+                    if (predicate(current, index)) {
+                        return true;
+                    }
+                }
+                current = undefined;
+                return false;
+            }, function () {
+                return current;
+            });
         });
     };
 
@@ -2055,7 +2010,19 @@
      enumProto.zip = function (other, resultSelector) {
         var self = this;
         return new Enumerable(function () {
-            return new ZipIterator(self, other, resultSelector);
+            var sourceIterator = self.getIterator();
+            var otherIterator = other.getIterator();
+            var current;
+            return new Iterator(function () {
+                current = undefined;
+                if (sourceIterator.moveNext() && otherIterator.moveNext()) {
+                    current = resultSelector(sourceIterator.current(), otherIterator.current());
+                    return true;
+                }
+                return false;
+            }, function () {
+                return current;
+            });
         });
     };
 
@@ -2109,19 +2076,55 @@
         return this[index];
     };
 
-    /**
-     * Specifies how many elements the collection has, or how many satisfy a certain condition.
-     * @function count
-     * @memberof arrgh.List
-     * @instance
-     * @param {predicate} [predicate] - A function to test each element for a condition.
-     * @returns {Number} - A number that specifies how many elements the collection has, or how many satisfy a certain condition.
-     */
-     listProto.count = function (predicate) {
+    listProto.count = function (predicate) {
         if (!predicate) {
             return this.length;
         } else {
             return Enumerable.prototype.count.call(this, predicate);
+        }
+    };
+
+    listProto.elementAt = function (index) {
+        if (index < 0 || index >= this.length) {
+            throw new Error("Index was outside the bounds of the collection.");
+        }
+        return this[index];
+    };
+
+    listProto.elementAtOrDefault = function (index, defaultValue) {
+        if (index < 0 || index >= this.length) {
+            return defaultValue;
+        }
+        return this[index];
+    };
+
+    listProto.indexOf = function (searchElem, fromIndex) {
+        fromIndex = fromIndex || 0;
+        for (fromIndex; fromIndex < this.length; fromIndex += 1) {
+            if (this[fromIndex] === searchElem) {
+                return fromIndex;
+            }
+        }
+        return -1;
+    };
+
+    listProto.last = function (predicate) {
+        if (this.length > 0 && !predicate) {
+            return this[this.length - 1];
+        } else {
+            return Enumerable.prototype.last.call(this, predicate);
+        }
+    };
+
+    listProto.lastOrDefault = function (predicate, defaultValue) {
+        if (typeof arguments[0] === "function") {
+            return Enumerable.prototype.lastOrDefault.call(this, predicate, defaultValue);
+        } else {
+            if (this.length > 0) {
+                return this[this.length - 1];
+            } else {
+                return arguments[0];
+            }
         }
     };
 
@@ -2153,9 +2156,9 @@
 
         if (!this._.keys[hash]) {
             this._.keys[hash] = new List();
+            this._.hashes.add(hash);
         }
         this._.keys[hash].add({ key: key, value: value });
-        this._.hashes.add(hash);
 
         this.length += 1;
     };
@@ -2227,15 +2230,7 @@
         });
     };
 
-    /**
-     * Specifies how many elements the collection has, or how many satisfy a certain condition.
-     * @function count
-     * @memberof arrgh.Dictionary
-     * @instance
-     * @param {predicate} [predicate] - A function to test each element for a condition.
-     * @returns {Number} - A number that specifies how many elements the collection has, or how many satisfy a certain condition.
-     */
-     dictProto.count = function (predicate) {
+    dictProto.count = function (predicate) {
         if (!predicate) {
             return this.length;
         } else {
@@ -2243,37 +2238,10 @@
         }
     };
 
-    var ordProto = OrderedEnumerable.prototype;
-
-    /**
-     * Performs a subsequent ordering of the elements in a sequence in ascending order according to a key.
-     * @function thenBy
-     * @memberof arrgh.OrderedEnumerable
-     * @instance
-     * @param {keySelector} keySelector - A function to extract a key from an element.
-     * @param {compare} [compare] - A function that tests if an object is smaller than, greater than or equal to another object.
-     * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
-     */
-     ordProto.thenBy = function (keySelector, compare) {
-        return new OrderedEnumerable(this, keySelector, compare, false);
-    };
-
-    /**
-     * Performs a subsequent ordering of the elements in a sequence in descending order according to a key.
-     * @function thenByDescending
-     * @memberof arrgh.OrderedEnumerable
-     * @instance
-     * @param {keySelector} keySelector - A function to extract a key from an element.
-     * @param {compare} [compare] - A function that tests if an object is smaller than, greater than or equal to another object.
-     * @returns {arrgh.OrderedEnumerable} - Returns an ordered enumerable.
-     */
-     ordProto.thenByDescending = function (keySelector, compare) {
-        return new OrderedEnumerable(this, keySelector, compare, true);
-    };
-
     return {
         Enumerable: Enumerable,
-        List: List,
-        Dictionary: Dictionary
+        Dictionary: Dictionary,
+        Iterator: Iterator,
+        List: List
     };
 }());

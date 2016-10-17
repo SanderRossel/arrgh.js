@@ -1,58 +1,6 @@
 var testEnumerable = function () {
 	"use strict";
 
-    /*var arr = [];
-	var l = new arrgh.List();
-
-	var benchmark = function(description, callback) {
-		var start = new Date().getTime();
-		var i = 0;
-		callback();
-		console.log(description + " took: " + (new Date().getTime() - start));
-	};*/
-
-    /*benchmark("filling list", function () {
-		var i = 0;
-		for (i; i < 10000000; i += 1) {
-			l.add(i);
-		}
-	});
-
-	benchmark("filling array", function () {
-		var i = 0;
-		for (i; i < 10000000; i += 1) {
-			arr.push(i);
-		}
-	});
-
-	benchmark("iterate over array in for loop", function () {
-		var i = 0;
-		for (i; i < arr.length; i += 1) {
-			var a = arr[i];
-		}
-	});
-
-	benchmark("iterate over list in for loop", function () {
-		var i = 0;
-		for (i; i < l.length; i += 1) {
-			var a = l[i];
-		}
-	});
-
-	benchmark("iterate over array using forEach", function () {
-		arr.forEach(function (elem, index) {
-			var a = elem;
-			var b = index;
-		});
-	});
-
-	benchmark("iterate over list using forEach", function () {
-		l.forEach(function (elem, index) {
-			var a = elem;
-			var b = index;
-		});
-	});*/
-
 	describe("Enumerable", function () {
 		describe("ctors", function () {
 			it("should construct from an array", function () {
@@ -372,40 +320,6 @@ var testEnumerable = function () {
 			});
 		});
 
-		describe("count", function () {
-			describe("with an empty enumerable", function () {
-				it("should always returns 0", function () {
-					var e = arrgh.Enumerable.empty();
-					expect(e.count()).toBe(0);
-				});
-				it("should always return 0 even when a predicate is defined", function () {
-					var e = arrgh.Enumerable.empty();
-					expect(e.count(function () {
-						return true;
-					})).toBe(0);
-				});
-			});
-
-			it("should return the number of elements when no predicate is defined", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.count()).toBe(6);
-			});
-
-			it("should return the number of matching elements when some elements match the predicate", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.count(function (elem) {
-					return elem.first === "Bill";
-				})).toBe(3);
-			});
-
-			it("should return 0 when no element match the predicate", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.count(function (elem) {
-					return elem.first === "nope";
-				})).toBe(0);
-			});
-		});
-
 		describe("defaultIfEmpty", function () {
 			it("should return the original elements if there are any", function () {
 				var e = new arrgh.Enumerable(people);
@@ -445,79 +359,6 @@ var testEnumerable = function () {
 						return x[1] === y[1];
 					}
 				}).toArray()).toEqual([p0.first, p1.first, p4.first]);
-			});
-		});
-
-		describe("elementAt", function () {
-			it("should return the element at the 0th position", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.elementAt(0)).toBe(p0);
-			});
-
-			it("should return the elements at the 2nd position", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.elementAt(2)).toBe(p2);
-			});
-
-			it("should return the element at the last position", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.elementAt(e.count() - 1)).toBe(p5);
-			});
-
-			it("should throw when the index is negative", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(function () {
-					e.elementAt(-1);
-				}).toThrow();
-			});
-
-			it("should throw when the index is greater than the number of elements -1", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(function () {
-					e.elementAt(6);
-				}).toThrow();
-			});
-
-			it("should not throw in the edge case the inner (implementation) default is the same as an element", function () {
-				var e = new arrgh.Enumerable([{}]);
-				expect(e.elementAt(0)).toEqual({});
-			});
-		});
-
-		describe("elementAtOrDefault", function () {
-			it("should return the element at the 0th position", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.elementAtOrDefault(0, "Hello")).toBe(p0);
-			});
-
-			it("should return the element at the 2nd position", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.elementAtOrDefault(2, "Hello")).toBe(p2);
-			});
-
-			it("should return the element at the last position", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.elementAtOrDefault(e.count() - 1, "Hello")).toBe(p5);
-			});
-
-			it("should return undefined when the index is negative and no default value is supplied", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.elementAtOrDefault(-1)).toBe(undefined);
-			});
-
-			it("should return undefined when the index is out of bounds and no default value is supplied", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.elementAtOrDefault(10)).toBe(undefined);
-			});
-
-			it("should return the default value when the index is negative and a default value is supplied", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.elementAtOrDefault(-1, "Hello")).toBe("Hello");
-			});
-
-			it("should return the default value when the index is positive and out of bounds and a default value is supplied", function () {
-				var e = new arrgh.Enumerable(people);
-				expect(e.elementAtOrDefault(10, "Bye")).toBe("Bye");
 			});
 		});
 
@@ -723,43 +564,6 @@ var testEnumerable = function () {
 			});
 		});
 
-		describe("indexOf", function () {
-			it("should return -1 if the element is not found", function () {
-				var e = new arrgh.Enumerable(1, 2, 3, 4, 5);
-				expect(e.indexOf(6)).toBe(-1);
-			});
-
-			it("should return -1 if the fromIndex is greater than the length of the collection", function () {
-				var e = new arrgh.Enumerable(1, 2, 3, 4, 5);
-				expect(e.indexOf(5, 5)).toBe(-1);
-			});
-
-			it("should return the index of the element if the fromIndex starts at the index of that element", function () {
-				var e = new arrgh.Enumerable(1, 2, 3, 4, 5);
-				expect(e.indexOf(5, 4)).toBe(4);
-			});
-
-			it("should return -1 if the fromIndex is greater than the index of the element", function () {
-				var e = new arrgh.Enumerable(1, 2, 3, 4, 5);
-				expect(e.indexOf(1, 1)).toBe(-1);
-			});
-
-			it("should return the index of the first element", function () {
-				var e = new arrgh.Enumerable(1, 2, 3, 4, 5);
-				expect(e.indexOf(1)).toBe(0);
-			});
-
-			it("should return the index of the found element", function () {
-				var e = new arrgh.Enumerable(1, 2, 3, 4, 5);
-				expect(e.indexOf(3)).toBe(2);
-			});
-
-			it("should return the index of the found element after the fromIndex", function () {
-				var e = new arrgh.Enumerable(1, 2, 3, 4, 5, 3);
-				expect(e.indexOf(3, 3)).toBe(5);
-			});
-		});
-
 		describe("intersect", function () {
 			it("should return elements that are in the source and in the other collection", function () {
 				var e = new arrgh.Enumerable(1, 2, 3, 4, 5).intersect(new arrgh.Enumerable(3, 5));
@@ -800,84 +604,6 @@ var testEnumerable = function () {
 					}
 				});
 				expect(e.toArray()).toEqual([p1, p3, p4]);
-			});
-		});
-
-		describe("last", function () {
-			it("should throw when the collection is empty", function () {
-				expect(function () {
-					arrgh.Enumerable.empty().last();
-				}).toThrow();
-			});
-
-			it("should throw when a predicate is specified, but the collection is empty", function () {
-				expect(function () {
-					arrgh.Enumerable.empty().last(function (elem) {
-						return elem === 1;
-					});
-				}).toThrow();
-			});
-
-			it("should throw when the collection is not empty, but no element matches the predicate", function () {
-				expect(function () {
-					new arrgh.Enumerable(1, 2, 3, 4).last(function (n) {
-						return n === 5;
-					});
-				}).toThrow();
-			});
-
-			it("should return the last element if no predicate is defined", function () {
-				expect(new arrgh.Enumerable(1, 2, 3, 4).last()).toBe(4);
-			});
-
-			it("should return the last element that matches the predicate", function () {
-				expect(new arrgh.Enumerable(people).last(function (p) {
-					return p.first === "Bill";
-				})).toBe(p5);
-			});
-
-			it("should return the last element that matches the predicate, even when it's not the last in the collection", function () {
-				expect(new arrgh.Enumerable(people).last(function (p) {
-					return p.first === "Steve";
-				})).toBe(p4);
-			});
-		});
-
-		describe("lastOrDefault", function () {
-			it("should return undefined when the collection is empty and no default is specified", function () {
-				expect(arrgh.Enumerable.empty().lastOrDefault()).toBe(undefined);
-			});
-
-			it("should return undefined when the collection is not empty, but no element matches the predicate", function () {
-				expect(new arrgh.Enumerable(1, 2, 3, 4).lastOrDefault(function (n) {
-					return n === 5;
-				})).toBe(undefined);
-			});
-
-			it("should return the last element if no predicate is defined", function () {
-				expect(new arrgh.Enumerable(1, 2, 3, 4).lastOrDefault()).toBe(4);
-			});
-
-			it("should return the last element that matches the predicate", function () {
-				expect(new arrgh.Enumerable(people).lastOrDefault(function (p) {
-					return p.first === "Bill";
-				})).toBe(p5);
-			});
-
-			it("should return the last element that matches the predicate, even when it's not the last in the collection", function () {
-				expect(new arrgh.Enumerable(people).lastOrDefault(function (p) {
-					return p.first === "Steve";
-				})).toBe(p4);
-			});
-
-			it("should return the default when a default is defined and the collection is empty", function () {
-				expect(arrgh.Enumerable.empty().lastOrDefault(p0)).toBe(p0);
-			});
-
-			it("should return the default when a default is defined and no element matches the predicate", function () {
-				expect(new arrgh.Enumerable(people).lastOrDefault(function () {
-					return false;
-				}, p7)).toBe(p7);
 			});
 		});
 
@@ -1689,5 +1415,7 @@ var testEnumerable = function () {
 				}).toArray()).toEqual(["Sander Bailey", "Bill Steve", "Bill Bill"]);
 			});
 		});
+
+		testOverridden(arrgh.Enumerable, arrgh.Enumerable.empty);
 	});
 };

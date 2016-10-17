@@ -32,13 +32,6 @@ var testList = function () {
 			});
 		});
 
-		describe("toArray", function () {
-			it("should convert back to the original array", function () {
-				var arr = new arrgh.List(people).toArray();
-				expect(arr).toEqual(people);
-			});
-		});
-
 		describe("add", function () {
 			it("should have the item added", function () {
 				var list = new arrgh.List(people);
@@ -138,6 +131,10 @@ var testList = function () {
 				expect(l.hasOwnProperty(2)).toEqual(false);
 				expect(l[1]).toEqual("Bye");
 			});
+		});
+
+		testOverridden(arrgh.List, function () {
+			return new arrgh.List();
 		});
 	});
 };
