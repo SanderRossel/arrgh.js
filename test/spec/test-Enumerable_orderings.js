@@ -60,16 +60,14 @@ var testEnumerableOrderings = function () {
 				expect(ordered.toArray()).toEqual([5, 4, 3, 2, 1, NaN, NaN, null, undefined]);
 			});
 
-			// TODO: Actually make it huge...
-			// Need to change sorting algorithm first.
 			it("should order a huge list", function () {
-				expect(true).toBe(false);
-				var e = arrgh.Enumerable.range(1, 100);
-				expect(function () {
-					e.orderBy(function (x) {
-						return x;
-					}).toArray();
-				}).not.toThrow();
+				// For some reason Gulp/Karma is a lot slower
+				// than regular Chrome. Making this list larger
+				// will crash the unit test... IE is fine though.
+				var e = arrgh.Enumerable.range(1, 40000);
+				expect(e.orderBy(function (x) {
+					return x;
+				}).sequenceEquals(e)).toBe(true);
 			});
 		});
 

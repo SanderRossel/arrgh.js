@@ -546,29 +546,35 @@
     };
     inherit(Lookup, Enumerable);
 
-    // TODO: Use a faster stable sorting algorithm.
-    // This one chokes at around 3000 elements...
-    function stableQuicksort (items, compare) {
-        if (items.length <= 1) {
-            return items;
-        }
+    function stableQuicksort (map, startIndex, endIndex, compare) {
+        var low = startIndex;
+        var high = endIndex;
+        var pindex = Math.floor((low + high) / 2);
+        var pivot = map[pindex];
+        var result;
 
-        var smaller = [];
-        var bigger = [];
-        var pivot = items[0];
-        var i;
-        for (i = 1; i < items.length; i += 1) {
-            var item = items[i];
-            var result = compare(item, pivot);
-            if (result < 0) {
-                smaller.push(item);
-            } else if (result > 0) {
-                bigger.push(item);
-            } else {
-                bigger.push(item);
+        while (low <= high) {
+            while (compare(map[low], pivot) < 0 || (compare(map[low], pivot) === 0 && map[low] < pivot)) {
+                low += 1;
+            }
+            while (compare(map[high], pivot) > 0 || (compare(map[high], pivot) === 0 && map[high] > pivot)) {
+                high -= 1;
+            }
+            if (low <= high) {
+                var temp = map[low];
+                map[low] = map[high];
+                map[high] = temp;
+                low += 1;
+                high -= 1;
             }
         }
-        return stableQuicksort(smaller, compare).concat([pivot]).concat(stableQuicksort(bigger, compare));
+
+        if (low < endIndex) {
+            stableQuicksort(map, low, endIndex, compare);
+        }
+        if (high > startIndex) {
+            stableQuicksort(map, startIndex, high, compare);
+        }
     }
 
     /**
@@ -623,13 +629,13 @@
             for (i = 0; i < count; i += 1) {
                 map[i] = i;
             }
-            var sorted = stableQuicksort(map, self.compareKeys);
+            stableQuicksort(map, 0, count - 1, self.compareKeys);
             var index = -1;
             return new Iterator(function () {
                 index += 1;
                 return index < count;
             }, function () {
-                return sourceArr[sorted[index]];
+                return sourceArr[map[index]];
             });
         });
     };
