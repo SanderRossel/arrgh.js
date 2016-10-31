@@ -551,14 +551,25 @@
         var high = endIndex;
         var pindex = Math.floor((low + high) / 2);
         var pivot = map[pindex];
+        var lindex;
+        var hindex;
         var result;
 
         while (low <= high) {
-            while (compare(map[low], pivot) < 0 || (compare(map[low], pivot) === 0 && map[low] < pivot)) {
+            lindex = map[low];
+            result = compare(lindex, pivot);
+            while (result < 0 || (result === 0 && lindex < pivot)) {
                 low += 1;
+                lindex = map[low];
+                result = compare(lindex, pivot);
             }
-            while (compare(map[high], pivot) > 0 || (compare(map[high], pivot) === 0 && map[high] > pivot)) {
+
+            hindex = map[high];
+            result = compare(hindex, pivot);
+            while (result > 0 || (result === 0 && hindex > pivot)) {
                 high -= 1;
+                hindex = map[high];
+                result = compare(hindex, pivot);
             }
             if (low <= high) {
                 var temp = map[low];

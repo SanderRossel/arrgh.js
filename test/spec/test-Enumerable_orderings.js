@@ -61,10 +61,11 @@ var testEnumerableOrderings = function () {
 			});
 
 			it("should order a huge list", function () {
-				// For some reason Gulp/Karma is a lot slower
-				// than regular Chrome. Making this list larger
-				// will crash the unit test... IE is fine though.
-				var e = arrgh.Enumerable.range(1, 40000);
+				// For some reason Karma can't handle this test case...
+				// Changing the range from 1 to a million is no problem when executed in the browser manually (takes about 1500 ms, faster than array.sort()!).
+				// However, when running in Karma both Chrome and IE get disconnected after about 10 seconds.
+				// Chrome is worse than IE, even 25.000 is very slow in Chrome while IE runs almost instantly.
+				var e = arrgh.Enumerable.range(1, 25000);
 				expect(e.orderBy(function (x) {
 					return x;
 				}).sequenceEquals(e)).toBe(true);
