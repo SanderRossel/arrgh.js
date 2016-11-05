@@ -16,5 +16,5 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-test/coverage/* linguist-vendored
-docs/* linguist-vendored
+test/coverage/** linguist-vendored
+docs/** linguist-vendored
