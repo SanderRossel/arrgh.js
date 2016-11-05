@@ -16,5 +16,10 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-test/coverage/** linguist-vendored
-docs/** linguist-vendored
+# ** Pattern not supported by Git...
+test/coverage/* linguist-vendored
+test/coverage/*/* linguist-vendored
+test/coverage/*/*/* linguist-vendored
+docs/* linguist-vendored
+docs/*/* linguist-vendored
+docs/*/*/* linguist-vendored
