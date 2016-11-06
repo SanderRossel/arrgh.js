@@ -11,7 +11,7 @@ module.exports = function(config) {
         reporters: ['progress', 'coverage'],
         port: 9876,
         autoWatch: true,
-        browsers: ['Chrome', 'IE'],
+        browsers: ['Chrome', 'IE', 'Firefox'],
         singleRun: false,
         coverageReporter: {
             type : 'html',
