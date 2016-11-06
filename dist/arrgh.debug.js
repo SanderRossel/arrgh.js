@@ -1,4 +1,61 @@
 /**
+ * <b>Argh!</b><br />
+ * <i>exclamation</i><br />
+ * &nbsp;&nbsp;&nbsp;&nbsp;Expression of frusration or anger.<br />
+ * &nbsp;&nbsp;&nbsp;&nbsp;"Argh! That JavaScript is driving me crazy!"</pre><br /><br />
+
+ * <b>Array</b><br />
+ * <i>noun</i><br />
+ * &nbsp;&nbsp;&nbsp;&nbsp;A high-level, list-like object.<br />
+ * &nbsp;&nbsp;&nbsp;&nbsp;"The server call returns an array of objects."<br /><br />
+
+ * arrgh.js was born from the utter frustration of working with arrays in JavaScript.<br />
+ * What kind of collection is a list, queue and stack all in one, but does nothing right?<br />
+ * What kind of collection does not have a simple "contains" function?<br />
+ * What kind of collection does not even have a simple "remove" method!?<br />
+ * And what kind of collection works slightly different on each browser?<br />
+ * That's right, the JavaScript array!<br /><br />
+ * arrgh.js takes all this frustration out of JavaScript arrays and gives you the tools you'd expect from proper collections.<br />
+ * arrgh.js is based on the collection types of .NET and gives you all functionality provided by LINQ to Objects.<br />
+ * And it all starts with arrgh, the namespace containing all collection types.<br /><br />
+ * arrgh.js is lightweight and easy to use.<br />
+
+ * Simply add a reference to the arrgh.js source file and you're ready to go!<br /><br />
+
+ * Works in older browsers as well (e.g. IE8).<br /><br />
+
+ * Here are a few examples to get you started.
+
+ * @example
+ * // Creates an Enumerable from an Array and sorts the results.
+ * var arr = [3, 1, 5, 2, 4];
+ * var e = new arrgh.Enumerable(arr);
+ * var sortedArr = e.orderBy(x => x).toArray();
+ * // Use this for older browsers.
+ * //var sortedArr = e.orderBy(function (x) {
+ * //    return x;
+ * //});
+ * console.log(sortedArr); // logs '[1, 2, 3, 4, 5]'
+
+ * @example
+ * // Creates an Enumerable from a string and checks if a character is present.
+ * var name = "Sander";
+ * var e = new arrgh.Enumerable(name);
+ * var b = e.contains("d");
+ * console.log(b); // logs 'true'
+
+ * @example
+ * // Creates a List, adds an element, removes an element and then projects the elements to create a new collection of people.
+ * var names = new arrgh.List("Sander", "Bill", "Steve", "Sergey", "Larry");
+ * names.add("Satya");
+ * names.remove("Larry");
+ * var people = names.select(n => {
+ *     return {
+ *         firstName: n
+ *     };
+ * }).toArray();
+ * console.log(people); // logs all the names as objects.
+
  * @namespace arrgh
  */
  var arrgh = (function () {
@@ -613,9 +670,10 @@
 
         self.computeKeys = function (elements, count) {
             var arr = new Array(count);
-            elements.forEach(function (elem, index) {
-                arr[index] = keySelector(elem);
-            });
+            var i;
+            for (i = 0; i < count; i += 1) {
+                arr[i] = keySelector(elements[i]);
+            }
             keys = arr;
             if (source.computeKeys) {
                 source.computeKeys(elements, count);
@@ -1048,7 +1106,10 @@
      * @throws Throws an error if the collection is empty or when no element matches the condition.
      */
      enumProto.first = function (predicate) {
-        return findElem(this, predicate, this.firstOrDefault.bind(this));
+        var self = this;
+        return findElem(this, predicate, function (predicate, defaultValue) {
+            return self.firstOrDefault(predicate, defaultValue);
+        });
     };
 
     /**
@@ -1061,12 +1122,12 @@
      * @param {*} [defaultValue] - The value that is returned when the collection is empty or no element matches the condition.
      * @returns {*} - Returns the first element of the collection, or the first element that satisfies a condition, or a specified default value.
      */
-     enumProto.firstOrDefault = function () {
+     enumProto.firstOrDefault = function (predicate, defaultValue) {
         return findOrDefault(this, function (context, foundElem) {
             context.elem = foundElem;
             context.found = true;
             return false;
-        }, arguments[0], arguments[1]);
+        }, predicate, defaultValue);
     };
 
     /**
@@ -1291,7 +1352,10 @@
      * @throws Throws an error when the collection is empty or when no element matches the condition.
      */
      enumProto.last = function (predicate) {
-        return findElem(this, predicate, this.lastOrDefault.bind(this));
+        var self = this;
+        return findElem(this, predicate, function (predicate, defaultValue) {
+            return self.lastOrDefault(predicate, defaultValue);
+        });
     };
 
     /**
@@ -1304,11 +1368,11 @@
      * @param {*} [defaultValue] - The value that is returned when the collection is empty or no element matches the condition.
      * @returns {*} - Returns the last element of the collection, or the last element that satisfies a condition, or a specified default value.
      */
-     enumProto.lastOrDefault = function () {
+     enumProto.lastOrDefault = function (predicate, defaultValue) {
         return findOrDefault(this, function (context, foundElem) {
             context.elem = foundElem;
             context.found = true;
-        }, arguments[0], arguments[1]);
+        }, predicate, defaultValue);
     };
 
     /**
@@ -1693,7 +1757,10 @@
      * @throws Throws an error when the collection is empty or when no element matches the condition or when the collection (or predicate) returns more than a single element.
      */
      enumProto.single = function (predicate) {
-        return findElem(this, predicate, this.singleOrDefault.bind(this));
+        var self = this;
+        return findElem(this, predicate, function (predicate, defaultValue) {
+            return self.singleOrDefault(predicate, defaultValue);
+        });
     };
 
     /**
@@ -1707,14 +1774,14 @@
      * @returns {*} - Returns the only element of the collection, or the only element that satisfies a condition, or a specified default value.
      * @throws Throws an error when the collection (or predicate) returns more than a single element.
      */
-     enumProto.singleOrDefault = function () {
+     enumProto.singleOrDefault = function (predicate, defaultValue) {
         return findOrDefault(this, function (context, foundElem) {
             if (context.found) {
                 throw new Error("Collection contains more than one matching element.");
             }
             context.elem = foundElem;
             context.found = true;
-        }, arguments[0], arguments[1]);
+        }, predicate, defaultValue);
     };
 
     /**

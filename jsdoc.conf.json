@@ -1,0 +1,22 @@
+{
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc"]
+    },
+    "source": {
+        "include": ["src/arrgh.js"]
+    },
+    "templates": {
+        "applicationName": "arrgh.js",
+        "meta": {
+            "title": "arrgh.js",
+            "description": "A lightweight JavaScript library that brings proper .NET-like collections and LINQ to the browser.",
+            "keyword": "JavaScript, LINQ, collections, Array"
+        }
+    },
+    "opts": {
+        "destination": "docs",
+        "encoding": "utf8",
+        "template": "node_modules/jaguarjs-jsdoc"
+    }
+}
