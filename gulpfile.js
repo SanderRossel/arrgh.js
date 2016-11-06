@@ -46,7 +46,7 @@ gulp.task('doc', shell.task([
 	'jsdoc -c jsdoc.conf.json'
 ]));
 
-gulp.watch(['*.js', 'src/*.js', 'jsdoc.conf.json'], ['lint-src', 'lint-tests', 'compress', 'doc']);
+gulp.watch(['*.js', 'src/*.js', 'jsdoc.conf.json', 'README.md'], ['lint-src', 'lint-tests', 'compress', 'doc']);
 
 gulp.task('default', ['clean'], function() {
   gulp.start('lint-src', 'lint-tests', 'test', 'compress', 'doc');

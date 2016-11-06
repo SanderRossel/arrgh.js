@@ -4,7 +4,7 @@
         "dictionaries": ["jsdoc"]
     },
     "source": {
-        "include": ["src/arrgh.js"]
+        "include": ["src/arrgh.js", "README.md"]
     },
     "templates": {
         "applicationName": "arrgh.js",
