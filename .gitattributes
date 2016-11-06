@@ -20,6 +20,4 @@
 test/coverage/* linguist-vendored
 test/coverage/*/* linguist-vendored
 test/coverage/*/*/* linguist-vendored
-docs/* linguist-vendored
-docs/*/* linguist-vendored
-docs/*/*/* linguist-vendored
+docs linguist-vendored
