@@ -35,7 +35,7 @@ gulp.task('test', function (done) {
     }, done).start();
 });
 
-gulp.watch(['*.js', 'src/*.js', '*.conf.*', 'README.md'], ['build']);
+//gulp.watch(['*.js', 'src/*.js', '*.conf.*', 'README.md'], ['build']);
 
 gulp.task('default', ['clean'], function () {
     gulp.start('build', 'test');

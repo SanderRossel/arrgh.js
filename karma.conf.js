@@ -12,7 +12,7 @@ module.exports = function(config) {
         port: 9876,
         autoWatch: true,
         browsers: ['Chrome', 'IE', 'Firefox'],
-        singleRun: false,
+        singleRun: true,
         coverageReporter: {
             type : 'html',
             dir : 'test/coverage/',
