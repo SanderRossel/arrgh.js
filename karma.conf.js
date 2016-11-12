@@ -8,13 +8,16 @@ module.exports = function(config) {
         preprocessors: {
             'src/*.js': ['coverage']
         },
-        reporters: ['progress', 'coverage'],
+        reporters: ['progress', 'junit', 'coverage'],
         port: 9876,
         autoWatch: true,
         browsers: ['Chrome', 'IE', 'Firefox'],
         singleRun: true,
         coverageReporter: {
-            type : 'html',
+            reporters: [
+                { type : 'html', subdir: 'html' },
+                { type : 'cobertura', subdir: 'cobertura' }
+            ],
             dir : 'test/coverage/',
             check: {
                 global: {
@@ -24,6 +27,11 @@ module.exports = function(config) {
                     lines: 95
                 },
             }
+        },
+        junitReporter: {
+            outputDir: 'test/junit',
+            suite: 'arrgh.js',
+            useBrowserName: true
         }
     });
 };

@@ -10,9 +10,8 @@ var karma = require('karma').Server;
 gulp.task('clean', function () {
     return gulp.src(['dist/', 'docs/'], { read: false })
         .pipe(clean());
-});
-
-gulp.task('build', function () {
+})
+.task('build', ['clean'], function () {
     return gulp.src('src/*.js')
         .pipe(filesize())
         .pipe(jshint('jshint.conf.json'))
@@ -27,16 +26,24 @@ gulp.task('build', function () {
         }))
         .pipe(filesize())
         .pipe(gulp.dest('dist'));
-});
-
-gulp.task('test', function (done) {
+})
+.task('test', function (done) {
     new karma({
         configFile: __dirname + '/karma.conf.js',
-    }, done).start();
+    }, function (err) {
+    	done(err);
+    }).start();
+})
+.task('test-min', ['build', 'test'], function (done) {
+    new karma({
+        configFile: __dirname + '/karma.conf.min.js',
+    }, function (err) {
+    	done(err);
+    }).start();
 });
 
 //gulp.watch(['*.js', 'src/*.js', '*.conf.*', 'README.md'], ['build']);
 
-gulp.task('default', ['clean'], function () {
-    gulp.start('build', 'test');
+gulp.task('default', function () {
+    gulp.start('build', 'test', 'test-min');
 });
