@@ -32,6 +32,7 @@
     "gulp-jsdoc3": "^1.0.1",
     "gulp-jshint": "^2.0.2",
     "gulp-minify": "0.0.14",
+    "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.9",
     "jaguarjs-jsdoc": "^1.0.1",
     "jasmine": "^2.5.2",
