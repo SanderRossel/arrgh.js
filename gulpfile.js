@@ -46,8 +46,6 @@ gulp.task('clean', function () {
     }, err => karmaDone(err, done)).start();
 });
 
-//gulp.watch(['*.js', 'src/*.js', '*.conf.*', 'README.md'], ['build']);
-
 gulp.task('default', function () {
     gulp.start('build', 'test', 'test-min');
 });

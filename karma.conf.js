@@ -11,7 +11,13 @@ module.exports = function(config) {
         reporters: ['progress', 'junit', 'coverage'],
         port: 9876,
         autoWatch: true,
-        browsers: ['Chrome', 'IE', 'Firefox'],
+        browsers: ['IE', 'IE8', 'Chrome', 'Firefox'],
+        customLaunchers: {
+            IE8: {
+                base: 'IE',
+                'x-ua-compatible': 'IE=EmulateIE8'
+            }
+        },
         singleRun: true,
         coverageReporter: {
             reporters: [
