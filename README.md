@@ -19,13 +19,10 @@ That's right, the JavaScript array!
 arrgh.js takes all this frustration out of JavaScript arrays and gives you the functionality you'd expect from proper collections.<br />
 arrgh.js is based on the collection types of .NET and gives you all the functionality provided by LINQ to Objects.
 
-arrgh.js is lightweight and easy to use.
+arrgh.js is **lightweight**, **thoroughly tested** and **easy to use**.
 
-Simply add a reference to the arrgh.js source file and you're ready to go!
-
-Works in older browsers as well (e.g. IE8).
-
-Here are a few examples to get you started.
+Simply add a reference to the arrgh.js source file and you're ready to go!<br />
+Here are a few **examples** to get you started.
 
 ~~~~
 // Creates an Enumerable from an Array and sorts the results.
@@ -57,9 +54,10 @@ var people = names.select(n => {
         firstName: n
     };
 }).toArray();
-console.log(people); // logs all the names as objects.
+console.log(people); // logs [{ firstName: "Sander"}, { firstName: "Bill" }, ...].
 ~~~~
-
+[Full documentation](https://sanderrossel.github.io/arrgh.js/)<br />
+[GitHub](https://github.com/SanderRossel/arrgh.js)
 ---
 MIT License
 Copyright (c) 2016 Sander Rossel

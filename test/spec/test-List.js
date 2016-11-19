@@ -103,18 +103,16 @@ var testList = function () {
 		describe("indices", function () {
 			it("should give the first added element an index of 0", function () {
 				var l = new arrgh.List();
-				expect(l.hasOwnProperty(0)).toEqual(false);
 				l.add("Hello");
-				expect(l.hasOwnProperty(0)).toEqual(true);
-				expect(l[0]).toEqual("Hello");
+				expect(l.get(0)).toEqual("Hello");
 			});
 
 			it("should generate indices 0, 1, 2 if three items are added", function () {
 				var l = new arrgh.List();
 				l.addRange("Greetings", "Hello", "Bye");
-				expect(l[0]).toEqual("Greetings");
-				expect(l[1]).toEqual("Hello");
-				expect(l[2]).toEqual("Bye");
+				expect(l.get(0)).toEqual("Greetings");
+				expect(l.get(1)).toEqual("Hello");
+				expect(l.get(2)).toEqual("Bye");
 			});
 
 			it("should overwrite any items that are not added through add methods", function () {
@@ -122,14 +120,48 @@ var testList = function () {
 				l.add("Hi");
 				l[1] = "Something";
 				l.add("Bye");
-				expect(l[1]).toBe("Bye");
+				expect(l.get(1)).toBe("Bye");
 			});
 
 			it("should remove the last index when that item is removed", function () {
 				var l = new arrgh.List(["Greetings", "Hello", "Bye"]);
 				l.remove("Hello");
 				expect(l.hasOwnProperty(2)).toEqual(false);
-				expect(l[1]).toEqual("Bye");
+				expect(l.get(1)).toEqual("Bye");
+			});
+		});
+
+		describe("insertRange", function () {
+			it("should insert a range at the start of the list", function () {
+				var l = new arrgh.List("def");
+				l.insertRange(0, new arrgh.Enumerable("abc"));
+				expect(l.toArray()).toEqual(new arrgh.Enumerable("abcdef").toArray());
+			});
+
+			it("should insert a range at the end of the list", function () {
+				var l = new arrgh.List("abc");
+				l.insertRange(3, new arrgh.Enumerable("def"));
+				expect(l.toArray()).toEqual(new arrgh.Enumerable("abcdef").toArray());
+			});
+
+			it("should insert a range at the middle of the list", function () {
+				var l = new arrgh.List("abcghi");
+				l.insertRange(3, new arrgh.Enumerable("def"));
+				expect(l.toArray()).toEqual(new arrgh.Enumerable("abcdefghi").toArray());
+			});
+		});
+
+		describe("sort", function () {
+			it("should sort the entire list", function () {
+				var l = new arrgh.List(4, 1, 2, 5, 3);
+				l.sort();
+				expect(l.toArray()).toEqual([1, 2, 3, 4, 5]);
+			});
+
+			it("should sort a subset of the list", function () {
+				var l = new arrgh.List(4, 1, 2, 5, 3, 7, 9, 6, 8);
+				l.sort(1, 4);
+				expect(l.toArray()).toEqual([4, 1, 2, 3, 5, 7, 9, 6, 8]);
 			});
 		});
 
