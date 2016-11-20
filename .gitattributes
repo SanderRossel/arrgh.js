@@ -1,9 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
-# Custom for Visual Studio
-*.cs     diff=csharp
-
 # Standard to msysgit
 *.doc	 diff=astextplain
 *.DOC	 diff=astextplain
@@ -17,9 +14,10 @@
 *.RTF	 diff=astextplain
 
 # ** Pattern not supported by Git...
-test/coverage/* linguist-vendored
-test/coverage/*/* linguist-vendored
-test/coverage/*/*/* linguist-vendored
-docs/* linguist-vendored
-docs/*/* linguist-vendored
-docs/*/*/* linguist-vendored
+test/* linguist-vendored
+test/*/* linguist-vendored
+test/*/*/* linguist-vendored
+test/*/*/*/* linguist-vendored
+docs/* linguist-documentation
+docs/*/* linguist-documentation
+docs/*/*/* linguist-documentation

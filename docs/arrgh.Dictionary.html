@@ -355,6 +355,10 @@
             
             <span class="subtitle">Methods</span>
             
+                <li data-name="arrgh.List#add"><a href="arrgh.List.html#add">add</a></li>
+            
+                <li data-name="arrgh.List#addRange"><a href="arrgh.List.html#addRange">addRange</a></li>
+            
                 <li data-name="arrgh.List#aggregate"><a href="arrgh.List.html#aggregate">aggregate</a></li>
             
                 <li data-name="arrgh.List#all"><a href="arrgh.List.html#all">all</a></li>
@@ -364,6 +368,8 @@
                 <li data-name="arrgh.List#asEnumerable"><a href="arrgh.List.html#asEnumerable">asEnumerable</a></li>
             
                 <li data-name="arrgh.List#average"><a href="arrgh.List.html#average">average</a></li>
+            
+                <li data-name="arrgh.List#clear"><a href="arrgh.List.html#clear">clear</a></li>
             
                 <li data-name="arrgh.List#concat"><a href="arrgh.List.html#concat">concat</a></li>
             
@@ -389,6 +395,8 @@
             
                 <li data-name="arrgh.List#forEach"><a href="arrgh.List.html#forEach">forEach</a></li>
             
+                <li data-name="arrgh.List#get"><a href="arrgh.List.html#get">get</a></li>
+            
                 <li data-name="arrgh.List#getIterator"><a href="arrgh.List.html#getIterator">getIterator</a></li>
             
                 <li data-name="arrgh.List#groupBy"><a href="arrgh.List.html#groupBy">groupBy</a></li>
@@ -396,6 +404,10 @@
                 <li data-name="arrgh.List#groupJoin"><a href="arrgh.List.html#groupJoin">groupJoin</a></li>
             
                 <li data-name="arrgh.List#indexOf"><a href="arrgh.List.html#indexOf">indexOf</a></li>
+            
+                <li data-name="arrgh.List#insert"><a href="arrgh.List.html#insert">insert</a></li>
+            
+                <li data-name="arrgh.List#insertRange"><a href="arrgh.List.html#insertRange">insertRange</a></li>
             
                 <li data-name="arrgh.List#intersect"><a href="arrgh.List.html#intersect">intersect</a></li>
             
@@ -417,6 +429,14 @@
             
                 <li data-name="arrgh.List#orderByDescending"><a href="arrgh.List.html#orderByDescending">orderByDescending</a></li>
             
+                <li data-name="arrgh.List#remove"><a href="arrgh.List.html#remove">remove</a></li>
+            
+                <li data-name="arrgh.List#removeAll"><a href="arrgh.List.html#removeAll">removeAll</a></li>
+            
+                <li data-name="arrgh.List#removeAt"><a href="arrgh.List.html#removeAt">removeAt</a></li>
+            
+                <li data-name="arrgh.List#removeRange"><a href="arrgh.List.html#removeRange">removeRange</a></li>
+            
                 <li data-name="arrgh.List#reverse"><a href="arrgh.List.html#reverse">reverse</a></li>
             
                 <li data-name="arrgh.List#select"><a href="arrgh.List.html#select">select</a></li>
@@ -424,6 +444,8 @@
                 <li data-name="arrgh.List#selectMany"><a href="arrgh.List.html#selectMany">selectMany</a></li>
             
                 <li data-name="arrgh.List#sequenceEquals"><a href="arrgh.List.html#sequenceEquals">sequenceEquals</a></li>
+            
+                <li data-name="arrgh.List#set"><a href="arrgh.List.html#set">set</a></li>
             
                 <li data-name="arrgh.List#single"><a href="arrgh.List.html#single">single</a></li>
             
@@ -434,6 +456,8 @@
                 <li data-name="arrgh.List#skipWhile"><a href="arrgh.List.html#skipWhile">skipWhile</a></li>
             
                 <li data-name="arrgh.List#some"><a href="arrgh.List.html#some">some</a></li>
+            
+                <li data-name="arrgh.List#sort"><a href="arrgh.List.html#sort">sort</a></li>
             
                 <li data-name="arrgh.List#sum"><a href="arrgh.List.html#sum">sum</a></li>
             
@@ -744,18 +768,12 @@
             
             new arrgh.Dictionary<span class="signature">(<span class="optional">eqComparer</span>)</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 467
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Represents a collection of keys and values.
@@ -763,9 +781,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -827,7 +845,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -853,17 +871,17 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
-    
-    
-    
-    
+
     
 </dd>
 
@@ -901,18 +919,12 @@
             
             aggregate<span class="signature">(<span class="optional">seed</span>, accumulator, <span class="optional">resultSelector</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 753
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Determines whether all elements of the collection satisfy a condition.<br />When a result selector is passed to the function a seed should also be specified.
@@ -920,9 +932,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1034,7 +1046,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1060,15 +1072,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -1099,7 +1111,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -1113,18 +1125,12 @@
             
             all<span class="signature">(predicate)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 771
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Determines whether all elements of the collection satisfy a condition.
@@ -1132,9 +1138,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1181,7 +1187,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1207,15 +1213,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -1246,7 +1252,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -1260,18 +1266,12 @@
             
             any<span class="signature">(<span class="optional">predicate</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 788
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Determines whether the collection contains any elements or if any elements satisfy a condition.
@@ -1279,9 +1279,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1335,7 +1335,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1368,15 +1368,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -1407,7 +1407,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -1421,18 +1421,12 @@
             
             asEnumerable<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 821
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns the input typed as Enumerable.
@@ -1440,11 +1434,11 @@
     
 
     
+
     
+
     
-    
-    
-    
+
     
 <dl class="details">
     
@@ -1470,15 +1464,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -1509,7 +1503,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -1523,18 +1517,12 @@
             
             average<span class="signature">(<span class="optional">selector</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Number}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 832
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Computes the average of a collection of values.<br />Values are converted to numerics, but if this fails unexpected averages may occur.
@@ -1542,9 +1530,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1598,7 +1586,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1624,13 +1612,13 @@
     
 </dl>
 
-    
-    
 
     
 
     
+
     
+
     
     <h5>Throws:</h5>
     
@@ -1644,7 +1632,7 @@
 
 
         
-    
+
     
     <h5>Returns:</h5>
     
@@ -1675,7 +1663,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -1689,18 +1677,12 @@
             
             concat<span class="signature">(other)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 848
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Concatenates two collections.
@@ -1708,9 +1690,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1757,7 +1739,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1790,15 +1772,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -1829,7 +1811,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -1843,18 +1825,12 @@
             
             contains<span class="signature">(elem, <span class="optional">eqComparer</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 875
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Determines whether a collection contains a specified element, optionally uses a custom equality comparer.
@@ -1862,9 +1838,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1961,7 +1937,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1987,15 +1963,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -2026,7 +2002,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2040,18 +2016,12 @@
             
             count<span class="signature">(<span class="optional">predicate</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Number}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 894
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Specifies how many elements the collection has, or how many satisfy a certain condition.
@@ -2059,9 +2029,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2115,7 +2085,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -2141,15 +2111,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -2180,7 +2150,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2194,18 +2164,12 @@
             
             defaultIfEmpty<span class="signature">(defaultValue)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 914
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns the elements of the specified collection or a collection containing only the default value if the collection is empty.
@@ -2213,9 +2177,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2262,7 +2226,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -2288,15 +2252,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -2327,7 +2291,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2341,18 +2305,12 @@
             
             distinct<span class="signature">(<span class="optional">eqComparer</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 947
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns distinct elements from a collection by using the default or a custom equality comparer to compare values.
@@ -2360,9 +2318,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2427,7 +2385,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -2453,15 +2411,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -2492,7 +2450,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2506,18 +2464,12 @@
             
             elementAt<span class="signature">(index)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 959
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns the element at a specified index.
@@ -2525,9 +2477,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2574,7 +2526,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -2600,13 +2552,13 @@
     
 </dl>
 
-    
-    
 
     
 
     
+
     
+
     
     <h5>Throws:</h5>
     
@@ -2614,13 +2566,13 @@
 
     <div class="param-desc">
     
-        - Throws an error if the specified index is outside the bounds of the collection.
+        Throws an error if the specified index is outside the bounds of the collection.
     
     </div>
 
 
         
-    
+
     
     <h5>Returns:</h5>
     
@@ -2651,7 +2603,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2665,18 +2617,12 @@
             
             elementAtOrDefault<span class="signature">(index, <span class="optional">defaultValue</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 977
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns the element at a specified index or a default value.
@@ -2684,9 +2630,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2768,7 +2714,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -2794,15 +2740,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -2833,7 +2779,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2847,18 +2793,12 @@
             
             except<span class="signature">(other, <span class="optional">eqComparer</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1018
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Produces the set difference of two collections.
@@ -2866,9 +2806,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2965,7 +2905,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -2991,15 +2931,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -3030,7 +2970,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -3044,18 +2984,12 @@
             
             filter<span class="signature">(predicate)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 2048
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Filters a collection of values based on a predicate. Each element's index is used in the logic of the predicate function.
@@ -3063,9 +2997,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -3112,7 +3046,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -3145,15 +3079,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -3184,7 +3118,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -3198,18 +3132,12 @@
             
             first<span class="signature">(<span class="optional">predicate</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1054
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns the first element in a collection, or the first element that satisfies a condition.
@@ -3217,9 +3145,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -3273,7 +3201,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -3299,13 +3227,13 @@
     
 </dl>
 
-    
-    
 
     
 
     
+
     
+
     
     <h5>Throws:</h5>
     
@@ -3319,7 +3247,7 @@
 
 
         
-    
+
     
     <h5>Returns:</h5>
     
@@ -3350,7 +3278,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -3364,18 +3292,12 @@
             
             firstOrDefault<span class="signature">(<span class="optional">predicate</span>, <span class="optional">defaultValue</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1070
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns the first element in a collection, or the first element that satisfies a condition.<br />If the element is not found returns a default value.
@@ -3383,9 +3305,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -3469,7 +3391,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -3495,15 +3417,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -3534,7 +3456,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -3548,18 +3470,12 @@
             
             forEach<span class="signature">(callback)</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1088
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Performs the specified action on each element of the collection.
@@ -3567,9 +3483,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -3616,7 +3532,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -3642,17 +3558,17 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
-    
-    
-    
-    
+
     
 </dd>
 
@@ -3666,18 +3582,12 @@
             
             getIterator<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Iterator.html">arrgh.Iterator</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 385
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns an iterator that iterates through the collection.
@@ -3685,11 +3595,11 @@
     
 
     
+
     
+
     
-    
-    
-    
+
     
 <dl class="details">
     
@@ -3715,15 +3625,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -3754,7 +3664,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -3768,18 +3678,12 @@
             
             groupBy<span class="signature">(keySelector, <span class="optional">elementSelector</span>, <span class="optional">resultSelector</span>, <span class="optional">eqComparer</span>)</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1105
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Groups the elements of a collection according to a specified key selector.
@@ -3787,9 +3691,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -3951,7 +3855,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -3977,17 +3881,17 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
-    
-    
-    
-    
+
     
 </dd>
 
@@ -4001,18 +3905,12 @@
             
             groupJoin<span class="signature">(inner, outerKeySelector, innerKeySelector, resultSelector, <span class="optional">eqComparer</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1156
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Correlates the elements of two collections based on equality of keys and groups the results.
@@ -4020,9 +3918,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -4212,7 +4110,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -4238,15 +4136,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -4277,7 +4175,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -4291,18 +4189,12 @@
             
             indexOf<span class="signature">(searchElem, <span class="optional">fromIndex</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Number}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1189
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Finds the first index at which a given element can be found in the collection, or -1 if it is not present.
@@ -4310,9 +4202,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -4406,7 +4298,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -4432,15 +4324,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -4471,7 +4363,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -4485,18 +4377,12 @@
             
             intersect<span class="signature">(other, <span class="optional">eqComparer</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1210
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Produces the set intersection of two collections.
@@ -4504,9 +4390,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -4603,7 +4489,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -4629,15 +4515,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -4668,7 +4554,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -4682,18 +4568,12 @@
             
             join<span class="signature">(inner, outerKeySelector, innerKeySelector, resultSelector, <span class="optional">eqComparer</span>)</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1245
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Correlates the elements of two collections based on equality of keys.
@@ -4701,9 +4581,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -4893,7 +4773,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -4919,17 +4799,17 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
-    
-    
-    
-    
+
     
 </dd>
 
@@ -4943,18 +4823,12 @@
             
             last<span class="signature">(<span class="optional">predicate</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1298
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns the last element in a collection, or the last element that satisfies a condition.
@@ -4962,9 +4836,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -5018,7 +4892,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -5044,13 +4918,13 @@
     
 </dl>
 
-    
-    
 
     
 
     
+
     
+
     
     <h5>Throws:</h5>
     
@@ -5064,7 +4938,7 @@
 
 
         
-    
+
     
     <h5>Returns:</h5>
     
@@ -5095,7 +4969,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -5109,18 +4983,12 @@
             
             lastIndexOf<span class="signature">(searchElem, <span class="optional">fromIndex</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Number}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1314
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Finds the last index at which a given element can be found in the collection, or -1 if it is not present.
@@ -5128,9 +4996,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -5224,7 +5092,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -5250,15 +5118,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -5289,7 +5157,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -5303,18 +5171,12 @@
             
             lastOrDefault<span class="signature">(<span class="optional">predicate</span>, <span class="optional">defaultValue</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1334
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns the last element in a collection, or the last element that satisfies a condition.<br />If the element is not found returns a default value.
@@ -5322,9 +5184,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -5408,7 +5270,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -5434,15 +5296,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -5473,7 +5335,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -5487,18 +5349,12 @@
             
             map<span class="signature">(selector)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1640
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Projects each element of a collection into a new form.
@@ -5506,9 +5362,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -5555,7 +5411,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -5588,15 +5444,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -5627,7 +5483,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -5641,18 +5497,12 @@
             
             max<span class="signature">(<span class="optional">selector</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1351
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns the maximum value in a collection.<br />Values are converted to numerics. If this fails and the value is NaN then NaN is treated as smaller than anything.
@@ -5660,9 +5510,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -5716,7 +5566,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -5742,13 +5592,13 @@
     
 </dl>
 
-    
-    
 
     
 
     
+
     
+
     
     <h5>Throws:</h5>
     
@@ -5756,13 +5606,13 @@
 
     <div class="param-desc">
     
-        - Throws an error when the collection is empty.
+        Throws an error when the collection is empty.
     
     </div>
 
 
         
-    
+
     
     <h5>Returns:</h5>
     
@@ -5793,7 +5643,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -5807,18 +5657,12 @@
             
             ofType<span class="signature">(type)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1438
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Filters elements based on a specified type (constructor).<br />Object and null do not evaluate to the same type and neither do undefined and null.
@@ -5826,9 +5670,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -5881,7 +5725,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -5907,15 +5751,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -5946,7 +5790,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -5960,18 +5804,12 @@
             
             orderBy<span class="signature">(keySelector, <span class="optional">compare</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.OrderedEnumerable.html">arrgh.OrderedEnumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1479
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Sorts the elements of a sequence in ascending order according to a key.
@@ -5979,9 +5817,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -6063,7 +5901,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -6089,15 +5927,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -6128,7 +5966,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -6142,18 +5980,12 @@
             
             orderByDescending<span class="signature">(keySelector, <span class="optional">compare</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.OrderedEnumerable.html">arrgh.OrderedEnumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1492
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Sorts the elements of a sequence in descending order according to a key.
@@ -6161,9 +5993,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -6245,7 +6077,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -6271,15 +6103,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -6310,7 +6142,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -6324,18 +6156,12 @@
             
             reverse<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1586
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Reverses the order of the elements in a collection.
@@ -6343,11 +6169,11 @@
     
 
     
+
     
+
     
-    
-    
-    
+
     
 <dl class="details">
     
@@ -6373,15 +6199,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -6412,7 +6238,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -6426,18 +6252,12 @@
             
             select<span class="signature">(selector)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1611
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Projects each element of a collection into a new form.
@@ -6445,9 +6265,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -6494,7 +6314,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -6527,15 +6347,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -6566,7 +6386,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -6580,18 +6400,12 @@
             
             selectMany<span class="signature">(collectionSelector, <span class="optional">resultSelector</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1651
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Projects each element of a collection to an Enumerable and flattens the resulting collections into one collection.
@@ -6599,9 +6413,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -6683,7 +6497,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -6709,15 +6523,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -6748,7 +6562,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -6762,18 +6576,12 @@
             
             sequenceEquals<span class="signature">(other, <span class="optional">eqComparer</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1699
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Determines whether two collections are equal by comparing the elements, optionally using a custom equality comparer for their type.
@@ -6781,9 +6589,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -6877,7 +6685,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -6903,15 +6711,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -6942,7 +6750,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -6956,18 +6764,12 @@
             
             single<span class="signature">(<span class="optional">predicate</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1724
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns the only element in a collection, or the only element that satisfies a condition.
@@ -6975,9 +6777,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -7031,7 +6833,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -7057,13 +6859,13 @@
     
 </dl>
 
-    
-    
 
     
 
     
+
     
+
     
     <h5>Throws:</h5>
     
@@ -7077,7 +6879,7 @@
 
 
         
-    
+
     
     <h5>Returns:</h5>
     
@@ -7108,7 +6910,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -7122,18 +6924,12 @@
             
             singleOrDefault<span class="signature">(<span class="optional">predicate</span>, <span class="optional">defaultValue</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1740
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns the only element in a collection, or the only element that satisfies a condition.<br />If the element is not found returns a default value.
@@ -7141,9 +6937,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -7227,7 +7023,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -7253,13 +7049,13 @@
     
 </dl>
 
-    
-    
 
     
 
     
+
     
+
     
     <h5>Throws:</h5>
     
@@ -7273,7 +7069,7 @@
 
 
         
-    
+
     
     <h5>Returns:</h5>
     
@@ -7304,7 +7100,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -7318,18 +7114,12 @@
             
             skip<span class="signature">(count)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1761
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Bypasses a specified number of elements in a collection and then returns the remaining elements.
@@ -7337,9 +7127,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -7386,7 +7176,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -7412,15 +7202,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -7451,7 +7241,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -7465,18 +7255,12 @@
             
             skipWhile<span class="signature">(predicate)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1788
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Bypasses elements in a collection as long as a specified condition is true and then returns the remaining elements.
@@ -7484,9 +7268,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -7533,7 +7317,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -7559,15 +7343,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -7598,7 +7382,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -7612,18 +7396,12 @@
             
             some<span class="signature">(<span class="optional">predicate</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 810
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Determines whether the collection contains any elements or if any elements satisfy a condition.
@@ -7631,9 +7409,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -7687,7 +7465,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -7720,15 +7498,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -7759,7 +7537,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -7773,18 +7551,12 @@
             
             sum<span class="signature">(<span class="optional">selector</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Number}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1827
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Computes the sum of a collection of values.<br />If values are not numerics the result may be NaN or something unexpected (e.g. "2" + 2 will results 22).
@@ -7792,9 +7564,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -7848,7 +7620,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -7874,13 +7646,13 @@
     
 </dl>
 
-    
-    
 
     
 
     
+
     
+
     
     <h5>Throws:</h5>
     
@@ -7894,7 +7666,7 @@
 
 
         
-    
+
     
     <h5>Returns:</h5>
     
@@ -7925,7 +7697,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -7939,18 +7711,12 @@
             
             take<span class="signature">(count)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1843
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns a specified number of elements from the start of a collection.
@@ -7958,9 +7724,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -8007,7 +7773,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -8033,15 +7799,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -8072,7 +7838,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -8086,18 +7852,12 @@
             
             takeWhile<span class="signature">(predicate)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1868
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns elements from a collection as long as a specified condition is true.
@@ -8105,9 +7865,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -8154,7 +7914,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -8180,15 +7940,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -8219,7 +7979,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -8233,18 +7993,12 @@
             
             toArray<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Array}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1925
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Converts the collection to a JavaScript array.
@@ -8252,11 +8006,11 @@
     
 
     
+
     
+
     
-    
-    
-    
+
     
 <dl class="details">
     
@@ -8282,15 +8036,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -8321,7 +8075,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -8335,18 +8089,12 @@
             
             toDictionary<span class="signature">(keySelector, <span class="optional">elementSelector</span>, <span class="optional">eqComparer</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Dictionary.html">arrgh.Dictionary</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1940
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Converts the collection to a dictionary.
@@ -8354,9 +8102,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -8484,7 +8232,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -8510,15 +8258,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -8549,7 +8297,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -8563,18 +8311,12 @@
             
             toList<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.List.html">arrgh.List</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1967
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Converts the collection to a list.
@@ -8582,11 +8324,11 @@
     
 
     
+
     
+
     
-    
-    
-    
+
     
 <dl class="details">
     
@@ -8612,15 +8354,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -8651,7 +8393,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -8665,18 +8407,12 @@
             
             toLookup<span class="signature">(keySelector, <span class="optional">elementSelector</span>, <span class="optional">eqComparer</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{arrgh.LookUp}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 1978
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Converts the collection to a collection of keys each mapped to one or more values.
@@ -8684,9 +8420,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -8814,7 +8550,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -8840,15 +8576,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -8879,7 +8615,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -8893,18 +8629,12 @@
             
             union<span class="signature">(other, <span class="optional">eqComparer</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 2001
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Produces the set union of two collections by using the default or a custom equality comparer to compare values.
@@ -8912,9 +8642,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -9008,7 +8738,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -9034,15 +8764,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -9073,7 +8803,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -9087,18 +8817,12 @@
             
             unionAll<span class="signature">(other)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 864
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Concatenates two collections.
@@ -9106,9 +8830,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -9155,7 +8879,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -9188,15 +8912,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -9227,7 +8951,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -9241,18 +8965,12 @@
             
             where<span class="signature">(predicate)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 2017
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Filters a collection of values based on a predicate. Each element's index is used in the logic of the predicate function.
@@ -9260,9 +8978,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -9309,7 +9027,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -9342,15 +9060,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -9381,7 +9099,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -9395,18 +9113,12 @@
             
             zip<span class="signature">(other, resultSelector)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 2059
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Applies a specified function to the corresponding elements of two collections, producing a collection of the results.
@@ -9414,9 +9126,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -9486,7 +9198,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -9512,15 +9224,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -9551,7 +9263,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -9572,7 +9284,7 @@
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Sat Nov 19 2016 22:37:10 GMT+0100 (W. Europe Standard Time)
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Sun Nov 20 2016 22:35:50 GMT+0100 (W. Europe Standard Time)
         </footer>
     </div>
 </div>

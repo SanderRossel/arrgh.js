@@ -2,36 +2,6 @@ var testEnumerable = function () {
 	"use strict";
 
 	describe("Enumerable", function () {
-		describe("ctors", function () {
-			it("should construct from an array", function () {
-				var e = new arrgh.Enumerable([1, 2, 3, 4, 5]);
-				expect(e.toArray()).toEqual([1, 2, 3, 4, 5]);
-			});
-
-			it("should construct from some random objects", function () {
-				var o = {};
-				var e = new arrgh.Enumerable("Hello", true, 1, o);
-				expect(e.toArray()).toEqual(["Hello", true, 1, o]);
-			});
-
-			it("should construct from another Enumerable", function () {
-				var e1 = new arrgh.Enumerable([1, 2, 3, 4, 5]);
-				var e2 = new arrgh.Enumerable(e1);
-				expect(e2.toArray()).toEqual([1, 2, 3, 4, 5]);
-			});
-
-			it("should construct from a string", function () {
-				var e = new arrgh.Enumerable("Hello");
-				expect(e.toArray()).toEqual(["H", "e", "l", "l", "o"]);
-			});
-
-			it("should throw on an invalid argument", function () {
-				expect(function () {
-					new arrgh.Enumerable(true);
-				}).toThrow();
-			});
-		});
-
 		describe("aggregate", function () {
 			describe("without seed", function () {
 				it("should throw when the enumerable is empty", function () {
@@ -174,18 +144,6 @@ var testEnumerable = function () {
 				expect(e.any(function (elem) {
 					return elem.first === "nope";
 				})).toBe(false);
-			});
-		});
-
-		describe("asEnumerable", function () {
-			it("should return a new enumerable", function () {
-				var e = new arrgh.Enumerable(1, 2, 3, 4, 5);
-				expect(e.asEnumerable()).not.toBe(e);
-			});
-
-			it("should contain the same elements as the original enumerable", function () {
-				var e = new arrgh.Enumerable(1, 2, 3, 4, 5);
-				expect(e.asEnumerable().sequenceEquals(e)).toBe(true);
 			});
 		});
 

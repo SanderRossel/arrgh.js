@@ -82,6 +82,16 @@ var firstCharEqComparer = {
 	}
 };
 
+var firstNameComparer = function (x, y) {
+	if (x.first < y.first) {
+		return -1;
+	} else if (x.first > y.first) {
+		return 1;
+	} else {
+		return 0;
+	}
+};
+
 (function () {
 	"use strict";
 	describe("arrgh.js tests", function () {

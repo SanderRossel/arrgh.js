@@ -2,15 +2,6 @@ var testEnumerableOrderings = function () {
 	"use strict";
 
 	describe("orderings", function () {
-		var firstNameComparer = function (x, y) {
-			if (x.first < y.first) {
-				return -1;
-			} else if (x.first > y.first) {
-				return 1;
-			} else {
-				return 0;
-			}
-		};
 		describe("orderBy", function () {
 			it("should order by first", function () {
 				var ordered = new arrgh.Enumerable(people)

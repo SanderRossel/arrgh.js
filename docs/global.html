@@ -355,6 +355,10 @@
             
             <span class="subtitle">Methods</span>
             
+                <li data-name="arrgh.List#add"><a href="arrgh.List.html#add">add</a></li>
+            
+                <li data-name="arrgh.List#addRange"><a href="arrgh.List.html#addRange">addRange</a></li>
+            
                 <li data-name="arrgh.List#aggregate"><a href="arrgh.List.html#aggregate">aggregate</a></li>
             
                 <li data-name="arrgh.List#all"><a href="arrgh.List.html#all">all</a></li>
@@ -364,6 +368,8 @@
                 <li data-name="arrgh.List#asEnumerable"><a href="arrgh.List.html#asEnumerable">asEnumerable</a></li>
             
                 <li data-name="arrgh.List#average"><a href="arrgh.List.html#average">average</a></li>
+            
+                <li data-name="arrgh.List#clear"><a href="arrgh.List.html#clear">clear</a></li>
             
                 <li data-name="arrgh.List#concat"><a href="arrgh.List.html#concat">concat</a></li>
             
@@ -389,6 +395,8 @@
             
                 <li data-name="arrgh.List#forEach"><a href="arrgh.List.html#forEach">forEach</a></li>
             
+                <li data-name="arrgh.List#get"><a href="arrgh.List.html#get">get</a></li>
+            
                 <li data-name="arrgh.List#getIterator"><a href="arrgh.List.html#getIterator">getIterator</a></li>
             
                 <li data-name="arrgh.List#groupBy"><a href="arrgh.List.html#groupBy">groupBy</a></li>
@@ -396,6 +404,10 @@
                 <li data-name="arrgh.List#groupJoin"><a href="arrgh.List.html#groupJoin">groupJoin</a></li>
             
                 <li data-name="arrgh.List#indexOf"><a href="arrgh.List.html#indexOf">indexOf</a></li>
+            
+                <li data-name="arrgh.List#insert"><a href="arrgh.List.html#insert">insert</a></li>
+            
+                <li data-name="arrgh.List#insertRange"><a href="arrgh.List.html#insertRange">insertRange</a></li>
             
                 <li data-name="arrgh.List#intersect"><a href="arrgh.List.html#intersect">intersect</a></li>
             
@@ -417,6 +429,14 @@
             
                 <li data-name="arrgh.List#orderByDescending"><a href="arrgh.List.html#orderByDescending">orderByDescending</a></li>
             
+                <li data-name="arrgh.List#remove"><a href="arrgh.List.html#remove">remove</a></li>
+            
+                <li data-name="arrgh.List#removeAll"><a href="arrgh.List.html#removeAll">removeAll</a></li>
+            
+                <li data-name="arrgh.List#removeAt"><a href="arrgh.List.html#removeAt">removeAt</a></li>
+            
+                <li data-name="arrgh.List#removeRange"><a href="arrgh.List.html#removeRange">removeRange</a></li>
+            
                 <li data-name="arrgh.List#reverse"><a href="arrgh.List.html#reverse">reverse</a></li>
             
                 <li data-name="arrgh.List#select"><a href="arrgh.List.html#select">select</a></li>
@@ -424,6 +444,8 @@
                 <li data-name="arrgh.List#selectMany"><a href="arrgh.List.html#selectMany">selectMany</a></li>
             
                 <li data-name="arrgh.List#sequenceEquals"><a href="arrgh.List.html#sequenceEquals">sequenceEquals</a></li>
+            
+                <li data-name="arrgh.List#set"><a href="arrgh.List.html#set">set</a></li>
             
                 <li data-name="arrgh.List#single"><a href="arrgh.List.html#single">single</a></li>
             
@@ -434,6 +456,8 @@
                 <li data-name="arrgh.List#skipWhile"><a href="arrgh.List.html#skipWhile">skipWhile</a></li>
             
                 <li data-name="arrgh.List#some"><a href="arrgh.List.html#some">some</a></li>
+            
+                <li data-name="arrgh.List#sort"><a href="arrgh.List.html#sort">sort</a></li>
             
                 <li data-name="arrgh.List#sum"><a href="arrgh.List.html#sum">sum</a></li>
             
@@ -1043,18 +1067,12 @@
             
             accumulator<span class="signature">(aggregate, element)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 17
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         An accumulator function.
@@ -1062,9 +1080,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1134,7 +1152,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1160,15 +1178,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -1199,7 +1217,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -1211,18 +1229,12 @@
             
             collectionSelector<span class="signature">(element, <span class="optional">index</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Array|String|<a href="arrgh.Enumerable.html">arrgh.Enumerable</a>}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 69
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that projects an element into a collection.
@@ -1230,9 +1242,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1314,7 +1326,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1340,15 +1352,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -1385,7 +1397,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -1397,18 +1409,12 @@
             
             compare<span class="signature">(x, y)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Number}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 86
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that tests if an object is smaller than, greater than or equal to another object.
@@ -1416,9 +1422,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1488,7 +1494,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1514,15 +1520,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -1553,7 +1559,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -1565,18 +1571,12 @@
             
             equals<span class="signature">(x, y)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 94
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that tests if two elements are equal.
@@ -1584,9 +1584,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1656,7 +1656,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1682,15 +1682,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -1721,7 +1721,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -1733,18 +1733,12 @@
             
             forEachCallback<span class="signature">(element, index)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{bool}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 26
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that is applied to each element in an enumerable.
@@ -1752,9 +1746,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1824,7 +1818,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1850,15 +1844,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -1889,7 +1883,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -1901,18 +1895,12 @@
             
             getHash<span class="signature">(obj)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{String}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 142
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Returns a hash code for the specified object.
@@ -1920,9 +1908,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -1969,7 +1957,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -1995,15 +1983,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -2034,7 +2022,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2046,18 +2034,12 @@
             
             groupByResultSelector<span class="signature">(key, group)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 102
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that creates a result value from a group of elements.
@@ -2065,9 +2047,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2137,7 +2119,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -2163,15 +2145,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -2202,7 +2184,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2214,18 +2196,12 @@
             
             groupJoinResultSelector<span class="signature">(element, group)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 110
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that creates a result value from a group of elements.
@@ -2233,9 +2209,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2305,7 +2281,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -2331,15 +2307,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -2370,7 +2346,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2382,18 +2358,12 @@
             
             indexPredicate<span class="signature">(element, <span class="optional">index</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 43
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function to test each element for a condition.
@@ -2401,9 +2371,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2485,7 +2455,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -2511,15 +2481,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -2550,7 +2520,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2562,18 +2532,12 @@
             
             indexSelector<span class="signature">(element, <span class="optional">index</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 60
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that projects an element into a new form.
@@ -2581,9 +2545,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2665,7 +2629,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -2691,15 +2655,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -2730,7 +2694,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2742,18 +2706,12 @@
             
             joinResultSelector<span class="signature">(outer, inner)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 118
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that creates a result value from two elements.
@@ -2761,9 +2719,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2833,7 +2791,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -2859,15 +2817,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -2898,7 +2856,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -2910,18 +2868,12 @@
             
             keySelector<span class="signature">(element)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 78
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that returns the key value from an element.
@@ -2929,9 +2881,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -2978,7 +2930,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -3004,15 +2956,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -3043,7 +2995,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -3055,18 +3007,12 @@
             
             predicate<span class="signature">(element)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 35
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function to test each element for a condition.
@@ -3074,9 +3020,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -3123,7 +3069,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -3149,15 +3095,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -3188,7 +3134,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -3200,18 +3146,12 @@
             
             selectManyResultSelector<span class="signature">(element, intermediate)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 126
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that creates a result value from each element in the intermediate collection.
@@ -3219,9 +3159,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -3291,7 +3231,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -3317,15 +3257,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -3356,7 +3296,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -3368,18 +3308,12 @@
             
             selector<span class="signature">(element)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 52
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that projects an element into a new form.
@@ -3387,9 +3321,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -3436,7 +3370,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -3462,15 +3396,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -3501,7 +3435,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -3513,18 +3447,12 @@
             
             zipResultSelector<span class="signature">(sourceElement, otherElement)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
         </h4>
-    
-        
-        <div class="tag-source">
-            C:/Users/Sander/Desktop/arrgh.js/src/arrgh.js, line 134
-        </div>
-        
     </div>
 
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         A function that creates a result value from two elements.
@@ -3532,9 +3460,9 @@
     
 
     
+
     
-    
-    
+
     
         
 
@@ -3604,7 +3532,7 @@
 	</tbody>
 </table>
     
-    
+
     
 <dl class="details">
     
@@ -3630,15 +3558,15 @@
     
 </dl>
 
+
     
+
     
 
     
 
     
-    
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -3669,7 +3597,7 @@
 </table>
 
     
-    
+
     
 </dd>
 
@@ -3688,7 +3616,7 @@
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Sat Nov 19 2016 22:37:09 GMT+0100 (W. Europe Standard Time)
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Sun Nov 20 2016 22:35:50 GMT+0100 (W. Europe Standard Time)
         </footer>
     </div>
 </div>

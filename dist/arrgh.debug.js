@@ -14,6 +14,8 @@
  var arrgh = (function (undefined) {
     "use strict";
 
+    // Helper functions
+
     /**
      * An accumulator function.
      *
@@ -382,6 +384,8 @@
         });
     };
 
+    // Enumerables
+
     /**
      * Returns an iterator that iterates through the collection.
      * @function getIterator
@@ -394,7 +398,7 @@
      * Represents the base class for any collection.
      * @memberof arrgh
      * @constructor
-     * @param {(Array|String|arrgh.Enumerable|Function)} [enumerable=[]] - An array, string or enumerable to add to the new collection or a parameterless function that returns an {@link arrgh.Iterator}.
+     * @param {(Array|String|arrgh.Enumerable|Function|params)} [enumerable=[]] - An array, string or enumerable to add to the new collection or a parameterless function that returns an {@link arrgh.Iterator}.
      */
      var Enumerable = function (enumerable) {
         var iterable;
@@ -422,7 +426,7 @@
      * @memberof arrgh
      * @constructor
      * @extends arrgh.Enumerable
-     * @param {(Array|String|arrgh.Enumerable)} [enumerable=[]] - An array, string or enumerable whose elements are copied to the new list.
+     * @param {(Array|String|arrgh.Enumerable|params)} [enumerable=[]] - An array, string or enumerable whose elements are copied to the new list.
      */
      var List = function (enumerable) {
         var iterable,
@@ -963,7 +967,7 @@
      * @instance
      * @param {Number} index - The index of the element to find.
      * @returns {*} - The element at the specified index.
-     * @throws - Throws an error if the specified index is outside the bounds of the collection.
+     * @throws Throws an error if the specified index is outside the bounds of the collection.
      */
      enumProto.elementAt = function (index) {
         var def = {};
@@ -1199,7 +1203,7 @@
         fromIndex = fromIndex || 0;
         var foundIndex = -1;
         this.forEach(function (elem, index) {
-            if (index >= fromIndex && searchElem === elem) {
+            if (index >= fromIndex && defaultEqComparer.equals(searchElem, elem)) {
                 foundIndex = index;
                 return false;
             }
@@ -1324,7 +1328,7 @@
         fromIndex = fromIndex || 0;
         var foundIndex = -1;
         this.forEach(function (elem, index) {
-            if (index >= fromIndex && searchElem === elem) {
+            if (index >= fromIndex && defaultEqComparer.equals(searchElem, elem)) {
                 foundIndex = index;
             }
         });
@@ -1356,7 +1360,7 @@
      * @memberof arrgh.Enumerable
      * @instance
      * @returns {*} - Returns the maximum value in the collection or NaN.
-     * @throws - Throws an error when the collection is empty.
+     * @throws Throws an error when the collection is empty.
      */
      enumProto.max = function (selector) {
         selector = selector || identity;
@@ -1402,7 +1406,7 @@
      * @memberof arrgh.Enumerable
      * @instance
      * @returns {*} - Returns the minimum value in the collection or NaN.
-     * @throws - Throws an error when the collection is empty.
+     * @throws Throws an error when the collection is empty.
      */
      enumProto.min = function (selector) {
         selector = selector || identity;
@@ -1600,7 +1604,7 @@
                 index -= 1;
                 return index >= 0;
             }, function () {
-                if (index === length) {
+                if (index < 0 || index === length) {
                     return undefined;
                 }
                 return list.get(index);
@@ -2087,45 +2091,115 @@
 
     var listProto = List.prototype;
 
-    listProto.add = function (elem) {
-        this._.arr.push(elem);
+    function throwIfOutOfBounds(list, index, upperBound) {
+        if (index < 0 || index >= upperBound) {
+            throw new Error("Index was out of range. Must be non-negative and less than the size of the collection.");
+        }
+    }
+
+    function isRange(list, index, count) {
+        if (count < 0) {
+            throw new Error('Count cannot be negative.');
+        }
+        if (index === 0 && count === 0) {
+            return false;
+        }
+        throwIfOutOfBounds(list, index, list.length);
+        if (index + count > list.length) {
+            throw new Error("Count is greater than the number of elements from index to the end of the source collection.");
+        }
+        return true;
+    }
+
+    /**
+     * Adds an item to the list.
+     * @function add
+     * @memberof arrgh.List
+     * @instance
+     * @param {*} item - The item to add to the list.
+     */
+     listProto.add = function (item) {
+        this._.arr.push(item);
         this.length += 1;
     };
 
-    listProto.addRange = function (enumerable) {
-        if (arguments.length === 1 && enumerable.getIterator) {
+    /**
+     * Adds multiple items to the list.
+     * @function addRange
+     * @memberof arrgh.List
+     * @instance
+     * @param {Array|arrgh.Enumerable|params} items - The items to add to the list.
+     */
+     listProto.addRange = function (items) {
+        if (arguments.length === 1 && items.getIterator) {
             var self = this;
-            arguments[0].forEach(function (elem) {
-                self._.arr.push(elem);
+            arguments[0].forEach(function (item) {
+                self._.arr.push(item);
             });
         } else {
-            var arr = arguments.length === 1 && isArray(enumerable) ? enumerable : arguments;
+            var arr = arguments.length === 1 && isArray(items) ? items : arguments;
             this._.arr.push.apply(this._.arr, arr);
         }
         this.length = this._.arr.length;
     };
 
-    listProto.clear = function () {
+    /**
+     * Clears the list.
+     * @function clear
+     * @memberof arrgh.List
+     * @instance
+     */
+     listProto.clear = function () {
         this._.arr = [];
         this.length = 0;
     };
 
-    listProto.get = function (index) {
+    /**
+     * Gets the item at the specified index.
+     * @function get
+     * @memberof arrgh.List
+     * @instance
+     * @param {Number} index - The index at which the item should be retrieved.
+     * @returns {*} - Returns the item at the specified index.
+     * @throws Throws an error when the index is smaller than zero or equal or greater than the length of the collection.
+     */
+     listProto.get = function (index) {
+        throwIfOutOfBounds(this, index, this.length);
         return this._.arr[index];
     };
 
-    listProto.insert = function (index, elem) {
-        this._.arr.splice(index, 0, elem);
+    /**
+     * Inserts an item in the list at the specified index.
+     * @function insert
+     * @memberof arrgh.List
+     * @instance
+     * @param {Number} index - The index at which the new item will be inserted.
+     * @param {*} item - The object to insert into the list.
+     * @throws Throws an error when the index is smaller than zero or greater than the length of the collection.
+     */
+     listProto.insert = function (index, item) {
+        throwIfOutOfBounds(this, index, this.length + 1);
+        this._.arr.splice(index, 0, item);
         this.length += 1;
     };
 
-    listProto.insertRange = function (index, enumerable) {
+    /**
+     * Inserts a range of items in the list at the specified index.
+     * @function insertRange
+     * @memberof arrgh.List
+     * @instance
+     * @param {Number} index - The index at which the new items will be inserted.
+     * @param {Array|arrgh.Enumerable|params} items - The items to insert into the list.
+     * @throws Throws an error when the index is smaller than zero or greater than the length of the collection.
+     */
+     listProto.insertRange = function (index, items) {
+        throwIfOutOfBounds(this, index, this.length + 1);
         var arr = this._.arr,
         arrToInsert;
-        if (enumerable.getIterator) {
-            arrToInsert = enumerable.toArray();
-        } else if (isArray(enumerable)) {
-            arrToInsert = enumerable;
+        if (items.getIterator) {
+            arrToInsert = items.toArray();
+        } else if (isArray(items)) {
+            arrToInsert = items;
         } else {
             arrToInsert = Array.prototype.slice.call(arguments, 1);
         }
@@ -2133,13 +2207,16 @@
         this.length = arr.length;
     };
 
-    listProto.push = function () {
-        this.addRange(arguments);
-        return this.length;
-    };
-
-    listProto.remove = function (elem) {
-        var index = this.indexOf(elem);
+    /**
+     * Removes the first occurrence of an item from the list.
+     * @function remove
+     * @memberof arrgh.List
+     * @instance
+     * @param {*} item - The item to remove from the list.
+     * @returns {Boolean} - Returns whether the item was removed from the list.
+     */
+     listProto.remove = function (item) {
+        var index = this.indexOf(item);
 
         if (index >= 0) {
             this._.arr.splice(index, 1);
@@ -2149,53 +2226,108 @@
         return false;
     };
 
-    listProto.removeAll = function (elem) {
+    /**
+     * Removes all the elements that match the conditions defined by the specified predicate.
+     * @function removeAll
+     * @memberof arrgh.List
+     * @instance
+     * @param {predicate} predicate - A function to test each element for a condition.
+     * @returns {Number} - Returns the number of elements that were removed.
+     */
+     listProto.removeAll = function (predicate) {
         var arr = this._.arr,
+        count = 0,
         i;
 
-        for (i = arr.length; i >= 0; i -= 1) {
-            if (arr[i] === elem) {
+        for (i = arr.length - 1; i >= 0; i -= 1) {
+            if (predicate(arr[i])) {
                 arr.splice(i, 1);
+                count += 1;
             }
         }
         this.length = arr.length;
+        return count;
     };
 
-    listProto.removeAt = function (index) {
+    /**
+     * Removes the element at the specified index.
+     * @function removeAt
+     * @memberof arrgh.List
+     * @instance
+     * @param {Number} index - The index of the element to remove.
+     * @throws Throws an error when the index is smaller than zero or equal or greater than the length of the collection.
+     */
+     listProto.removeAt = function (index) {
+        throwIfOutOfBounds(this, index, this.length);
         this._.arr.splice(index, 1);
-        this.length = this._.arr.length;
+        this.length -= 1;
     };
 
-    listProto.removeRange = function (index, count) {
-        this._.arr.splice(index, count);
-        this.length = this._.arr.length;
+    /**
+     * Removes a range of elements.
+     * @function removeRange
+     * @memberof arrgh.List
+     * @instance
+     * @param {Number} index - The starting index of the range of elements to remove.
+     * @param {Number} count - The number of elements to remove.
+     * @throws Throws an error when the index is smaller than zero or equal or greater than the length of the collection or when the index plus the count are greater than the length of the collection.
+     */
+     listProto.removeRange = function (index, count) {
+        if (isRange(this, index, count)) {
+            this._.arr.splice(index, count);
+            this.length = this._.arr.length;
+        }
     };
 
-    listProto.set = function (index, value) {
+    /**
+     * Sets an element at the specified index.
+     * @function set
+     * @memberof arrgh.List
+     * @instance
+     * @param {Number} index - The index of the element to overwrite.
+     * @param {*} value - The value to set.
+     * @throws Throws an error when the index is smaller than zero or equal or greater than the length of the collection.
+     */
+     listProto.set = function (index, value) {
+        throwIfOutOfBounds(this, index, this.length);
         this._.arr[index] = value;
     };
 
-    listProto.sort = function (index, count, compare) {
+    /**
+     * Sorts the list.
+     * @function sort
+     * @memberof arrgh.List
+     * @instance
+     * @param {Number} [index=0] - The starting index of the range of elements to sort.
+     * @param {Number} [count=list.length] - The length of the range to sort.
+     * @param {compare} [compare] - A function that tests if an object is smaller than, greater than or equal to another object.
+     * @throws Throws an error when the index is smaller than zero or equal or greater than the length of the collection or when the index plus the count are greater than the length of the collection.
+     */
+     listProto.sort = function (index, count, compare) {
         var arr = this._.arr,
         map = [],
         partToSort,
         compareOriginals,
         i;
 
-        if (typeof index === "Function") {
+        if (typeof index === "function") {
             compare = index;
             index = 0;
-        } else if (typeof end === "Function") {
+        } else if (typeof count === "function") {
             compare = count;
             count = undefined;
         } else {
             compare = compare;
         }
-        index = index || 0;
-        count = count && count < arr.length ? count : arr.length;
+        index = isNull(index) ? 0 : index;
+        count = isNull(count) ? arr.length - index : count;
         compare = compare || defaultCompare;
-        partToSort = arr.splice(index, count);
 
+        if (!isRange(this, index, count)) {
+            return;
+        }
+
+        partToSort = arr.splice(index, count);
         for (i = 0; i < partToSort.length; i += 1) {
             map.push(i);
         }
@@ -2204,7 +2336,7 @@
             return compare(partToSort[x], partToSort[y]);
         };
 
-        stableQuicksort(map, index, partToSort.length - 1, compareOriginals);
+        stableQuicksort(map, 0, partToSort.length - 1, compareOriginals);
 
         var sorted = new Array(partToSort.length);
         for (i = 0; i < partToSort.length; i += 1) {
@@ -2239,7 +2371,7 @@
     listProto.indexOf = function (searchElem, fromIndex) {
         fromIndex = fromIndex || 0;
         for (fromIndex; fromIndex < this.length; fromIndex += 1) {
-            if (this._.arr[fromIndex] === searchElem) {
+            if (defaultEqComparer.equals(this._.arr[fromIndex], searchElem)) {
                 return fromIndex;
             }
         }
@@ -2258,7 +2390,7 @@
         fromIndex = fromIndex || 0;
         var i;
         for (i = this.length; fromIndex <= i; i -= 1) {
-            if (this._.arr[i] === searchElem) {
+            if (defaultEqComparer.equals(this._.arr[i], searchElem)) {
                 return i;
             }
         }
@@ -2283,36 +2415,16 @@
 
     var dictProto = Dictionary.prototype;
 
-    var containsKey = function (hash, key, privs) {
-        if (privs.keys.hasOwnProperty(hash)) {
-            return privs.keys[hash].contains(key, function (x, y) {
-                return privs.eqComparer.equals(x.key, y);
+    function dictionaryContainsKey (dictionary, hash, key) {
+        if (dictionary._.keys.hasOwnProperty(hash)) {
+            return dictionary._.keys[hash].contains(key, function (x, y) {
+                return dictionary._.eqComparer.equals(x.key, y);
             });
         }
         return false;
-    };
+    }
 
-    dictProto.containsKey = function (key) {
-        var hash = this._.eqComparer.getHash(key);
-        return containsKey(hash, key, this._);
-    };
-
-    dictProto.add = function (key, value) {
-        var hash = this._.eqComparer.getHash(key);
-        if (containsKey(hash, key, this._)) {
-            throw new Error("Key [" + key + "] is already present in the dictionary.");
-        }
-
-        if (!this._.keys[hash]) {
-            this._.keys[hash] = new List();
-            this._.hashes.add(hash);
-        }
-        this._.keys[hash].add({ key: key, value: value });
-
-        this.length += 1;
-    };
-
-    var getKvpByKey = function (dict, hash, key, whenNotExists) {
+    function getPairByKey (dict, hash, key, whenNotExists) {
         var elem;
         if (!dict._.keys.hasOwnProperty(hash)) {
             whenNotExists();
@@ -2326,13 +2438,69 @@
             }
         }
         return elem;
+    }
+
+    dictProto.add = function (key, value) {
+        var hash = this._.eqComparer.getHash(key);
+        if (dictionaryContainsKey(this, hash, key)) {
+            throw new Error("Key [" + key + "] is already present in the dictionary.");
+        }
+
+        if (!this._.keys[hash]) {
+            this._.keys[hash] = new List();
+            this._.hashes.add(hash);
+        }
+        this._.keys[hash].add({ key: key, value: value });
+
+        this.length += 1;
+    };
+
+    dictProto.clear = function () {
+        this._.hashes.clear();
+        this._.keys = {};
+        this.length = 0;
+    };
+
+    dictProto.containsKey = function (key) {
+        var hash = this._.eqComparer.getHash(key);
+        return dictionaryContainsKey(this, hash, key);
+    };
+
+    dictProto.containsValue = function (value) {
+        return this.any(function (p) {
+            return defaultCompare(p.value, value);
+        });
+    };
+
+    dictProto.get = function (key) {
+        var hash = this._.eqComparer.getHash(key);
+        return getPairByKey(this, hash, key, function () {
+            throw new Error("Key [" + key + "] was not found in the dictionary.");
+        }).value;
+    };
+
+    dictProto.getKeys = function () {
+        var arr = [];
+        this.forEach(function (p) {
+            arr.push(p.key);
+        });
+        return arr;
+    };
+
+    dictProto.getValues = function () {
+        var arr = [];
+        this.forEach(function (p) {
+            arr.push(p.value);
+        });
+        return arr;
     };
 
     dictProto.remove = function (key) {
         var hash = this._.eqComparer.getHash(key),
-        notFound;
+        notFound,
+        pair;
 
-        var elem = getKvpByKey(this, hash, key, function () {
+        pair = getPairByKey(this, hash, key, function () {
             notFound = true;
         });
         if (notFound) {
@@ -2340,7 +2508,7 @@
         }
 
         var keys = this._.keys[hash];
-        keys.remove(elem);
+        keys.remove(pair);
         if (!keys.any()) {
             delete this._.keys[hash];
             this._.hashes.remove(hash);
@@ -2349,35 +2517,16 @@
         return true;
     };
 
-    dictProto.get = function (key) {
-        var hash = this._.eqComparer.getHash(key);
-        return getKvpByKey(this, hash, key, function () {
-            throw new Error("Key [" + key + "] was not found in the dictionary.");
-        }).value;
-    };
-
-    var getKvps = function (selector) {
-        var keys = new List(),
-        prop;
-
-        for (prop in this._.keys) {
-            if (this._.keys.hasOwnProperty(prop)) {
-                keys.addRange(this._.keys[prop].select(selector));
-            }
+    dictProto.tryGet = function (key) {
+        var hash = this._.eqComparer.getHash(key),
+        notFound;
+        var pair = getPairByKey(this, hash, key, function () {
+            notFound = true;
+        });
+        if (notFound) {
+            return undefined;
         }
-        return keys;
-    };
-
-    dictProto.getKeys = function () {
-        return getKvps(function (kvp) {
-            return kvp.key;
-        });
-    };
-
-    dictProto.getValues = function () {
-        return getKvps(function (kvp) {
-            return kvp.value;
-        });
+        return pair.value;
     };
 
     dictProto.count = function (predicate) {

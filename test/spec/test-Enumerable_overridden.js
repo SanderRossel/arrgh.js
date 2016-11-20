@@ -1,4 +1,51 @@
 var testOverridden = function (ctor, empty) {
+	describe("ctors", function () {
+		it("should construct from an array", function () {
+			var e = new ctor([1, 2, 3, 4, 5]);
+			expect(e.toArray()).toEqual([1, 2, 3, 4, 5]);
+		});
+
+		it("should construct from some random objects", function () {
+			var o = {};
+			var e = new ctor("Hello", true, 1, o);
+			expect(e.toArray()).toEqual(["Hello", true, 1, o]);
+		});
+
+		it("should construct from another Enumerable", function () {
+			var e1 = new arrgh.Enumerable([1, 2, 3, 4, 5]);
+			var e2 = new ctor(e1);
+			expect(e2.toArray()).toEqual([1, 2, 3, 4, 5]);
+		});
+
+		it("should construct from a string", function () {
+			var e = new ctor("Hello");
+			expect(e.toArray()).toEqual(["H", "e", "l", "l", "o"]);
+		});
+
+		it("should throw on an invalid argument", function () {
+			expect(function () {
+				new ctor(true);
+			}).toThrow();
+		});
+	});
+
+	describe("asEnumerable", function () {
+		it("should return a new enumerable", function () {
+			var e = new ctor(1, 2, 3, 4, 5);
+			expect(e.asEnumerable()).not.toBe(e);
+		});
+
+		it("should be of type Enumerable", function () {
+			var e = new ctor(1, 2, 3, 4, 5);
+			expect(e.asEnumerable() instanceof arrgh.Enumerable).toBe(true);
+		});
+
+		it("should contain the same elements as the original enumerable", function () {
+			var e = new ctor(1, 2, 3, 4, 5);
+			expect(e.asEnumerable().toArray()).toEqual([1, 2, 3, 4, 5]);
+		});
+	});
+
 	describe("count", function () {
 		describe("with an empty enumerable", function () {
 			it("should always returns 0", function () {
@@ -126,7 +173,7 @@ var testOverridden = function (ctor, empty) {
 		});
 
 		it("should return the index of the first element", function () {
-			var e = new ctor(1, 2, 3, 4, 5);
+			var e = new ctor(1, 2, 3, 1, 4, 5);
 			expect(e.indexOf(1)).toBe(0);
 		});
 
@@ -138,6 +185,11 @@ var testOverridden = function (ctor, empty) {
 		it("should return the index of the found element after the fromIndex", function () {
 			var e = new ctor(1, 2, 3, 4, 5, 3);
 			expect(e.indexOf(3, 3)).toBe(5);
+		});
+
+		it("should return the first index of NaN", function () {
+			var e = new ctor(1, NaN, 3, NaN, 5, 3);
+			expect(e.indexOf(NaN)).toBe(1);
 		});
 	});
 
@@ -178,6 +230,48 @@ var testOverridden = function (ctor, empty) {
 			expect(new ctor(people).last(function (p) {
 				return p.first === "Steve";
 			})).toBe(p4);
+		});
+	});
+
+	describe("lastIndexOf", function () {
+		it("should return -1 if the element is not found", function () {
+			var e = new ctor(1, 2, 3, 4, 5);
+			expect(e.lastIndexOf(6)).toBe(-1);
+		});
+
+		it("should return -1 if the fromIndex is greater than the length of the collection", function () {
+			var e = new ctor(1, 2, 3, 4, 5);
+			expect(e.lastIndexOf(5, 5)).toBe(-1);
+		});
+
+		it("should return the index of the element if the fromIndex starts at the index of that element", function () {
+			var e = new ctor(1, 2, 3, 4, 5);
+			expect(e.lastIndexOf(5, 4)).toBe(4);
+		});
+
+		it("should return -1 if the fromIndex is greater than the index of the element", function () {
+			var e = new ctor(1, 2, 3, 4, 5);
+			expect(e.lastIndexOf(1, 1)).toBe(-1);
+		});
+
+		it("should return the index of the last element", function () {
+			var e = new ctor(1, 2, 3, 1, 4, 5);
+			expect(e.lastIndexOf(1)).toBe(3);
+		});
+
+		it("should return the index of the found element", function () {
+			var e = new ctor(1, 2, 3, 4, 5);
+			expect(e.lastIndexOf(3)).toBe(2);
+		});
+
+		it("should return the index of the found element after the fromIndex", function () {
+			var e = new ctor(1, 2, 3, 4, 5, 3);
+			expect(e.lastIndexOf(3, 3)).toBe(5);
+		});
+
+		it("should return the last index of NaN", function () {
+			var e = new ctor(1, NaN, 3, NaN, 5, 3);
+			expect(e.lastIndexOf(NaN)).toBe(3);
 		});
 	});
 

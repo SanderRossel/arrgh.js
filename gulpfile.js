@@ -47,5 +47,5 @@ gulp.task('clean', function () {
 });
 
 gulp.task('default', function () {
-    gulp.start('build', 'test', 'test-min');
+    gulp.start('test-min');
 });
