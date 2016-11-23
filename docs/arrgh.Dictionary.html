@@ -76,6 +76,8 @@
             
             <span class="subtitle">Methods</span>
             
+                <li data-name="arrgh.Dictionary#add"><a href="arrgh.Dictionary.html#add">add</a></li>
+            
                 <li data-name="arrgh.Dictionary#aggregate"><a href="arrgh.Dictionary.html#aggregate">aggregate</a></li>
             
                 <li data-name="arrgh.Dictionary#all"><a href="arrgh.Dictionary.html#all">all</a></li>
@@ -86,9 +88,15 @@
             
                 <li data-name="arrgh.Dictionary#average"><a href="arrgh.Dictionary.html#average">average</a></li>
             
+                <li data-name="arrgh.Dictionary#clear"><a href="arrgh.Dictionary.html#clear">clear</a></li>
+            
                 <li data-name="arrgh.Dictionary#concat"><a href="arrgh.Dictionary.html#concat">concat</a></li>
             
                 <li data-name="arrgh.Dictionary#contains"><a href="arrgh.Dictionary.html#contains">contains</a></li>
+            
+                <li data-name="arrgh.Dictionary#containsKey"><a href="arrgh.Dictionary.html#containsKey">containsKey</a></li>
+            
+                <li data-name="arrgh.Dictionary#containsValue"><a href="arrgh.Dictionary.html#containsValue">containsValue</a></li>
             
                 <li data-name="arrgh.Dictionary#count"><a href="arrgh.Dictionary.html#count">count</a></li>
             
@@ -110,7 +118,13 @@
             
                 <li data-name="arrgh.Dictionary#forEach"><a href="arrgh.Dictionary.html#forEach">forEach</a></li>
             
+                <li data-name="arrgh.Dictionary#get"><a href="arrgh.Dictionary.html#get">get</a></li>
+            
                 <li data-name="arrgh.Dictionary#getIterator"><a href="arrgh.Dictionary.html#getIterator">getIterator</a></li>
+            
+                <li data-name="arrgh.Dictionary#getKeys"><a href="arrgh.Dictionary.html#getKeys">getKeys</a></li>
+            
+                <li data-name="arrgh.Dictionary#getValues"><a href="arrgh.Dictionary.html#getValues">getValues</a></li>
             
                 <li data-name="arrgh.Dictionary#groupBy"><a href="arrgh.Dictionary.html#groupBy">groupBy</a></li>
             
@@ -137,6 +151,8 @@
                 <li data-name="arrgh.Dictionary#orderBy"><a href="arrgh.Dictionary.html#orderBy">orderBy</a></li>
             
                 <li data-name="arrgh.Dictionary#orderByDescending"><a href="arrgh.Dictionary.html#orderByDescending">orderByDescending</a></li>
+            
+                <li data-name="arrgh.Dictionary#remove"><a href="arrgh.Dictionary.html#remove">remove</a></li>
             
                 <li data-name="arrgh.Dictionary#reverse"><a href="arrgh.Dictionary.html#reverse">reverse</a></li>
             
@@ -169,6 +185,8 @@
                 <li data-name="arrgh.Dictionary#toList"><a href="arrgh.Dictionary.html#toList">toList</a></li>
             
                 <li data-name="arrgh.Dictionary#toLookup"><a href="arrgh.Dictionary.html#toLookup">toLookup</a></li>
+            
+                <li data-name="arrgh.Dictionary#tryGet"><a href="arrgh.Dictionary.html#tryGet">tryGet</a></li>
             
                 <li data-name="arrgh.Dictionary#union"><a href="arrgh.Dictionary.html#union">union</a></li>
             
@@ -910,6 +928,151 @@
         <h3 class="subsection-title">Methods</h3>
         
         <dl>
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="add">
+            
+            add<span class="signature">(key, value)</span>
+        </h4>
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Adds the specified key and value to the dictionary.
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                The key of the element to add.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                The value of the element to add.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+    <h5>Throws:</h5>
+    
+            
+
+    <div class="param-desc">
+    
+        When a key is already present in the dictionary.
+    
+    </div>
+
+
+        
+
+    
+
+    
+</dd>
+
+        
             
 <dt>
     <div class="nameContainer inherited">
@@ -1670,6 +1833,71 @@
         
             
 <dt>
+    <div class="nameContainer">
+        <h4 class="name" id="clear">
+            
+            clear<span class="signature">()</span>
+        </h4>
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Removes all items from the dictionary.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
     <div class="nameContainer inherited">
         <h4 class="name" id="concat">
             
@@ -2000,6 +2228,244 @@
     
     </tbody>
 </table>
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="containsKey">
+            
+            containsKey<span class="signature">(key)</span>
+        </h4>
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Check whether a key is present in the dictionary.
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                The key to locate.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+
+
+
+True if the key is present, otherwise false.
+
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="containsValue">
+            
+            containsValue<span class="signature">(value)</span>
+        </h4>
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Check whether a value is present in the dictionary.
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                The value to locate.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+
+
+
+True if the value is present, otherwise false.
+
 
     
 
@@ -3575,6 +4041,157 @@
         
             
 <dt>
+    <div class="nameContainer">
+        <h4 class="name" id="get">
+            
+            get<span class="signature">(key)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
+        </h4>
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Gets the item at the specified key.
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                The key of the element which should be retrieved.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+    <h5>Throws:</h5>
+    
+            
+
+    <div class="param-desc">
+    
+        Throws an error when the key is not present in the dictionary.
+    
+    </div>
+
+
+        
+
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        *
+                        
+                    
+            </td>
+            <td class="description last">- Returns the element with the specified key.</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
     <div class="nameContainer inherited">
         <h4 class="name" id="getIterator">
             
@@ -3658,6 +4275,194 @@
                     
             </td>
             <td class="description last">- Returns an iterator that iterates through the collection.</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getKeys">
+            
+            getKeys<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Array}</span>
+        </h4>
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Gets all keys in the dictionary.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Array
+                        
+                    
+            </td>
+            <td class="description last">- An array containing all keys in the dictionary.</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getValues">
+            
+            getValues<span class="signature">()</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Array}</span>
+        </h4>
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Gets all values in the dictionary.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Array
+                        
+                    
+            </td>
+            <td class="description last">- An array containing all values in the dictionary.</td>
         </tr>
     
     </tbody>
@@ -6149,6 +6954,145 @@
         
             
 <dt>
+    <div class="nameContainer">
+        <h4 class="name" id="remove">
+            
+            remove<span class="signature">(key)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Boolean}</span>
+        </h4>
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Removes the value with the specified key from the dictionary.
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                The key of the element to remove.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Boolean
+                        
+                    
+            </td>
+            <td class="description last">- True if the key was successfully removed and false when the key was not found.</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
     <div class="nameContainer inherited">
         <h4 class="name" id="reverse">
             
@@ -8622,6 +9566,145 @@
         
             
 <dt>
+    <div class="nameContainer">
+        <h4 class="name" id="tryGet">
+            
+            tryGet<span class="signature">(key)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="global.html#tryResult">tryResult</a>}</span>
+        </h4>
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Removes the value with the specified key from the dictionary.
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                The key at which the item should be retrieved.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        <a href="global.html#tryResult">tryResult</a>
+                        
+                    
+            </td>
+            <td class="description last">- A result specifying whether the key was found and, if yes, also contains the value for the key.</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
     <div class="nameContainer inherited">
         <h4 class="name" id="union">
             
@@ -9284,7 +10367,7 @@
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Sun Nov 20 2016 22:35:50 GMT+0100 (W. Europe Standard Time)
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Wed Nov 23 2016 23:41:41 GMT+0100 (W. Europe Standard Time)
         </footer>
     </div>
 </div>

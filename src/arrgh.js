@@ -11,7 +11,7 @@
  * Contains all collection classes used by arrgh.js.
  * @namespace arrgh
  */
- var arrgh = (function (undefined) {
+ var arrgh = (function (undefined, MAX_SAFE_INTEGER) {
     "use strict";
 
     // Helper functions
@@ -163,6 +163,14 @@
      * @property {*} key - The key that the elements have in common.
      */
 
+     /**
+     * A result that defines whether an operation was a success and, if yes, holds the result of that operation.
+     * @name tryResult
+     * @type {Object}
+     * @property {Boolean} success - Indicates whether an operation was a success.
+     * @property {*} value - When successful, holds the result value of an operation. Otherwise undefined.
+     */
+
      var Temp = function () {
         // This will shut up JSLint :-)
         // Minify will remove 'return' so no precious bytes are lost.
@@ -175,8 +183,6 @@
         Temp.prototype = null;
         inheritor.prototype.constructor = inheritor;
     }
-
-    var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
 
     function isArray(o) {
         return Object.prototype.toString.call(o) === "[object Array]";
@@ -2144,7 +2150,7 @@
     };
 
     /**
-     * Clears the list.
+     * Removes all items from the list.
      * @function clear
      * @memberof arrgh.List
      * @instance
@@ -2440,7 +2446,16 @@
         return elem;
     }
 
-    dictProto.add = function (key, value) {
+    /**
+     * Adds the specified key and value to the dictionary.
+     * @function add
+     * @memberof arrgh.Dictionary
+     * @instance
+     * @param {*} key - The key of the element to add.
+     * @param {*} value - The value of the element to add.
+     * @throws When a key is already present in the dictionary.
+     */
+     dictProto.add = function (key, value) {
         var hash = this._.eqComparer.getHash(key);
         if (dictionaryContainsKey(this, hash, key)) {
             throw new Error("Key [" + key + "] is already present in the dictionary.");
@@ -2455,31 +2470,69 @@
         this.length += 1;
     };
 
-    dictProto.clear = function () {
+    /**
+     * Removes all items from the dictionary.
+     * @function clear
+     * @memberof arrgh.Dictionary
+     * @instance
+     */
+     dictProto.clear = function () {
         this._.hashes.clear();
         this._.keys = {};
         this.length = 0;
     };
 
-    dictProto.containsKey = function (key) {
+    /**
+     * Check whether a key is present in the dictionary.
+     * @function containsKey
+     * @memberof arrgh.Dictionary
+     * @instance
+     * @param {*} key - The key to locate.
+     * @returns True if the key is present, otherwise false.
+     */
+     dictProto.containsKey = function (key) {
         var hash = this._.eqComparer.getHash(key);
         return dictionaryContainsKey(this, hash, key);
     };
 
-    dictProto.containsValue = function (value) {
+    /**
+     * Check whether a value is present in the dictionary.
+     * @function containsValue
+     * @memberof arrgh.Dictionary
+     * @instance
+     * @param {*} value - The value to locate.
+     * @returns True if the value is present, otherwise false.
+     */
+     dictProto.containsValue = function (value) {
         return this.any(function (p) {
-            return defaultCompare(p.value, value);
+            return defaultEqComparer.equals(p.value, value);
         });
     };
 
-    dictProto.get = function (key) {
+    /**
+     * Gets the item at the specified key.
+     * @function get
+     * @memberof arrgh.Dictionary
+     * @instance
+     * @param {*} key - The key of the element which should be retrieved.
+     * @returns {*} - Returns the element with the specified key.
+     * @throws Throws an error when the key is not present in the dictionary.
+     */
+     dictProto.get = function (key) {
         var hash = this._.eqComparer.getHash(key);
         return getPairByKey(this, hash, key, function () {
             throw new Error("Key [" + key + "] was not found in the dictionary.");
         }).value;
     };
 
-    dictProto.getKeys = function () {
+    /**
+     * Gets all keys in the dictionary.
+     * @function getKeys
+     * @memberof arrgh.Dictionary
+     * @instance
+     * @returns {Array} - An array containing all keys in the dictionary.
+     */
+     dictProto.getKeys = function () {
         var arr = [];
         this.forEach(function (p) {
             arr.push(p.key);
@@ -2487,7 +2540,14 @@
         return arr;
     };
 
-    dictProto.getValues = function () {
+    /**
+     * Gets all values in the dictionary.
+     * @function getValues
+     * @memberof arrgh.Dictionary
+     * @instance
+     * @returns {Array} - An array containing all values in the dictionary.
+     */
+     dictProto.getValues = function () {
         var arr = [];
         this.forEach(function (p) {
             arr.push(p.value);
@@ -2495,7 +2555,15 @@
         return arr;
     };
 
-    dictProto.remove = function (key) {
+    /**
+     * Removes the value with the specified key from the dictionary.
+     * @function remove
+     * @memberof arrgh.Dictionary
+     * @instance
+     * @param {*} key - The key of the element to remove.
+     * @returns {Boolean} - True if the key was successfully removed and false when the key was not found.
+     */
+     dictProto.remove = function (key) {
         var hash = this._.eqComparer.getHash(key),
         notFound,
         pair;
@@ -2517,16 +2585,30 @@
         return true;
     };
 
-    dictProto.tryGet = function (key) {
+    /**
+     * Removes the value with the specified key from the dictionary.
+     * @function tryGet
+     * @memberof arrgh.Dictionary
+     * @instance
+     * @param {*} key - The key at which the item should be retrieved.
+     * @returns {tryResult} - A result specifying whether the key was found and, if yes, also contains the value for the key.
+     */
+     dictProto.tryGet = function (key) {
         var hash = this._.eqComparer.getHash(key),
-        notFound;
-        var pair = getPairByKey(this, hash, key, function () {
+        notFound,
+        pair = getPairByKey(this, hash, key, function () {
             notFound = true;
         });
         if (notFound) {
-            return undefined;
+            return {
+                success: false,
+                value: undefined
+            };
         }
-        return pair.value;
+        return {
+            success: true,
+            value: pair.value
+        };
     };
 
     dictProto.count = function (predicate) {
@@ -2543,4 +2625,4 @@
         Iterator: Iterator,
         List: List
     };
-}(undefined));
+}(undefined, Number.MAX_SAFE_INTEGER || 9007199254740991));
