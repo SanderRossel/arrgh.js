@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+    <metadata>
+        <id>arrgh.js</id>
+        <version>0.9.1</version>
+        <title>arrgh.js</title>
+        <description>A lightweight JavaScript library that brings proper .NET-like collections and LINQ to the browser.</description>
+        <authors>Sander Rossel</authors>
+        <owners>Sander Rossel</owners>
+        <language>JavaScript</language>
+        <licenseUrl>https://spdx.org/licenses/MIT</licenseUrl>
+        <projectUrl>https://sanderrossel.github.io/arrgh.js/</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <releaseNotes>Initial version.</releaseNotes>
+        <copyright>Copyright 2016</copyright>
+        <tags>JavaScript LINQ collections array List HashMap Dictionary</tags>
+    </metadata>
+    <files>
+        <file src="dist\*.js" target="content\Scripts" />
+    </files>
+</package>

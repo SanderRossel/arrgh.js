@@ -16,7 +16,15 @@ function karmaDone (err, done) {
 }
 
 gulp.task('clean', function () {
-    return gulp.src(['dist/', 'docs/'], { read: false })
+    return gulp.src([
+        'arrgh.js',
+        'arrgh.debug.js',
+        'dist/',
+        'docs/',
+        'test/coverage/',
+        'test/junit/',
+        'test/junit.debug/'
+    ], { read: false })
     .pipe(clean());
 })
 .task('build', ['clean'], function () {
@@ -28,7 +36,7 @@ gulp.task('clean', function () {
     .pipe(minify({
         ext: {
             src: '.debug.js',
-            min: '.min.js'
+            min: '.js'
         },
         preserveComments: 'some'
     }))

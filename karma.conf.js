@@ -29,8 +29,8 @@ module.exports = function(config) {
             }
         },
         junitReporter: {
-            outputDir: 'test/junit',
-            suite: 'arrgh.js',
+            outputDir: 'test/junit.debug',
+            suite: 'arrgh.debug.js',
             useBrowserName: true
         }
     });

@@ -67,7 +67,7 @@ var testList = function () {
 				expect(l.toArray()).toEqual([p0]);
 			});
 
-			it("should increase the length when an an item is added to the list", function () {
+			it("should increase the length when an item is added to the list", function () {
 				var l = new arrgh.List();
 				l.add("Something");
 				expect(l.length).toEqual(1);

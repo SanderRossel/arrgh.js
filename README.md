@@ -56,8 +56,9 @@ var people = names.select(n => {
 }).toArray();
 console.log(people); // logs [{ firstName: "Sander"}, { firstName: "Bill" }, ...].
 ~~~~
-[Full documentation](https://sanderrossel.github.io/arrgh.js/)<br />
-[GitHub](https://github.com/SanderRossel/arrgh.js)
+<a href="https://sanderrossel.github.io/arrgh.js/" target="_blank">Full documentation</a><br />
+<a href="https://github.com/SanderRossel/arrgh.js" target="_blank">GitHub</a>
+
 ---
 MIT License
 Copyright (c) 2016 Sander Rossel
