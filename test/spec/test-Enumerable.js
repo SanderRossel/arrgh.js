@@ -1,3 +1,4 @@
+/* exported testEnumerable */
 var testEnumerable = function () {
 	"use strict";
 
@@ -6,7 +7,7 @@ var testEnumerable = function () {
 			describe("without seed", function () {
 				it("should throw when the enumerable is empty", function () {
 					expect(function () {
-						arrgh.Enumerable.empty().aggregate(function (x, y) {
+						arrgh.Enumerable.empty().aggregate(function (x) {
 							return x;
 						});
 					}).toThrow();
@@ -32,7 +33,7 @@ var testEnumerable = function () {
 			describe("with seed", function () {
 				it("should throw when the enumerable is empty", function () {
 					expect(function () {
-						arrgh.Enumerable.empty().aggregate({}, function (x, y) {
+						arrgh.Enumerable.empty().aggregate({}, function (x) {
 							return x;
 						});
 					}).toThrow();
@@ -71,7 +72,7 @@ var testEnumerable = function () {
 						return {
 							name: "Sander",
 							age: p.age
-						}
+						};
 					})).toEqual({ name: "Sander", age: 311 });
 				});
 			});
@@ -731,9 +732,9 @@ var testEnumerable = function () {
 
 		describe("typeof", function () {
 			var f1 = function () { return 42; };
-			var f2 = function (arg1, arg2) { return "Hi"; };
+			var f2 = function () { return "Hi"; };
 			var o1 = { greet: "Hello" };
-			var o2 = new Object();
+			var o2 = {};
 			var e1 = new arrgh.Enumerable();
 
 			var allTypes = new arrgh.Enumerable([true, 42, "Hello", f1, o1, undefined, null, e1,
@@ -862,20 +863,20 @@ var testEnumerable = function () {
 
 			it("should flatten hobbies of people and apply a result selector", function () {
 				var e = new arrgh.Enumerable(p0, p1, p4).selectMany(hobbiesSelector, function (p, h) {
-					return { p: p, h: h}
+					return { p: p, h: h};
 				});
 				expect(e.toArray()).toEqual([{
 					p: p0,
 					h: "Programming"
 				}, {
 					p: p0,
-					h: "Gaming",
+					h: "Gaming"
 				}, {
 					p: p0,
 					h: "Music"
 				}, {
 					p: p1,
-					h: "Hiking",
+					h: "Hiking"
 				}, {
 					p: p1,
 					h: "Travelling"
@@ -969,11 +970,13 @@ var testEnumerable = function () {
 			});
 
 			it("should equal when all elements are equal in value, but not of the same type, but an equality comparer is supplied", function () {
+				/* jshint ignore:start */
 				var e1 = new arrgh.Enumerable(1, true, p0, "Hello");
 				var e2 = new arrgh.Enumerable("1", 1, p0, "Hello");
 				expect(e1.sequenceEquals(e2, function (x, y) {
 					return x == y;
 				})).toBe(true);
+				/* jshint ignore:end */
 			});
 		});
 

@@ -1,3 +1,9 @@
+/* exported p0, p1, p2, p3, p4, p5, p6, p7, people,
+   fullNameSelector, firstNameSelector, hobbiesSelector,
+   firstNameEqComparer, firstCharEqComparer, firstNameComparer,
+   MAX_SAFE_INTEGER
+*/
+
 var p0 = {
 	first: "Sander",
 	last: "Rossel",

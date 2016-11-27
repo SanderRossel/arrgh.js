@@ -1,3 +1,4 @@
+/* exported testEnumerableOrderings */
 var testEnumerableOrderings = function () {
 	"use strict";
 

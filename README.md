@@ -60,6 +60,15 @@ console.log(people); // logs [{ firstName: "Sander"}, { firstName: "Bill" }, ...
 <a href="https://github.com/SanderRossel/arrgh.js" target="_blank">GitHub</a>
 
 ---
+Release notes:
+
+0.9.2
++ Fixed Dictionary implementation.
+
+0.9.1
++ Initial version.
+
+---
 MIT License
 Copyright (c) 2016 Sander Rossel
 

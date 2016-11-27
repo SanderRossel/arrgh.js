@@ -1,3 +1,4 @@
+/* exported testOverridden */
 var testOverridden = function (ctor, empty) {
 	describe("ctors", function () {
 		it("should construct from an array", function () {
@@ -24,7 +25,9 @@ var testOverridden = function (ctor, empty) {
 
 		it("should throw on an invalid argument", function () {
 			expect(function () {
+				/* jshint ignore:start */
 				new ctor(true);
+				/* jshint ignore:end */
 			}).toThrow();
 		});
 	});

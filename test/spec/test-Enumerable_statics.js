@@ -1,3 +1,4 @@
+/* exported testEnumerableStatics */
 var testEnumerableStatics = function () {
 	"use strict";
 

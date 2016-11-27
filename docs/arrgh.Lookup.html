@@ -146,6 +146,8 @@
             
                 <li data-name="arrgh.Dictionary#max"><a href="arrgh.Dictionary.html#max">max</a></li>
             
+                <li data-name="arrgh.Dictionary#min"><a href="arrgh.Dictionary.html#min">min</a></li>
+            
                 <li data-name="arrgh.Dictionary#ofType"><a href="arrgh.Dictionary.html#ofType">ofType</a></li>
             
                 <li data-name="arrgh.Dictionary#orderBy"><a href="arrgh.Dictionary.html#orderBy">orderBy</a></li>
@@ -161,6 +163,8 @@
                 <li data-name="arrgh.Dictionary#selectMany"><a href="arrgh.Dictionary.html#selectMany">selectMany</a></li>
             
                 <li data-name="arrgh.Dictionary#sequenceEquals"><a href="arrgh.Dictionary.html#sequenceEquals">sequenceEquals</a></li>
+            
+                <li data-name="arrgh.Dictionary#set"><a href="arrgh.Dictionary.html#set">set</a></li>
             
                 <li data-name="arrgh.Dictionary#single"><a href="arrgh.Dictionary.html#single">single</a></li>
             
@@ -279,7 +283,7 @@
             
                 <li data-name="arrgh.Enumerable#max"><a href="arrgh.Enumerable.html#max">max</a></li>
             
-                <li data-name="arrgh.Enumerable#max"><a href="arrgh.Enumerable.html#max">max</a></li>
+                <li data-name="arrgh.Enumerable#min"><a href="arrgh.Enumerable.html#min">min</a></li>
             
                 <li data-name="arrgh.Enumerable#ofType"><a href="arrgh.Enumerable.html#ofType">ofType</a></li>
             
@@ -441,6 +445,8 @@
             
                 <li data-name="arrgh.List#max"><a href="arrgh.List.html#max">max</a></li>
             
+                <li data-name="arrgh.List#min"><a href="arrgh.List.html#min">min</a></li>
+            
                 <li data-name="arrgh.List#ofType"><a href="arrgh.List.html#ofType">ofType</a></li>
             
                 <li data-name="arrgh.List#orderBy"><a href="arrgh.List.html#orderBy">orderBy</a></li>
@@ -576,6 +582,8 @@
             
                 <li data-name="arrgh.Lookup#max"><a href="arrgh.Lookup.html#max">max</a></li>
             
+                <li data-name="arrgh.Lookup#min"><a href="arrgh.Lookup.html#min">min</a></li>
+            
                 <li data-name="arrgh.Lookup#ofType"><a href="arrgh.Lookup.html#ofType">ofType</a></li>
             
                 <li data-name="arrgh.Lookup#orderBy"><a href="arrgh.Lookup.html#orderBy">orderBy</a></li>
@@ -698,6 +706,8 @@
                 <li data-name="arrgh.OrderedEnumerable#map"><a href="arrgh.OrderedEnumerable.html#map">map</a></li>
             
                 <li data-name="arrgh.OrderedEnumerable#max"><a href="arrgh.OrderedEnumerable.html#max">max</a></li>
+            
+                <li data-name="arrgh.OrderedEnumerable#min"><a href="arrgh.OrderedEnumerable.html#min">min</a></li>
             
                 <li data-name="arrgh.OrderedEnumerable#ofType"><a href="arrgh.OrderedEnumerable.html#ofType">ofType</a></li>
             
@@ -5767,6 +5777,166 @@
             
 <dt>
     <div class="nameContainer inherited">
+        <h4 class="name" id="min">
+            
+                <span class="inherited"><a href="arrgh.Enumerable.html#min">inherited</a></span>
+            
+            min<span class="signature">(<span class="optional">selector</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{*}</span>
+        </h4>
+    </div>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Returns the minimum value in a collection.<br />Values are converted to numerics. If this fails the function returns NaN.
+    </div>
+    
+
+    
+
+    
+
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>selector</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#selector">selector</a></span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
+                
+                A function that projects an element into a new form.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+    <h5>Throws:</h5>
+    
+            
+
+    <div class="param-desc">
+    
+        Throws an error when the collection is empty.
+    
+    </div>
+
+
+        
+
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        *
+                        
+                    
+            </td>
+            <td class="description last">- Returns the minimum value in the collection or NaN.</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer inherited">
         <h4 class="name" id="ofType">
             
                 <span class="inherited"><a href="arrgh.Enumerable.html#ofType">inherited</a></span>
@@ -9400,7 +9570,7 @@
         
 
         <footer>
-            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Fri Nov 25 2016 22:01:11 GMT+0100 (W. Europe Standard Time)
+            Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Sun Nov 27 2016 21:20:53 GMT+0100 (W. Europe Standard Time)
         </footer>
     </div>
 </div>

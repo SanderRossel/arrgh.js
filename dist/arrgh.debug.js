@@ -435,11 +435,12 @@
      * @param {(Array|String|arrgh.Enumerable|params)} [enumerable=[]] - An array, string or enumerable whose elements are copied to the new list.
      */
      var List = function (enumerable) {
-        var iterable,
+        var self = this,
+        iterable,
         arr;
 
         Enumerable.call(this, function () {
-            return getArrayIterator(arr);
+            return getArrayIterator(self._.arr);
         });
 
         if (arguments.length > 1) {
@@ -476,41 +477,25 @@
      */
      var Dictionary = function (eqComparer) {
         var self = this;
-        Enumerable.call(self, function () {
-            var len = self.length,
-            current,
-            hashIndex = -1,
-            currentKeys,
-            keyIndex = -1;
 
+        Enumerable.call(self, function () {
+            var iterator = self._.entries.getIterator();
             return new Iterator(function () {
-                if (self.length !== len) {
-                    throw new Error("Collection was modified, enumeration operation may not execute.");
-                }
-                current = undefined;
-                if (!currentKeys || keyIndex === currentKeys.length - 1) {
-                    hashIndex += 1;
-                    if (hashIndex < self._.hashes.length) {
-                        var hash = self._.hashes.get(hashIndex);
-                        currentKeys = self._.keys[hash];
-                        keyIndex = 0;
-                        current = currentKeys.get(keyIndex);
-                    }
-                } else {
-                    keyIndex += 1;
-                    current = currentKeys.get(keyIndex);
-                }
-                return hashIndex <= self._.hashes.length - 1;
+                return iterator.moveNext();
             }, function () {
-                return current;
+                var current = iterator.current();
+                if (current) {
+                    return { key: current.key, value: current.value };
+                }
+                return undefined;
             });
         });
 
-        self.length = 0;
-        self._ = {
+        this.length = 0;
+        this._ = {
             eqComparer: ensureEqComparer(eqComparer),
             keys: {},
-            hashes: new List()
+            entries: new List()
         };
     };
     inherit(Dictionary, Enumerable);
@@ -1408,7 +1393,7 @@
      * Returns the minimum value in a collection.<br />
      * Values are converted to numerics. If this fails the function returns NaN.
      * @param {selector} [selector] - A function that projects an element into a new form.
-     * @function max
+     * @function min
      * @memberof arrgh.Enumerable
      * @instance
      * @returns {*} - Returns the minimum value in the collection or NaN.
@@ -1963,6 +1948,7 @@
             eqComparer = arguments[2];
         } else {
             eqComparer = arguments[1];
+            elementSelector = undefined;
         }
         elementSelector = elementSelector || identity;
         eqComparer = ensureEqComparer(eqComparer);
@@ -2097,7 +2083,7 @@
 
     var listProto = List.prototype;
 
-    function throwIfOutOfBounds(list, index, upperBound) {
+    function throwIfOutOfBounds(index, upperBound) {
         if (index < 0 || index >= upperBound) {
             throw new Error("Index was out of range. Must be non-negative and less than the size of the collection.");
         }
@@ -2110,7 +2096,7 @@
         if (index === 0 && count === 0) {
             return false;
         }
-        throwIfOutOfBounds(list, index, list.length);
+        throwIfOutOfBounds(index, list.length);
         if (index + count > list.length) {
             throw new Error("Count is greater than the number of elements from index to the end of the source collection.");
         }
@@ -2170,7 +2156,7 @@
      * @throws Throws an error when the index is smaller than zero or equal or greater than the length of the collection.
      */
      listProto.get = function (index) {
-        throwIfOutOfBounds(this, index, this.length);
+        throwIfOutOfBounds(index, this.length);
         return this._.arr[index];
     };
 
@@ -2184,7 +2170,7 @@
      * @throws Throws an error when the index is smaller than zero or greater than the length of the collection.
      */
      listProto.insert = function (index, item) {
-        throwIfOutOfBounds(this, index, this.length + 1);
+        throwIfOutOfBounds(index, this.length + 1);
         this._.arr.splice(index, 0, item);
         this.length += 1;
     };
@@ -2199,7 +2185,7 @@
      * @throws Throws an error when the index is smaller than zero or greater than the length of the collection.
      */
      listProto.insertRange = function (index, items) {
-        throwIfOutOfBounds(this, index, this.length + 1);
+        throwIfOutOfBounds(index, this.length + 1);
         var arr = this._.arr,
         arrToInsert;
         if (items.getIterator) {
@@ -2264,7 +2250,7 @@
      * @throws Throws an error when the index is smaller than zero or equal or greater than the length of the collection.
      */
      listProto.removeAt = function (index) {
-        throwIfOutOfBounds(this, index, this.length);
+        throwIfOutOfBounds(index, this.length);
         this._.arr.splice(index, 1);
         this.length -= 1;
     };
@@ -2295,7 +2281,7 @@
      * @throws Throws an error when the index is smaller than zero or equal or greater than the length of the collection.
      */
      listProto.set = function (index, value) {
-        throwIfOutOfBounds(this, index, this.length);
+        throwIfOutOfBounds(index, this.length);
         this._.arr[index] = value;
     };
 
@@ -2361,9 +2347,7 @@
     };
 
     listProto.elementAt = function (index) {
-        if (index < 0 || index >= this.length) {
-            throw new Error("Index was outside the bounds of the collection.");
-        }
+        throwIfOutOfBounds(index, this.length);
         return this._.arr[index];
     };
 
@@ -2463,9 +2447,10 @@
 
         if (!this._.keys[hash]) {
             this._.keys[hash] = new List();
-            this._.hashes.add(hash);
         }
-        this._.keys[hash].add({ key: key, value: value });
+        var pair = { key: key, value: value };
+        this._.keys[hash].add(pair);
+        this._.entries.add(pair);
 
         this.length += 1;
     };
@@ -2477,7 +2462,7 @@
      * @instance
      */
      dictProto.clear = function () {
-        this._.hashes.clear();
+        this._.entries.clear();
         this._.keys = {};
         this.length = 0;
     };
@@ -2577,12 +2562,29 @@
 
         var keys = this._.keys[hash];
         keys.remove(pair);
+        this._.entries.remove(pair);
         if (!keys.any()) {
             delete this._.keys[hash];
-            this._.hashes.remove(hash);
         }
         this.length -= 1;
         return true;
+    };
+
+    /**
+     * Sets the item at the specified key.
+     * @function set
+     * @memberof arrgh.Dictionary
+     * @instance
+     * @param {*} key - The key of the element to overwrite.
+     * @param {*} value - The value to set.
+     * @returns {*} - Returns the element with the specified key.
+     * @throws Throws an error when the key is not present in the dictionary.
+     */
+    dictProto.set = function (key, value) {
+        var hash = this._.eqComparer.getHash(key);
+        getPairByKey(this, hash, key, function () {
+            throw new Error("Key [" + key + "] was not found in the dictionary.");
+        }).value = value;
     };
 
     /**

@@ -1,3 +1,4 @@
+/* exported testList */
 var testList = function () {
 	"use strict";
 
@@ -177,7 +178,7 @@ var testList = function () {
 
 			it("should get an item after adding it", function () {
 				var l = new arrgh.List();
-				l.add("Hello")
+				l.add("Hello");
 				expect(l.get(0)).toBe("Hello");
 			});
 

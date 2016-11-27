@@ -1,3 +1,4 @@
+/* exported testEnumerableToSomethings */
 var testEnumerableToSomethings = function () {
 	"use strict";
 
@@ -77,8 +78,40 @@ var testEnumerableToSomethings = function () {
 						equals: function (a, b) {
 							return (a ? a[0] : "null"[0]) === (b ? b[0] : "null"[0]);
 						}
-					})
+					});
 				}).toThrow();
+			});
+
+			it("should create a dictionary with people as key and a first name equality comparer", function () {
+				var e = new arrgh.Enumerable(people);
+				expect(e.toDictionary(function (p) {
+					return p;
+				}, {
+					equals: function (x, y) {
+						return x === y;
+					},
+					getHash: function (obj) {
+						return obj.first;
+					}
+				}).toArray()).toEqual([{
+					key: p0,
+					value: p0
+				}, {
+					key: p1,
+					value: p1
+				}, {
+					key: p2,
+					value: p2
+				}, {
+					key: p3,
+					value: p3
+				}, {
+					key: p4,
+					value: p4
+				}, {
+					key: p5,
+					value: p5
+				}]);
 			});
 
 			it("should create a dictionary with last names as key and an equality comparer and throw because the key is already present", function () {
@@ -93,7 +126,7 @@ var testEnumerableToSomethings = function () {
 						equals: function (a, b) {
 							return (a ? a[0] : "null"[0]) === (b ? b[0] : "null"[0]);
 						}
-					})
+					});
 				}).toThrow();
 			});
 		});

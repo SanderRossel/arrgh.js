@@ -1,3 +1,4 @@
+/* exported testDictionary */
 var testDictionary = function () {
 	"use strict";
 
@@ -222,7 +223,7 @@ describe("clear", function () {
 	it("should clear the Dictionary", function () {
 		var d = new arrgh.Dictionary();
 		d.add("a");
-		d.add("b")
+		d.add("b");
 		d.clear();
 		expect(d.toArray()).toEqual([]);
 	});
@@ -230,7 +231,7 @@ describe("clear", function () {
 	it("should set length to 0", function () {
 		var d = new arrgh.Dictionary();
 		d.add("a");
-		d.add("b")
+		d.add("b");
 		d.clear();
 		expect(d.length).toBe(0);
 	});
@@ -518,7 +519,7 @@ describe("getValues", function () {
 		var d = new arrgh.Dictionary(firstNameEqComparer);
 		d.add(p0, "value");
 		d.add(p1, []);
-		d.add(p3, p3)
+		d.add(p3, p3);
 		d.add({ first: "some key" }, "some value");
 		expect(d.getValues()).toEqual(["value", [], p3, "some value"]);
 	});
@@ -595,8 +596,49 @@ describe("remove", function () {
 	});
 });
 
+describe("set", function () {
+	it("should set an item at a key", function () {
+		var d = new arrgh.Dictionary();
+		d.add("key", "value");
+		d.set("key", "another value");
+		expect(d.get("key")).toBe("another value");
+	});
+
+	it("should not change the length", function () {
+		var d = new arrgh.Dictionary();
+		d.add("key", "value");
+		d.add("something", "some value");
+		d.add("bla", "blo");
+		d.set("key", "another value");
+		expect(d.length).toBe(3);
+	});
+
+	it("should not change referenced key-value pairs", function () {
+		var d = new arrgh.Dictionary();
+		d.add("key", "value");
+		var pair = d.elementAt(0);
+		d.set("key", "another value");
+		expect(pair).toEqual({ key: "key", value: "value" });
+	});
+
+	it("should throw when the key is not in the dictionary", function () {
+		var d = new arrgh.Dictionary();
+		d.add("key");
+		expect(function () {
+			d.set("nope");
+		}).toThrow();
+	});
+
+	it("should throw when the dictionary is empty", function () {
+		var d = new arrgh.Dictionary();
+		expect(function () {
+			d.set("nope");
+		}).toThrow();
+	});
+});
+
 describe("tryGet", function () {
-		it("should get an item at a key after adding it", function () {
+	it("should get an item at a key after adding it", function () {
 		var d = new arrgh.Dictionary();
 		d.add("key", "value");
 		expect(d.tryGet("key")).toEqual({ success: true, value: "value" });
@@ -646,54 +688,54 @@ describe("tryGet", function () {
 	});
 });
 
-	describe("count", function () {
-		describe("with an empty enumerable", function () {
-			it("should always returns 0", function () {
-				expect(new arrgh.Dictionary().count()).toBe(0);
-			});
-			it("should always return 0 even when a predicate is defined", function () {
-				expect(new arrgh.Dictionary().count(function () {
-					return true;
-				})).toBe(0);
-			});
+describe("count", function () {
+	describe("with an empty enumerable", function () {
+		it("should always returns 0", function () {
+			expect(new arrgh.Dictionary().count()).toBe(0);
 		});
-
-		it("should return the number of elements when no predicate is defined", function () {
-			var d = new arrgh.Dictionary();
-			d.add(1);
-			d.add(2);
-			d.add(3);
-			d.add(4);
-			d.add(5);
-			d.add(6);
-			expect(d.count()).toBe(6);
-		});
-
-		it("should return the number of matching elements when some elements match the predicate", function () {
-			var d = new arrgh.Dictionary();
-			d.add(p0, p0);
-			d.add(p1, p1);
-			d.add(p2, p2);
-			d.add(p3, p3);
-			d.add(p4, p4);
-			d.add(p5, p5);
-			expect(d.count(function (elem) {
-				return elem.value.first === "Bill";
-			})).toBe(3);
-		});
-
-		it("should return 0 when no element match the predicate", function () {
-			var d = new arrgh.Dictionary();
-			d.add(p0, p0);
-			d.add(p1, p1);
-			d.add(p2, p2);
-			d.add(p3, p3);
-			d.add(p4, p4);
-			d.add(p5, p5);
-			expect(d.count(function (elem) {
-				return elem.first === "nope";
+		it("should always return 0 even when a predicate is defined", function () {
+			expect(new arrgh.Dictionary().count(function () {
+				return true;
 			})).toBe(0);
 		});
 	});
+
+	it("should return the number of elements when no predicate is defined", function () {
+		var d = new arrgh.Dictionary();
+		d.add(1);
+		d.add(2);
+		d.add(3);
+		d.add(4);
+		d.add(5);
+		d.add(6);
+		expect(d.count()).toBe(6);
+	});
+
+	it("should return the number of matching elements when some elements match the predicate", function () {
+		var d = new arrgh.Dictionary();
+		d.add(p0, p0);
+		d.add(p1, p1);
+		d.add(p2, p2);
+		d.add(p3, p3);
+		d.add(p4, p4);
+		d.add(p5, p5);
+		expect(d.count(function (elem) {
+			return elem.value.first === "Bill";
+		})).toBe(3);
+	});
+
+	it("should return 0 when no element match the predicate", function () {
+		var d = new arrgh.Dictionary();
+		d.add(p0, p0);
+		d.add(p1, p1);
+		d.add(p2, p2);
+		d.add(p3, p3);
+		d.add(p4, p4);
+		d.add(p5, p5);
+		expect(d.count(function (elem) {
+			return elem.first === "nope";
+		})).toBe(0);
+	});
+});
 });
 };

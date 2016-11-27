@@ -1,3 +1,4 @@
+/* exported testEnumerableUnions */
 var testEnumerableUnions = function () {
 	"use strict";
 

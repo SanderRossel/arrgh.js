@@ -1,3 +1,4 @@
+/* exported testIterators */
 var testIterators = function () {
 	"use strict";
 
@@ -142,7 +143,7 @@ var testIterators = function () {
 
 			describe("for a List", function () {
 				var list = new arrgh.List(1, 2, 3, 4, 5);
-				test(list, function (e) {
+				test(list, function () {
 					return new arrgh.List();
 				});
 				testList(list);
@@ -211,7 +212,7 @@ var testIterators = function () {
 
 			it("should loop once even when there is only a single undefined", function () {
 				var looped = false;
-				var r = new arrgh.Enumerable([undefined]).groupJoin(new arrgh.Enumerable(["bla"]), function () {
+				new arrgh.Enumerable([undefined]).groupJoin(new arrgh.Enumerable(["bla"]), function () {
 					looped = true;
 					return true;
 				}, function () {
@@ -251,19 +252,19 @@ var testIterators = function () {
 		});
 
 		describe("- RangeCountIterator", function () {
-			test(arrgh.Enumerable.range(0, 10), function (e) {
+			test(arrgh.Enumerable.range(0, 10), function () {
 				return arrgh.Enumerable.range(0, 0);
 			});
 		});
 
 		describe("- RangeIterator", function () {
-			test(arrgh.Enumerable.range(MAX_SAFE_INTEGER - 5), function (e) {
+			test(arrgh.Enumerable.range(MAX_SAFE_INTEGER - 5), function () {
 				return arrgh.Enumerable.range(MAX_SAFE_INTEGER + 1);
 			});
 		});
 
 		describe("- RepeatIterator", function () {
-			test(arrgh.Enumerable.repeat("Hello", 5), function (e) {
+			test(arrgh.Enumerable.repeat("Hello", 5), function () {
 				return arrgh.Enumerable.repeat("Hello", 0);
 			});
 		});
@@ -336,7 +337,7 @@ var testIterators = function () {
 
 		describe("- WhereIterator", function () {
 			test(new arrgh.Enumerable(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).where(function (n) {
-				return n % 2 == 1;
+				return n % 2 === 1;
 			}), function (e) {
 				return e.where(function () {
 					return false;

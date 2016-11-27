@@ -4,7 +4,6 @@ var jshint = require('gulp-jshint');
 var filesize = require('gulp-filesize');
 var minify = require('gulp-minify');
 var jsdoc = require('gulp-jsdoc3');
-var watch = require('gulp-watch');
 var gutil = require('gulp-util');
 var karma = require('karma').Server;
 
@@ -43,7 +42,12 @@ gulp.task('clean', function () {
     .pipe(filesize())
     .pipe(gulp.dest('dist'));
 })
-.task('test', function (done) {
+.task('lint-tests', function () {
+	return gulp.src('test/spec/*.js')
+    .pipe(jshint('jshint.tests.conf.json'))
+    .pipe(jshint.reporter('default'))
+})
+.task('test', ['lint-tests'], function (done) {
     new karma({
         configFile: __dirname + '/karma.conf.js',
     }, err => karmaDone(err, done)).start();

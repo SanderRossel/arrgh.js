@@ -1,3 +1,4 @@
+/* exported testEnumerableJoins */
 var testEnumerableJoins = function () {
     "use strict";
 
