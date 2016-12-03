@@ -1,4 +1,4 @@
-# arrgh.js
+# arrgh.js - Bringing LINQ to JavaScript
 **Argh!**<br />
 *exclamation*<br />
 &nbsp;&nbsp;&nbsp;&nbsp;Expression of frusration or anger.<br />
@@ -21,7 +21,16 @@ arrgh.js is based on the collection types of .NET and gives you all the function
 
 arrgh.js is **lightweight**, **thoroughly tested** and **easy to use**.
 
-Simply add a reference to the arrgh.js source file and you're ready to go!<br />
+Install using [npm](https://www.npmjs.com/package/arrgh):
+
+	npm install arrgh
+
+Install using [NuGet](https://www.nuget.org/packages/arrgh.js/):
+
+	Install-Package arrgh.js
+
+Simply add a reference to the arrgh.js source file and you're ready to go!
+
 Here are a few **examples** to get you started.
 
 ~~~~
@@ -57,6 +66,7 @@ var people = names.select(n => {
 console.log(people); // logs [{ firstName: "Sander"}, { firstName: "Bill" }, ...].
 ~~~~
 <a href="https://sanderrossel.github.io/arrgh.js/" target="_blank">Full documentation</a><br />
+<a href="https://www.codeproject.com/Articles/1157838/Arrgh-js-Bringing-LINQ-to-JavaScript" target="_blank">How arrgh.js was made</a><br />
 <a href="https://github.com/SanderRossel/arrgh.js" target="_blank">GitHub</a>
 
 ---
