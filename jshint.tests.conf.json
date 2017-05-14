@@ -43,6 +43,8 @@
 		"testOverridden": true,
 		"MAX_SAFE_INTEGER": true,
 
+		"require": true,
+
 		// Jasmine
 		"describe": true,
 		"it": true,

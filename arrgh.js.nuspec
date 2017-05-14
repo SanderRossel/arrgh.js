@@ -2,17 +2,17 @@
 <package>
     <metadata>
         <id>arrgh.js</id>
-        <version>0.9.2</version>
+        <version>1.1.0</version>
         <title>arrgh.js</title>
-        <description>A lightweight JavaScript library that brings proper .NET-like collections and LINQ to the browser.</description>
+        <description>A lightweight JavaScript library that brings proper .NET-like collections and LINQ to JavaScript.</description>
         <authors>Sander Rossel</authors>
         <owners>Sander Rossel</owners>
         <language>JavaScript</language>
         <licenseUrl>https://spdx.org/licenses/MIT</licenseUrl>
         <projectUrl>https://sanderrossel.github.io/arrgh.js/</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <releaseNotes>Fixed Dictionary implementation.</releaseNotes>
-        <copyright>Copyright 2016</copyright>
+        <releaseNotes>Added support for RequireJS/AMD, CommonJS and Node.js.</releaseNotes>
+        <copyright>Copyright 2017</copyright>
         <tags>JavaScript LINQ collections array List HashMap Dictionary</tags>
     </metadata>
     <files>

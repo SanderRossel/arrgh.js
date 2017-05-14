@@ -3,7 +3,7 @@ module.exports = function(config) {
         frameworks: ['jasmine'],
         files: [
             'src/*.js',
-            'test/spec/*.js'
+            'test/spec/test*.js'
         ],
         preprocessors: {
             'src/*.js': ['coverage']

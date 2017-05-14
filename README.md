@@ -19,7 +19,7 @@ That's right, the JavaScript array!
 arrgh.js takes all this frustration out of JavaScript arrays and gives you the functionality you'd expect from proper collections.<br />
 arrgh.js is based on the collection types of .NET and gives you all the functionality provided by LINQ to Objects.
 
-arrgh.js is **lightweight**, **thoroughly tested** and **easy to use**.
+arrgh.js is **lightweight**, **thoroughly tested**, **easy to use** and also works well with **RequireJS** and **Node.js**.
 
 Install using [npm](https://www.npmjs.com/package/arrgh):
 
@@ -65,12 +65,27 @@ var people = names.select(n => {
 }).toArray();
 console.log(people); // logs [{ firstName: "Sander"}, { firstName: "Bill" }, ...].
 ~~~~
+
+**CommonJS** and **Node.js** are supported as well.
+~~~~
+var arrgh = require('arrgh');
+// Use arrgh here...
+~~~~
+
+As are **RequireJS** and **AMD**.
+~~~~
+require(['node_modules/arrgh/arrgh.js'], function (arrgh) {
+	// Use arrgh here...
+});
+~~~~
 <a href="https://sanderrossel.github.io/arrgh.js/" target="_blank">Full documentation</a><br />
 <a href="https://www.codeproject.com/Articles/1157838/Arrgh-js-Bringing-LINQ-to-JavaScript" target="_blank">How arrgh.js was made</a><br />
 <a href="https://github.com/SanderRossel/arrgh.js" target="_blank">GitHub</a>
 
 ---
 Release notes:
+1.1.0
++ Added support for RequireJS/AMD, CommonJS and Node.js.
 
 0.9.2
 + Fixed Dictionary implementation.
@@ -80,7 +95,7 @@ Release notes:
 
 ---
 MIT License
-Copyright (c) 2016 Sander Rossel
+Copyright (c) 2017 Sander Rossel
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

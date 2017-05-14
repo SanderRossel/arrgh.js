@@ -41,7 +41,12 @@ var testDictionary = function () {
 				d.add(undefined, "undef");
 				d.add(null, "NULL");
 				d.add(NaN, "nAn");
-				expect(d.toArray()).toEqual([{ key: undefined, value: "undef" }, { key: null, value: "NULL" }, { key: NaN, value: "nAn" }]);
+				var arr = d.toArray();
+				expect(arr.length).toBe(3);
+				expect(arr[0]).toEqual({ key: undefined, value: "undef" });
+				expect(arr[1]).toEqual({ key: null, value: "NULL" });
+				expect(arr[2].key).toBeNaN();
+				expect(arr[2].value).toEqual("nAn");
 			});
 
 			it("should throw when a string key is already present", function () {

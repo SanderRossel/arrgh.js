@@ -42,7 +42,9 @@ var testList = function () {
 			it("should add NaN to the list", function () {
 				var l = new arrgh.List();
 				l.add(NaN);
-				expect(l.toArray()).toEqual([NaN]);
+				var arr = l.toArray();
+				expect(arr.length).toBe(1);
+				expect(arr[0]).toBeNaN();
 			});
 
 			it("should add multiple items to the list", function () {
@@ -52,7 +54,13 @@ var testList = function () {
 				l.add(p1);
 				l.add(NaN);
 				l.add("Hello");
-				expect(l.toArray()).toEqual([p0, 42, p1, NaN, "Hello"]);
+				var arr = l.toArray();
+				expect(arr.length).toBe(5);
+				expect(arr[0]).toBe(p0);
+				expect(arr[1]).toBe(42);
+				expect(arr[2]).toBe(p1);
+				expect(arr[3]).toBeNaN();
+				expect(arr[4]).toBe("Hello");
 			});
 
 			it("should add the same item twice", function () {
@@ -133,7 +141,12 @@ var testList = function () {
 			it("should add edge-case items", function () {
 				var l = new arrgh.List();
 				l.addRange(NaN, -Infinity, undefined, null);
-				expect(l.toArray()).toEqual([NaN, -Infinity, undefined, null]);
+				var arr = l.toArray();
+				expect(arr.length).toBe(4);
+				expect(arr[0]).toBeNaN();
+				expect(arr[1]).toBe(-Infinity);
+				expect(arr[2]).toBeUndefined();
+				expect(arr[3]).toBeNull();
 			});
 
 			it("should add a single item if a non-enumerable is passed as argument", function () {

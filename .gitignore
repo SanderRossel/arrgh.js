@@ -1,5 +1,6 @@
 arrgh.js
 arrgh.debug.js
+index.js
 *.nupkg
 node_modules
 *.log

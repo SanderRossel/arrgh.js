@@ -6,6 +6,7 @@ var minify = require('gulp-minify');
 var jsdoc = require('gulp-jsdoc3');
 var gutil = require('gulp-util');
 var karma = require('karma').Server;
+var jasmineNode = require('gulp-jasmine-node');
 
 function karmaDone (err, done) {
     if (err > 0) {
@@ -52,6 +53,10 @@ gulp.task('clean', function () {
         configFile: __dirname + '/karma.conf.js',
     }, err => karmaDone(err, done)).start();
 })
+.task('test-node', ['test'], function () {
+    return gulp.src('test/spec/node-spec.js')
+    .pipe(jasmineNode({ reporter: [ new jasmine.TerminalReporter({ color: true }) ] }));
+})
 .task('test-min', ['build', 'test'], function (done) {
     new karma({
         configFile: __dirname + '/karma.conf.min.js',
@@ -59,5 +64,5 @@ gulp.task('clean', function () {
 });
 
 gulp.task('default', function () {
-    gulp.start('test-min');
+    gulp.start('test-min', 'test-node');
 });

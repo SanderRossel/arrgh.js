@@ -41,7 +41,16 @@ var testEnumerableOrderings = function () {
 				.orderBy(function (p) {
 					return p;
 				});
-				expect(ordered.toArray()).toEqual([undefined, null, NaN, 1, 2, 3, 4, 5]);
+				var arr = ordered.toArray();
+				expect(arr.length).toBe(8);
+				expect(arr[0]).toBeUndefined();
+				expect(arr[1]).toBeNull();
+				expect(arr[2]).toBeNaN();
+				expect(arr[3]).toBe(1);
+				expect(arr[4]).toBe(2);
+				expect(arr[5]).toBe(3);
+				expect(arr[6]).toBe(4);
+				expect(arr[7]).toBe(5);
 			});
 
 			it("should order NaN, undefined, null, then everything else descending", function () {
@@ -49,7 +58,17 @@ var testEnumerableOrderings = function () {
 				.orderByDescending(function (p) {
 					return p;
 				});
-				expect(ordered.toArray()).toEqual([5, 4, 3, 2, 1, NaN, NaN, null, undefined]);
+				var arr = ordered.toArray();
+				expect(arr.length).toBe(9);
+				expect(arr[0]).toBe(5);
+				expect(arr[1]).toBe(4);
+				expect(arr[2]).toBe(3);
+				expect(arr[3]).toBe(2);
+				expect(arr[4]).toBe(1);
+				expect(arr[5]).toBeNaN();
+				expect(arr[6]).toBeNaN();
+				expect(arr[7]).toBeNull();
+				expect(arr[8]).toBeUndefined();
 			});
 
 			it("should order a huge list", function () {
