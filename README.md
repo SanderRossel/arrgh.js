@@ -1,7 +1,7 @@
 # arrgh.js - Bringing LINQ to JavaScript
 **Argh!**<br />
 *exclamation*<br />
-&nbsp;&nbsp;&nbsp;&nbsp;Expression of frusration or anger.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;Expression of frustration or anger.<br />
 &nbsp;&nbsp;&nbsp;&nbsp;"Argh! That JavaScript is driving me crazy!"
 
 **Array**<br />
